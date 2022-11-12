@@ -34,7 +34,7 @@ class Example extends Component {
         }
       )
     }}>
-    Toggle widget overlay
+    Chat With Owner
  </button>
  //end example 
 
