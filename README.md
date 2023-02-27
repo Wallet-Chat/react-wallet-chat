@@ -19,9 +19,27 @@ import React, { Component } from 'react'
 import WalletChatWidget from 'react-wallet-chat'
 import 'react-wallet-chat/dist/index.css'
 
+const [chatAddr, setChatAddr] = useState("")
+const [widgetState, setWidgetState] = useState({})
+
 class Example extends Component {
+  //example use in an onClick event 
+  <button onClick={()=>{
+      setChatAddr(<address from your UI>)
+      setWidgetState(
+        {
+           ...widgetState, 
+          chatAddr,
+          isOpen: true
+        }
+      )
+    }}>
+    Chat With Owner
+ </button>
+ //end example 
+
   render() {
-    return <WalletChatWidget />
+    return <WalletChatWidget widgetState={widgetState}/>
   }
 }
 ```
