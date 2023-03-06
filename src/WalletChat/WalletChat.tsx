@@ -1,14 +1,14 @@
 import React from 'react'
 import ButtonOverlay from '@/src/ButtonOverlay'
 import { WalletChatContext } from '@/src/Context'
+import styles from './WalletChat.module.css'
 
-const URL = 'https://app.walletchat.fun'
+const URL = 'https://staging.walletchat.fun'
 
 export default function WalletChatWidget() {
-  // TODO: type safe WC Context
-  const wcContext = React.useContext<any>(WalletChatContext)
-  const globalState = wcContext?.globalState
-  const ownerAddr = globalState?.ownerAddr
+  const widgetContext = React.useContext(WalletChatContext)
+  const widgetState = widgetContext?.widgetState
+  const ownerAddr = widgetState?.ownerAddress
 
   const [isOpen, setIsOpen] = React.useState(false)
   const [numUnread, setNumUnread] = React.useState(0)
@@ -43,7 +43,7 @@ export default function WalletChatWidget() {
     return () => window.removeEventListener('message', handleMsg)
   }, [])
 
-  if (!wcContext) {
+  if (!widgetContext) {
     console.error(
       'WalletChat: ChatWithOwner component must be rendered within a WalletChatProvider'
     )
@@ -51,31 +51,16 @@ export default function WalletChatWidget() {
   }
 
   return (
-    <div
-      style={{
-        position: 'fixed',
-        bottom: '1vh',
-        right: '2vw',
-        zIndex: 999,
-        userSelect: 'none',
-      }}
-    >
+    <div className={styles['wallet-chat-widget']}>
       <iframe
         title='WalletChat'
         name='WalletChat'
-        id='wallet-chat-widget'
-        className='wallet-chat-widget'
+        id={styles['wallet-chat-widget__container']}
         style={{
           height: isOpen ? '50vh' : '0px',
           width: isOpen ? '15vw' : '0px',
           minHeight: isOpen ? '440px' : '0px',
           minWidth: isOpen ? '500px' : '0px',
-          borderRadius: '16px',
-          overflowY: 'hidden' /* Hide vertical scrollbar */,
-          overflowX: 'hidden' /* Hide horizontal scrollbar */,
-          transition:
-            'width ease 0.25s, min-width ease 0.25s, min-height ease 0.25s, height ease 0.25s',
-          filter: 'drop-shadow(4px 4px 8px rgba(0, 0, 0, 0.5))',
         }}
         src={URL}
       />

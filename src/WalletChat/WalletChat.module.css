@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.wallet-chat-widget {
+  @apply fixed bottom-2 right-6 z-1000 select-none;
+}
+
+@layer components {
+  .grow-transition {
+    @apply transition-grow duration-150 ease-in-out;
+  }
+}
+
+#wallet-chat-widget__container {
+  @apply rounded-2xl overflow-x-hidden overflow-y-hidden grow-transition drop-shadow-md;
+}

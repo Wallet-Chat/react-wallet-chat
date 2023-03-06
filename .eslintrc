@@ -16,7 +16,10 @@
   "overrides": [],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": "latest",
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 13,
     "sourceType": "module",
     "project": "./tsconfig.json"
   },

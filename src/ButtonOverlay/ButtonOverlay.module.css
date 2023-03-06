@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.popupButton__container {
+  @apply relative mt-3 h-16;
+}
+
+.popupButton {
+  @apply absolute top-0 right-0 w-16 h-16 rounded-full cursor-pointer origin-center overflow-hidden bg-black drop-shadow-md;
+}
+
+@layer components {
+  .swap-icon-transition {
+    @apply transition-swap-icon duration-150 ease-linear;
+  }
+}
+
+.icon {
+  @apply flex items-center justify-center w-full h-full swap-icon-transition cursor-pointer;
+}
+
+.icon svg {
+  @apply w-7 h-8 fill-white;
+}
+
+.inactiveIcon {
+  @apply absolute opacity-0 rotate-30 scale-0;
+}
+
+.activeIcon {
+  @apply opacity-100 rotate-0;
+}
+
+.notif {
+  @apply absolute -top-2 -right-2 text-white bg-pink-600 w-7 h-7 rounded-full text-sm font-bold text-center leading-normal pointer-events-none;
+}
+
+.pinging {
+  @apply animate-ping;
+}

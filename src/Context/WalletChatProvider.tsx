@@ -1,21 +1,29 @@
 import React from 'react'
-import { WalletChatContext } from './WalletChatContext'
+import {
+  WalletChatContext,
+  WidgetState,
+  WidgetStateSetter,
+} from './WalletChatContext'
 
-export function WalletChatProvider({ children }: { children: any }) {
-  const [globalState, setGlobalState] = React.useState({})
+export function WalletChatProvider({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  const [widgetState, setWidgetState] = React.useState<WidgetState>()
 
-  const setWidgetState = React.useCallback(
-    (key: string, value: any) =>
-      setGlobalState((prevState) => ({ ...prevState, [key]: value })),
+  const widgetStateSetter: WidgetStateSetter = React.useCallback(
+    (key, value) =>
+      setWidgetState((prevState) => ({ ...prevState, [key]: value })),
     []
   )
 
   const providerValue = React.useMemo(
     () => ({
-      globalState,
-      setWidgetState,
+      widgetState: widgetState || null,
+      setWidgetState: widgetStateSetter,
     }),
-    [globalState, setWidgetState]
+    [widgetState, widgetStateSetter]
   )
 
   return (
