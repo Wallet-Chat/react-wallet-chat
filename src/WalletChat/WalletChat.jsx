@@ -4,19 +4,79 @@ import ButtonOverlay from "../ButtonOverlay/ButtonOverlay";
 import styles from "./WalletChat.module.css";
 import { getCookie } from "../utils";
 
-export default function WalletChatWidget({chatAddr, setChatAddr, isOpen, setIsOpen}) {
-  console.log(`isOpen2: ${isOpen}`)
-  if(isOpen == undefined || setIsOpen == undefined){
-    // const [isOpen, setIsOpen] = useState(isOpen2 != undefined? isOpen2:false);
-    [isOpen, setIsOpen] = useState(false);
+const setExtChatAddr = (setState) => {
+  return (addr) => {
+    setState(undefined)
+    setState(addr)
   }
-  
-  if (chatAddr == undefined || setChatAddr == undefined){
-    [chatAddr, setChatAddr] = useState("");
-  }
+}
+const openChat = (addr) => {
+}
+// {chatAddr, setChatAddr, isOpen, setIsOpen}
+function WalletChatWidget({ widgetState }) {
+  //console.log("WalletChatWidget Render")
+  //console.log(widgetState)
+  const [isOpen, setIsOpen] = useState(widgetState?.isOpen)
+  const [chatAddr, setChatAddr] = useState(widgetState?.chatAddr)
+  const [hideIframe, setHideIframe] = useState(false);
+
   const [numUnread, setNumUnread] = useState(0);
-  let url = process.env.REACT_APP_APP_URL || "https://v1.walletchat.fun"
-  console.log(`url: ${url}`);
+  let url = process.env.REACT_APP_APP_URL || "https://v1.walletchat.fun" 
+  
+  useEffect(() => {
+    try {
+      if (widgetState?.signature) { 
+        console.log("useEffect signIn")
+          const authSig = {
+            sig: widgetState.signature,
+            derivedVia: "web3.eth.personal.sign",
+            signedMessage: widgetState.messageToSign,
+            address: widgetState.address.toLocaleLowerCase(),
+          };
+          //end SIWE and authSig
+    
+          //const signature = await _signer.signMessage(_nonce)
+          console.log('✅[INFO][AuthSig]:', authSig)
+    
+          // fetch(`${process.env.REACT_APP_REST_API}/signin`, {
+          //   body: JSON.stringify({ "name": widgetState.chainId.toString(), "address": widgetState.address, "nonce": widgetState.nonce, "msg": widgetState.messageToSign, "sig": widgetState.signature }),
+          //   headers: {
+          //   'Content-Type': 'application/json'
+          //   },
+          //   method: 'POST'
+          // })
+          // .then((response) => response.json())
+          // .then(async (returnData) => {
+          //   localStorage.setItem('jwt', returnData.access);
+          //   //Used for LIT encryption authSign parameter
+          //   localStorage.setItem('lit-auth-signature', JSON.stringify(authSig));
+          //   localStorage.setItem('lit-web3-provider', widgetState.provider);
+          //   console.log('✅[INFO][JWT]:', returnData.access)
+          // })
+
+          let iframe = document.getElementById("wallet-chat-widget")
+          let msg = {
+            "data": widgetState,
+            "target": "sign_in"
+        }
+        
+        iframe.contentWindow.postMessage(msg, url); //targertOrigin should be a .env variable
+      } else {
+        console.log("useEffect widgetState")
+        setIsOpen(widgetState?.isOpen)
+        setChatAddr(widgetState?.chatAddr)
+        setHideIframe(true)
+        setTimeout(() => {
+          setHideIframe(false)
+        }, 100)
+      }
+    } catch (error) {
+      console.log('🚨widgetConnectError', error)
+  } 
+  }, [
+    widgetState
+  ])
+  
   const clickHandler = (e) => {
     setIsOpen(!isOpen);
   };
@@ -24,33 +84,24 @@ export default function WalletChatWidget({chatAddr, setChatAddr, isOpen, setIsOp
   if (chatAddr != undefined && chatAddr.length != 0){
     url += `/dm/${chatAddr}`
   }
-
-  // console.log("Getting msg_cnt")
-  // let cnt = localStorage.getItem("msg_cnt")
-  // console.log(`Expected 10, gotten ${cnt}`)
-  // cnt = getCookie("msg_cnt");
-  // console.log(`Expected 10, gotten ${cnt}`)
+  console.log(`url: ${url}`);
+  url = { val: url }
   useEffect(() => {
     window.addEventListener("message", (e) => {
       var data = e.data;
-      console.log("RECEIVED message from CHILD TO PARENT");
+      //console.log("RECEIVED message from CHILD TO PARENT");
       console.log(data);
       if(data["target"] == 'unread_cnt'){
         setNumUnread(data["data"]);
       }
-      
     });
   }, []);
-//   setInterval(() => {
-//     let cnt = getCookie("_wallet_chat_msg_cnt");
-
-//     // setNumUnread(cnt);
-//   }, 3000);
   return (
     <div id={styles["wallet-chat-widget__container"]}>
       {/* {isOpen && (
                 <iframe id="wallet-chat-widget" src={url}></iframe>
             )} */}
+      {!hideIframe &&
       <iframe
         id="wallet-chat-widget"
         className={styles["wallet-chat-widget"]}
@@ -61,8 +112,9 @@ export default function WalletChatWidget({chatAddr, setChatAddr, isOpen, setIsOp
           minWidth: isOpen ? "" : "0px",
           // display: isOpen?"block":"none"
         }}
-        src={url}
+          src={url.val}
       ></iframe>
+      }
       <ButtonOverlay
         notiVal={numUnread}
         showNoti={numUnread > 0}
@@ -72,3 +124,5 @@ export default function WalletChatWidget({chatAddr, setChatAddr, isOpen, setIsOp
     </div>
   );
 }
+export default
+  WalletChatWidget
