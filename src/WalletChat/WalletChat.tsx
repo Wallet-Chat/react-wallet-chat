@@ -14,7 +14,7 @@ export default function WalletChatWidget() {
 
   const widgetContext = React.useContext(WalletChatContext)
   const widgetState = widgetContext?.widgetState
-  const ownerAddr = widgetState?.ownerAddress
+  const ownerAddress = widgetState?.ownerAddress
 
   const [isOpen, setIsOpen] = React.useState(false)
   const [numUnread, setNumUnread] = React.useState(0)
@@ -39,6 +39,43 @@ export default function WalletChatWidget() {
       return !prev
     })
   }
+
+  React.useEffect(() => {
+    if (!ownerAddress?.address) return
+    const address = ownerAddress.address
+
+    const nftInfo = parseNftFromUrl(window.location.href)
+    if (nftInfo.network) {
+      nftInfoForContract.current = {
+        ...nftInfo,
+        ownerAddress: address,
+      }
+    }
+
+    // TODO: stop copy and pasting and create an util for the postMessage API
+
+    // if was able to retrieve the NFT info for the page -- send to that DM page
+    if (nftInfoForContract.current) {
+      // @ts-ignore
+      document
+        ?.getElementById(iframeId)
+        // @ts-ignore
+        .contentWindow.postMessage(
+          { ...nftInfoForContract.current, redirect: true },
+          '*'
+        )
+    } else {
+      // otherwise send to regular DM page
+
+      // @ts-ignore
+      document
+        ?.getElementById(iframeId)
+        // @ts-ignore
+        .contentWindow.postMessage({ ownerAddress: address }, '*')
+    }
+
+    setIsOpen(true)
+  }, [ownerAddress])
 
   React.useEffect(() => {
     const sendContractInfo = () => {

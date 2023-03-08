@@ -1,7 +1,7 @@
 import React from 'react'
 
 export type WidgetState = {
-  ownerAddress: string
+  ownerAddress: { address: string, lastRequest: string }
 }
 
 export type WidgetStateSetter = (

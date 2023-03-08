@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 .popupButton__container {
-  @apply relative mt-3 h-16;
+  @apply relative mt-3 h-16 drop-shadow-2xl;
 }
 
 .popupButton {
-  @apply absolute top-0 right-0 w-16 h-16 rounded-full cursor-pointer origin-center overflow-hidden bg-black drop-shadow-md;
+  @apply absolute top-0 right-0 w-16 h-16 rounded-full cursor-pointer origin-center overflow-hidden bg-black;
 }
 
 @layer components {

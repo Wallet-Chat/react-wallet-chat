@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .wallet-chat-widget {
-  @apply fixed bottom-2 right-6 z-1000 select-none;
+  @apply fixed bottom-2 right-6 z-1000 select-none drop-shadow-2xl;
 }
 
 @layer components {

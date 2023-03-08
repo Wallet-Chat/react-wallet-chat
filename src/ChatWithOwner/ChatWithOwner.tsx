@@ -14,13 +14,13 @@ const ButtonWrapper = ({
 )
 
 const ChatWithOwner = ({
-  owner,
+  ownerAddress,
   render,
 }: {
-  owner: string
+  ownerAddress: string
   render: undefined | React.ReactElement
 }) => {
-  const wcContext = React.useContext<any>(WalletChatContext)
+  const wcContext = React.useContext(WalletChatContext)
   const setWidgetState = wcContext?.setWidgetState
 
   const WrapperEl = render
@@ -36,7 +36,15 @@ const ChatWithOwner = ({
   }
 
   return (
-    <WrapperEl onClick={() => setWidgetState('ownerAddr', owner)}>
+    <WrapperEl
+      onClick={() =>
+        setWidgetState &&
+        setWidgetState('ownerAddress', {
+          address: ownerAddress,
+          lastRequest: Date.now().toString(),
+        })
+      }
+    >
       <div
         style={{
           backgroundImage:
