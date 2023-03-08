@@ -56,7 +56,8 @@
       }
     ],
     "consistent-return": 0,
-    "no-restricted-exports": 0
+    "no-restricted-exports": 0,
+    "prefer-destructuring": 0,
   },
   "settings": {
     "react": {

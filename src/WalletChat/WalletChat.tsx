@@ -1,11 +1,17 @@
 import React from 'react'
 import ButtonOverlay from '@/src/ButtonOverlay'
 import { WalletChatContext } from '@/src/Context'
+import { parseNftFromUrl } from '@/src/utils'
 import styles from './WalletChat.module.css'
 
-const URL = 'https://staging.walletchat.fun'
+const URL = 'http://localhost:5173'
+
+const iframeId = styles['wallet-chat-widget__container']
 
 export default function WalletChatWidget() {
+  const previousUrlSent = React.useRef('')
+  const nftInfoForContract = React.useRef<any>(null)
+
   const widgetContext = React.useContext(WalletChatContext)
   const widgetState = widgetContext?.widgetState
   const ownerAddr = widgetState?.ownerAddress
@@ -13,21 +19,53 @@ export default function WalletChatWidget() {
   const [isOpen, setIsOpen] = React.useState(false)
   const [numUnread, setNumUnread] = React.useState(0)
 
-  const clickHandler = (e: any) => setIsOpen((prev) => !prev)
+  const clickHandler = (e: any) => {
+    setIsOpen((prev) => {
+      const wasOpen = Boolean(prev)
 
-  // if (chatAddr != undefined && chatAddr.length != 0) { url += `/dm/${chatAddr}`
-  // }
+      if (nftInfoForContract.current && !wasOpen) {
+        // @ts-ignore
+        document
+          ?.getElementById(iframeId)
+          // @ts-ignore
+          .contentWindow.postMessage(
+            { ...nftInfoForContract.current, redirect: true },
+            '*'
+          )
+      }
 
-  // useEffect(() => {
-  //   window.addEventListener('message', (e) => {
-  //     var data = e.data
-  //     console.log('RECEIVED message from CHILD TO PARENT')
-  //     console.log(data)
-  //     if (data['target'] == 'unread_cnt') {
-  //       setNumUnread(data['data'])
-  //     }
-  //   })
-  // }, [])
+      nftInfoForContract.current = null
+
+      return !prev
+    })
+  }
+
+  React.useEffect(() => {
+    const sendContractInfo = () => {
+      if (window.location.href === previousUrlSent.current) return
+
+      previousUrlSent.current = window.location.href
+
+      const nftInfo = parseNftFromUrl(window.location.href)
+      if (nftInfo.network) nftInfoForContract.current = nftInfo
+
+      // @ts-ignore
+      document
+        ?.getElementById(iframeId)
+        // @ts-ignore
+        .contentWindow.postMessage(nftInfo, '*')
+    }
+
+    const observer = new MutationObserver(function () {
+      sendContractInfo()
+    })
+    const config = { subtree: true, childList: true }
+
+    sendContractInfo()
+
+    observer.observe(document, config)
+    return () => observer.disconnect()
+  }, [])
 
   React.useEffect(() => {
     const handleMsg = (e: any) => {
@@ -55,7 +93,7 @@ export default function WalletChatWidget() {
       <iframe
         title='WalletChat'
         name='WalletChat'
-        id={styles['wallet-chat-widget__container']}
+        id={iframeId}
         style={{
           height: isOpen ? '50vh' : '0px',
           width: isOpen ? '15vw' : '0px',
