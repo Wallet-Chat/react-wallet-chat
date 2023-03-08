@@ -4,7 +4,7 @@ import { WalletChatContext } from '@/src/Context'
 import { parseNftFromUrl } from '@/src/utils'
 import styles from './WalletChat.module.css'
 
-const URL = 'http://localhost:5173'
+const URL = 'http://staging.walletchat.fun'
 
 const iframeId = styles['wallet-chat-widget__container']
 
