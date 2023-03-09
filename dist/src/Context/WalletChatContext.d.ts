@@ -2,7 +2,6 @@ import React from 'react';
 export type WidgetState = {
     ownerAddress: {
         address: string;
-        // -- this is used to force a state update for the same address --
         lastRequest: string;
     };
 };
