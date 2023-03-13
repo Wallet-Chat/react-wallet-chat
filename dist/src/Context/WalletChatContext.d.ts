@@ -4,6 +4,7 @@ export type WidgetState = {
         address: string;
         lastRequest: string;
     };
+    foundNft: string;
 };
 export type WidgetStateSetter = (key: keyof WidgetState, value: WidgetState[typeof key]) => void;
 type Context = {

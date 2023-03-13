@@ -6,7 +6,7 @@ import styles from './WalletChat.module.css'
 
 const URL = 'https://staging.walletchat.fun'
 
-const iframeId = styles['wallet-chat-widget__container']
+const iframeId = styles['wallet-chat-widget']
 
 export default function WalletChatWidget() {
   const previousUrlSent = React.useRef('')
@@ -93,9 +93,7 @@ export default function WalletChatWidget() {
         .contentWindow.postMessage(nftInfo, '*')
     }
 
-    const observer = new MutationObserver(function () {
-      sendContractInfo()
-    })
+    const observer = new MutationObserver(sendContractInfo)
     const config = { subtree: true, childList: true }
 
     sendContractInfo()
@@ -126,16 +124,16 @@ export default function WalletChatWidget() {
   }
 
   return (
-    <div className={styles['wallet-chat-widget']}>
+    <div className={styles['wallet-chat-widget__container']}>
       <iframe
         title='WalletChat'
         name='WalletChat'
         id={iframeId}
         style={{
-          height: isOpen ? '50vh' : '0px',
+          height: isOpen ? '60vh' : '0px',
           width: isOpen ? '15vw' : '0px',
           minHeight: isOpen ? '440px' : '0px',
-          minWidth: isOpen ? '500px' : '0px',
+          minWidth: isOpen ? '440px' : '0px',
         }}
         src={URL}
       />
