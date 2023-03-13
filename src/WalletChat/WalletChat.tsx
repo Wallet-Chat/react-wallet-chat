@@ -14,6 +14,7 @@ export default function WalletChatWidget() {
 
   const widgetContext = React.useContext(WalletChatContext)
   const widgetState = widgetContext?.widgetState
+  const setWidgetState = widgetContext?.setWidgetState
   const ownerAddress = widgetState?.ownerAddress
 
   const [isOpen, setIsOpen] = React.useState(false)
@@ -84,7 +85,12 @@ export default function WalletChatWidget() {
       previousUrlSent.current = window.location.href
 
       const nftInfo = parseNftFromUrl(window.location.href)
-      if (nftInfo.network) nftInfoForContract.current = nftInfo
+
+      if (setWidgetState) setWidgetState('foundNft', JSON.stringify(nftInfo))
+
+      if (nftInfo.network) {
+        nftInfoForContract.current = nftInfo
+      }
 
       // @ts-ignore
       document

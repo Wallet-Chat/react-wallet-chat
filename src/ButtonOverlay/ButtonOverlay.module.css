@@ -39,3 +39,7 @@
 .pinging {
   @apply animate-ping;
 }
+
+.ring {
+  @apply fixed w-16 h-16 right-0 animate-ping inline-flex rounded-full bg-slate-300 opacity-75;
+}

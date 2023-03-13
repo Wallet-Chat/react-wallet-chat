@@ -5,7 +5,8 @@ export type WidgetState = {
     address: string,
     // -- this is used to force a state update for the same address --
     lastRequest: string
-  }
+  },
+  foundNft: string
 }
 
 export type WidgetStateSetter = (
