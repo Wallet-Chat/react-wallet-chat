@@ -20,7 +20,7 @@ export default function WalletChatWidget() {
   const [isOpen, setIsOpen] = React.useState(false)
   const [numUnread, setNumUnread] = React.useState(0)
 
-  const clickHandler = (e: any) => {
+  const clickHandler = () => {
     setIsOpen((prev) => {
       const wasOpen = Boolean(prev)
 
@@ -114,6 +114,10 @@ export default function WalletChatWidget() {
 
       if (data.target === 'unread_cnt') {
         setNumUnread(data.data)
+      }
+
+      if (data.closeWidget) {
+        clickHandler()
       }
     }
 
