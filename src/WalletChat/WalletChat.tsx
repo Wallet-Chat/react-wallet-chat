@@ -29,7 +29,7 @@ export default function WalletChatWidget() {
         document
           ?.getElementById(iframeId)
           // @ts-ignore
-          .contentWindow.postMessage(
+          ?.contentWindow.postMessage(
             { ...nftInfoForContract.current, redirect: true },
             '*'
           )
@@ -61,7 +61,7 @@ export default function WalletChatWidget() {
       document
         ?.getElementById(iframeId)
         // @ts-ignore
-        .contentWindow.postMessage(
+        ?.contentWindow.postMessage(
           { ...nftInfoForContract.current, redirect: true },
           '*'
         )
@@ -72,7 +72,7 @@ export default function WalletChatWidget() {
       document
         ?.getElementById(iframeId)
         // @ts-ignore
-        .contentWindow.postMessage({ ownerAddress: address }, '*')
+        ?.contentWindow.postMessage({ ownerAddress: address }, '*')
     }
 
     setIsOpen(true)
@@ -96,7 +96,7 @@ export default function WalletChatWidget() {
       document
         ?.getElementById(iframeId)
         // @ts-ignore
-        .contentWindow.postMessage(nftInfo, '*')
+        ?.contentWindow.postMessage(nftInfo, '*')
     }
 
     const observer = new MutationObserver(sendContractInfo)
