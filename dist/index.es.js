@@ -1824,7 +1824,7 @@ const ht = "_ring_1jmwq_1", Ee = {
   ring: ht,
   "wallet-chat-widget": "_wallet-chat-widget_1jmwq_15",
   "wallet-chat-widget__container": "_wallet-chat-widget__container_1jmwq_15"
-}, pt = "http://localhost:5173", _e = Ee["wallet-chat-widget"];
+}, pt = "https://staging.walletchat.fun", _e = Ee["wallet-chat-widget"];
 function ir(u) {
   var h;
   if (typeof document > "u")
