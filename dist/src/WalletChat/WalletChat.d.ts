@@ -1,1 +1,3 @@
-export default function WalletChatWidget(): JSX.Element | null;
+export default function WalletChatWidget({ provider }: {
+    provider?: any;
+}): JSX.Element;
