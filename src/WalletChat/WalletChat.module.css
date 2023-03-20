@@ -6,6 +6,14 @@
   @apply rounded-2xl overflow-x-hidden overflow-y-hidden grow-transition drop-shadow-widget;
 }
 
+.widget-is-open {
+  @apply h-widget-open sm:w-widget-open w-widget-open-mobile min-h-widget-open min-w-widget-open;
+}
+
+.widget-is-closed {
+  @apply h-0 w-0 min-h-0 min-w-0;
+}
+
 @layer components {
   .grow-transition {
     @apply transition-grow duration-250 ease-in-out;
@@ -13,5 +21,5 @@
 }
 
 .wallet-chat-widget__container {
-  @apply fixed bottom-2 right-6 z-1000 select-none;
+  @apply fixed bottom-0 sm:bottom-2 right-0 sm:right-6 z-1000 select-none;
 }

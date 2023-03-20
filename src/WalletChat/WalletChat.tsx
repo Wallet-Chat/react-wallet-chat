@@ -3,8 +3,9 @@ import ButtonOverlay from '@/src/ButtonOverlay'
 import { WalletChatContext } from '@/src/Context'
 import { parseNftFromUrl } from '@/src/utils'
 import styles from './WalletChat.module.css'
+import classNames from 'classnames'
 
-const URL = 'https://app.walletchat.fun'
+const URL = 'https://staging.walletchat.fun'
 
 const iframeId = styles['wallet-chat-widget']
 
@@ -165,12 +166,10 @@ export default function WalletChatWidget({ provider }: { provider?: any }) {
         title='WalletChat'
         name='WalletChat'
         id={iframeId}
-        style={{
-          height: isOpen ? '60vh' : '0px',
-          width: isOpen ? '15vw' : '0px',
-          minHeight: isOpen ? '440px' : '0px',
-          minWidth: isOpen ? '440px' : '0px',
-        }}
+        className={classNames('', {
+          [styles['widget-is-open']]: isOpen,
+          [styles['widget-is-closed']]: !isOpen
+        })}
         src={URL}
       />
 

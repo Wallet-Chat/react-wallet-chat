@@ -20,6 +20,19 @@ module.exports = {
       rotate: {
         30: '30deg',
       },
+      height: {
+        'widget-open': '60vh',
+      },
+      width: {
+        'widget-open': '15vw',
+        'widget-open-mobile': '100vw',
+      },
+      minHeight: {
+        'widget-open': '440px',
+      },
+      minWidth: {
+        'widget-open': '440px',
+      }
     },
   },
   plugins: [],
