@@ -21,7 +21,7 @@ module.exports = {
         30: '30deg',
       },
       height: {
-        'widget-open': '60vh',
+        'widget-open': '65vh',
       },
       width: {
         'widget-open': '15vw',
