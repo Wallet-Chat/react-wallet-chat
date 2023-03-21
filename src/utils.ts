@@ -9,7 +9,7 @@ export function parseNftFromUrl(url: string) {
   const contractAddress = parts[length - 2]
 
   if (url.startsWith('looksrare.org')) {
-    return { itemId, contractAddress, chain: 'ethereum' }
+    return { itemId, contractAddress, network: 'ethereum' }
   }
 
   const network = parts[length - 3]

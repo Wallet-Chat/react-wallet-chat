@@ -1816,7 +1816,7 @@ function lt({
 function ve(u) {
   const h = u.replace("https://", "").replace("http://", "").split("/"), v = h.length, g = h[v - 1], w = h[v - 2];
   if (u.startsWith("looksrare.org"))
-    return { itemId: g, contractAddress: w, chain: "ethereum" };
+    return { itemId: g, contractAddress: w, network: "ethereum" };
   const d = h[v - 3];
   return v >= 5 ? { itemId: g, contractAddress: w, network: d } : u.startsWith("x2y2.io") && d === "eth" ? { itemId: g, contractAddress: w, network: "ethereum" } : { contractAddress: null, itemId: null, network: null };
 }
