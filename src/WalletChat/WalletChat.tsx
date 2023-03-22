@@ -1,9 +1,9 @@
 import React from 'react'
+import classNames from 'classnames'
 import ButtonOverlay from '@/src/ButtonOverlay'
 import { WalletChatContext } from '@/src/Context'
 import { parseNftFromUrl } from '@/src/utils'
 import styles from './WalletChat.module.css'
-import classNames from 'classnames'
 
 const URL = 'https://staging.walletchat.fun'
 
@@ -31,13 +31,19 @@ function trySignIn(provider: any) {
         data: { isInjected },
       })
     } else {
+      const {
+        _accounts: accounts,
+        _chainId: chainId,
+        _clientId: clientId,
+      } = provider.connector
+
       postMessage({
         target: 'sign_in',
         data: {
           connectorOptions: {
-            projectId: provider.connector._clientId.toString(),
-            address: provider.connector._accounts[0],
-            chainId: provider.connector._chainId,
+            projectId: clientId.toString(),
+            address: accounts[0],
+            chainId,
           },
         },
       })
@@ -49,7 +55,9 @@ function trySignIn(provider: any) {
 
 export default function WalletChatWidget({ provider }: { provider?: any }) {
   const previousUrlSent = React.useRef('')
-  const nftInfoForContract = React.useRef<any>(null)
+  const nftInfoForContract = React.useRef<
+    null | (ReturnType<typeof parseNftFromUrl> & { ownerAddress?: string })
+  >(null)
   const widgetSignedIn = React.useRef(false)
 
   // this is used for receive message effect without triggering the effect
@@ -168,7 +176,7 @@ export default function WalletChatWidget({ provider }: { provider?: any }) {
         id={iframeId}
         className={classNames('', {
           [styles['widget-is-open']]: isOpen,
-          [styles['widget-is-closed']]: !isOpen
+          [styles['widget-is-closed']]: !isOpen,
         })}
         src={URL}
       />

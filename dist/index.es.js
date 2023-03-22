@@ -25,32 +25,32 @@ function Ye(u, s, h) {
   return (s + h) * 3 / 4 - h;
 }
 function $e(u) {
-  var s, h = ye(u), v = h[0], g = h[1], w = new je(Ye(u, v, g)), d = 0, a = g > 0 ? v - 4 : v, y;
-  for (y = 0; y < a; y += 4)
-    s = H[u.charCodeAt(y)] << 18 | H[u.charCodeAt(y + 1)] << 12 | H[u.charCodeAt(y + 2)] << 6 | H[u.charCodeAt(y + 3)], w[d++] = s >> 16 & 255, w[d++] = s >> 8 & 255, w[d++] = s & 255;
-  return g === 2 && (s = H[u.charCodeAt(y)] << 2 | H[u.charCodeAt(y + 1)] >> 4, w[d++] = s & 255), g === 1 && (s = H[u.charCodeAt(y)] << 10 | H[u.charCodeAt(y + 1)] << 4 | H[u.charCodeAt(y + 2)] >> 2, w[d++] = s >> 8 & 255, w[d++] = s & 255), w;
+  var s, h = ye(u), v = h[0], y = h[1], w = new je(Ye(u, v, y)), d = 0, a = y > 0 ? v - 4 : v, g;
+  for (g = 0; g < a; g += 4)
+    s = H[u.charCodeAt(g)] << 18 | H[u.charCodeAt(g + 1)] << 12 | H[u.charCodeAt(g + 2)] << 6 | H[u.charCodeAt(g + 3)], w[d++] = s >> 16 & 255, w[d++] = s >> 8 & 255, w[d++] = s & 255;
+  return y === 2 && (s = H[u.charCodeAt(g)] << 2 | H[u.charCodeAt(g + 1)] >> 4, w[d++] = s & 255), y === 1 && (s = H[u.charCodeAt(g)] << 10 | H[u.charCodeAt(g + 1)] << 4 | H[u.charCodeAt(g + 2)] >> 2, w[d++] = s >> 8 & 255, w[d++] = s & 255), w;
 }
 function Ve(u) {
   return er[u >> 18 & 63] + er[u >> 12 & 63] + er[u >> 6 & 63] + er[u & 63];
 }
 function Je(u, s, h) {
-  for (var v, g = [], w = s; w < h; w += 3)
-    v = (u[w] << 16 & 16711680) + (u[w + 1] << 8 & 65280) + (u[w + 2] & 255), g.push(Ve(v));
-  return g.join("");
+  for (var v, y = [], w = s; w < h; w += 3)
+    v = (u[w] << 16 & 16711680) + (u[w + 1] << 8 & 65280) + (u[w + 2] & 255), y.push(Ve(v));
+  return y.join("");
 }
 function qe(u) {
-  for (var s, h = u.length, v = h % 3, g = [], w = 16383, d = 0, a = h - v; d < a; d += w)
-    g.push(Je(u, d, d + w > a ? a : d + w));
-  return v === 1 ? (s = u[h - 1], g.push(
+  for (var s, h = u.length, v = h % 3, y = [], w = 16383, d = 0, a = h - v; d < a; d += w)
+    y.push(Je(u, d, d + w > a ? a : d + w));
+  return v === 1 ? (s = u[h - 1], y.push(
     er[s >> 2] + er[s << 4 & 63] + "=="
-  )) : v === 2 && (s = (u[h - 2] << 8) + u[h - 1], g.push(
+  )) : v === 2 && (s = (u[h - 2] << 8) + u[h - 1], y.push(
     er[s >> 10] + er[s >> 4 & 63] + er[s << 2 & 63] + "="
-  )), g.join("");
+  )), y.join("");
 }
 var ae = {};
 /*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
-ae.read = function(u, s, h, v, g) {
-  var w, d, a = g * 8 - v - 1, y = (1 << a) - 1, I = y >> 1, x = -7, F = h ? g - 1 : 0, D = h ? -1 : 1, B = u[s + F];
+ae.read = function(u, s, h, v, y) {
+  var w, d, a = y * 8 - v - 1, g = (1 << a) - 1, I = g >> 1, x = -7, F = h ? y - 1 : 0, D = h ? -1 : 1, B = u[s + F];
   for (F += D, w = B & (1 << -x) - 1, B >>= -x, x += a; x > 0; w = w * 256 + u[s + F], F += D, x -= 8)
     ;
   for (d = w & (1 << -x) - 1, w >>= -x, x += v; x > 0; d = d * 256 + u[s + F], F += D, x -= 8)
@@ -58,17 +58,17 @@ ae.read = function(u, s, h, v, g) {
   if (w === 0)
     w = 1 - I;
   else {
-    if (w === y)
+    if (w === g)
       return d ? NaN : (B ? -1 : 1) * (1 / 0);
     d = d + Math.pow(2, v), w = w - I;
   }
   return (B ? -1 : 1) * d * Math.pow(2, w - v);
 };
-ae.write = function(u, s, h, v, g, w) {
-  var d, a, y, I = w * 8 - g - 1, x = (1 << I) - 1, F = x >> 1, D = g === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0, B = v ? 0 : w - 1, j = v ? 1 : -1, P = s < 0 || s === 0 && 1 / s < 0 ? 1 : 0;
-  for (s = Math.abs(s), isNaN(s) || s === 1 / 0 ? (a = isNaN(s) ? 1 : 0, d = x) : (d = Math.floor(Math.log(s) / Math.LN2), s * (y = Math.pow(2, -d)) < 1 && (d--, y *= 2), d + F >= 1 ? s += D / y : s += D * Math.pow(2, 1 - F), s * y >= 2 && (d++, y /= 2), d + F >= x ? (a = 0, d = x) : d + F >= 1 ? (a = (s * y - 1) * Math.pow(2, g), d = d + F) : (a = s * Math.pow(2, F - 1) * Math.pow(2, g), d = 0)); g >= 8; u[h + B] = a & 255, B += j, a /= 256, g -= 8)
+ae.write = function(u, s, h, v, y, w) {
+  var d, a, g, I = w * 8 - y - 1, x = (1 << I) - 1, F = x >> 1, D = y === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0, B = v ? 0 : w - 1, j = v ? 1 : -1, P = s < 0 || s === 0 && 1 / s < 0 ? 1 : 0;
+  for (s = Math.abs(s), isNaN(s) || s === 1 / 0 ? (a = isNaN(s) ? 1 : 0, d = x) : (d = Math.floor(Math.log(s) / Math.LN2), s * (g = Math.pow(2, -d)) < 1 && (d--, g *= 2), d + F >= 1 ? s += D / g : s += D * Math.pow(2, 1 - F), s * g >= 2 && (d++, g /= 2), d + F >= x ? (a = 0, d = x) : d + F >= 1 ? (a = (s * g - 1) * Math.pow(2, y), d = d + F) : (a = s * Math.pow(2, F - 1) * Math.pow(2, y), d = 0)); y >= 8; u[h + B] = a & 255, B += j, a /= 256, y -= 8)
     ;
-  for (d = d << g | a, I += g; I > 0; u[h + B] = d & 255, B += j, d /= 256, I -= 8)
+  for (d = d << y | a, I += y; I > 0; u[h + B] = d & 255, B += j, d /= 256, I -= 8)
     ;
   u[h + B - j] |= P * 128;
 };
@@ -81,8 +81,8 @@ ae.write = function(u, s, h, v, g, w) {
 (function(u) {
   var s = qr, h = ae, v = typeof Symbol == "function" && typeof Symbol.for == "function" ? Symbol.for("nodejs.util.inspect.custom") : null;
   u.Buffer = a, u.SlowBuffer = W, u.INSPECT_MAX_BYTES = 50;
-  var g = 2147483647;
-  u.kMaxLength = g, a.TYPED_ARRAY_SUPPORT = w(), !a.TYPED_ARRAY_SUPPORT && typeof console < "u" && typeof console.error == "function" && console.error(
+  var y = 2147483647;
+  u.kMaxLength = y, a.TYPED_ARRAY_SUPPORT = w(), !a.TYPED_ARRAY_SUPPORT && typeof console < "u" && typeof console.error == "function" && console.error(
     "This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."
   );
   function w() {
@@ -109,7 +109,7 @@ ae.write = function(u, s, h, v, g, w) {
     }
   });
   function d(t) {
-    if (t > g)
+    if (t > y)
       throw new RangeError('The value "' + t + '" is invalid for option "size"');
     var r = new Uint8Array(t);
     return Object.setPrototypeOf(r, a.prototype), r;
@@ -122,10 +122,10 @@ ae.write = function(u, s, h, v, g, w) {
         );
       return F(t);
     }
-    return y(t, r, e);
+    return g(t, r, e);
   }
   a.poolSize = 8192;
-  function y(t, r, e) {
+  function g(t, r, e) {
     if (typeof t == "string")
       return D(t, r);
     if (ArrayBuffer.isView(t))
@@ -157,7 +157,7 @@ ae.write = function(u, s, h, v, g, w) {
     );
   }
   a.from = function(t, r, e) {
-    return y(t, r, e);
+    return g(t, r, e);
   }, Object.setPrototypeOf(a.prototype, Uint8Array.prototype), Object.setPrototypeOf(a, Uint8Array);
   function I(t) {
     if (typeof t != "number")
@@ -216,8 +216,8 @@ ae.write = function(u, s, h, v, g, w) {
       return B(t.data);
   }
   function $(t) {
-    if (t >= g)
-      throw new RangeError("Attempt to allocate Buffer larger than maximum size: 0x" + g.toString(16) + " bytes");
+    if (t >= y)
+      throw new RangeError("Attempt to allocate Buffer larger than maximum size: 0x" + y.toString(16) + " bytes");
     return t | 0;
   }
   function W(t) {
@@ -1044,23 +1044,23 @@ function Ke() {
   if (de)
     return Rr;
   de = 1;
-  var u = U, s = Symbol.for("react.element"), h = Symbol.for("react.fragment"), v = Object.prototype.hasOwnProperty, g = u.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner, w = { key: !0, ref: !0, __self: !0, __source: !0 };
-  function d(a, y, I) {
+  var u = U, s = Symbol.for("react.element"), h = Symbol.for("react.fragment"), v = Object.prototype.hasOwnProperty, y = u.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner, w = { key: !0, ref: !0, __self: !0, __source: !0 };
+  function d(a, g, I) {
     var x, F = {}, D = null, B = null;
-    I !== void 0 && (D = "" + I), y.key !== void 0 && (D = "" + y.key), y.ref !== void 0 && (B = y.ref);
-    for (x in y)
-      v.call(y, x) && !w.hasOwnProperty(x) && (F[x] = y[x]);
+    I !== void 0 && (D = "" + I), g.key !== void 0 && (D = "" + g.key), g.ref !== void 0 && (B = g.ref);
+    for (x in g)
+      v.call(g, x) && !w.hasOwnProperty(x) && (F[x] = g[x]);
     if (a && a.defaultProps)
-      for (x in y = a.defaultProps, y)
-        F[x] === void 0 && (F[x] = y[x]);
-    return { $$typeof: s, type: a, key: D, ref: B, props: F, _owner: g.current };
+      for (x in g = a.defaultProps, g)
+        F[x] === void 0 && (F[x] = g[x]);
+    return { $$typeof: s, type: a, key: D, ref: B, props: F, _owner: y.current };
   }
   return Rr.Fragment = h, Rr.jsx = d, Rr.jsxs = d, Rr;
 }
 var Tr = {}, we;
 function Qe() {
   return we || (we = 1, Jr.env.NODE_ENV !== "production" && function() {
-    var u = U, s = Symbol.for("react.element"), h = Symbol.for("react.portal"), v = Symbol.for("react.fragment"), g = Symbol.for("react.strict_mode"), w = Symbol.for("react.profiler"), d = Symbol.for("react.provider"), a = Symbol.for("react.context"), y = Symbol.for("react.forward_ref"), I = Symbol.for("react.suspense"), x = Symbol.for("react.suspense_list"), F = Symbol.for("react.memo"), D = Symbol.for("react.lazy"), B = Symbol.for("react.offscreen"), j = Symbol.iterator, P = "@@iterator";
+    var u = U, s = Symbol.for("react.element"), h = Symbol.for("react.portal"), v = Symbol.for("react.fragment"), y = Symbol.for("react.strict_mode"), w = Symbol.for("react.profiler"), d = Symbol.for("react.provider"), a = Symbol.for("react.context"), g = Symbol.for("react.forward_ref"), I = Symbol.for("react.suspense"), x = Symbol.for("react.suspense_list"), F = Symbol.for("react.memo"), D = Symbol.for("react.lazy"), B = Symbol.for("react.offscreen"), j = Symbol.iterator, P = "@@iterator";
     function X(i) {
       if (i === null || typeof i != "object")
         return null;
@@ -1088,7 +1088,7 @@ function Qe() {
     var Gr = !1, tr = !1, Cr = !1, Br = !1, Hr = !1, Ur;
     Ur = Symbol.for("react.module.reference");
     function Xr(i) {
-      return !!(typeof i == "string" || typeof i == "function" || i === v || i === w || Hr || i === g || i === I || i === x || Br || i === B || Gr || tr || Cr || typeof i == "object" && i !== null && (i.$$typeof === D || i.$$typeof === F || i.$$typeof === d || i.$$typeof === a || i.$$typeof === y || // This needs to include all possible module reference object
+      return !!(typeof i == "string" || typeof i == "function" || i === v || i === w || Hr || i === y || i === I || i === x || Br || i === B || Gr || tr || Cr || typeof i == "object" && i !== null && (i.$$typeof === D || i.$$typeof === F || i.$$typeof === d || i.$$typeof === a || i.$$typeof === g || // This needs to include all possible module reference object
       // types supported by any Flight configuration anywhere since
       // we don't know which Flight build this will end up being used
       // with.
@@ -1118,7 +1118,7 @@ function Qe() {
           return "Portal";
         case w:
           return "Profiler";
-        case g:
+        case y:
           return "StrictMode";
         case I:
           return "Suspense";
@@ -1133,7 +1133,7 @@ function Qe() {
           case d:
             var p = i;
             return kr(p._context) + ".Provider";
-          case y:
+          case g:
             return Kr(i, i.render, "ForwardRef");
           case F:
             var m = i.displayName || null;
@@ -1323,7 +1323,7 @@ function Qe() {
       }
       if (typeof i == "object")
         switch (i.$$typeof) {
-          case y:
+          case g:
             return q(i.render);
           case F:
             return hr(i.type, f, p);
@@ -1575,7 +1575,7 @@ Check the top-level render call using <` + p + ">.");
         var p;
         if (typeof f == "function")
           p = f.propTypes;
-        else if (typeof f == "object" && (f.$$typeof === y || // Note: Memo only checks outer props here.
+        else if (typeof f == "object" && (f.$$typeof === g || // Note: Memo only checks outer props here.
         // Inner props are checked in the reconciler.
         f.$$typeof === F))
           p = f.propTypes;
@@ -1665,8 +1665,8 @@ var oe = {}, rt = {
   (function() {
     var s = {}.hasOwnProperty;
     function h() {
-      for (var v = [], g = 0; g < arguments.length; g++) {
-        var w = arguments[g];
+      for (var v = [], y = 0; y < arguments.length; y++) {
+        var w = arguments[y];
         if (w) {
           var d = typeof w;
           if (d === "string" || d === "number")
@@ -1681,8 +1681,8 @@ var oe = {}, rt = {
               v.push(w.toString());
               continue;
             }
-            for (var y in w)
-              s.call(w, y) && w[y] && v.push(y);
+            for (var g in w)
+              s.call(w, g) && w[g] && v.push(g);
           }
         }
       }
@@ -1698,14 +1698,14 @@ function yt({
   const [s, h] = U.useState(), v = U.useCallback(
     (w, d) => h((a) => ({ ...a, [w]: d })),
     []
-  ), g = U.useMemo(
+  ), y = U.useMemo(
     () => ({
       widgetState: s || null,
       setWidgetState: v
     }),
     [s, v]
   );
-  return /* @__PURE__ */ J(zr.Provider, { value: g, children: u });
+  return /* @__PURE__ */ J(zr.Provider, { value: y, children: u });
 }
 const et = "_ring_1u7ve_43", tt = "_popupButton__container_1u7ve_5", nt = "_popupButton_1u7ve_5", it = "_icon_1u7ve_19", ot = "_inactiveIcon_1u7ve_27", at = "_activeIcon_1u7ve_31", ut = "_notif_1u7ve_35", ct = "_pinging_1u7ve_39", st = "_ping_1u7ve_39", G = {
   ring: et,
@@ -1740,7 +1740,7 @@ function lt({
   isOpen: h,
   clickHandler: v
 }) {
-  const g = Ee(), w = U.useContext(zr), d = w == null ? void 0 : w.widgetState, a = d == null ? void 0 : d.foundNft, y = a && JSON.parse(a).itemId, I = !h && (a ? !g.includes(a) && Boolean(y) : !1), [x, F] = U.useState(I);
+  const y = Ee(), w = U.useContext(zr), d = w == null ? void 0 : w.widgetState, a = d == null ? void 0 : d.foundNft, g = a && JSON.parse(a).itemId, I = !h && (a ? !y.includes(a) && Boolean(g) : !1), [x, F] = U.useState(I);
   return U.useEffect(() => {
     I && F(!0);
   }, [I]), /* @__PURE__ */ Ar("div", { className: G.popupButton__container, children: [
@@ -1814,11 +1814,11 @@ function lt({
   ] });
 }
 function ve(u) {
-  const h = u.replace("https://", "").replace("http://", "").split("/"), v = h.length, g = h[v - 1], w = h[v - 2];
+  const h = u.replace("https://", "").replace("http://", "").split("/"), v = h.length, y = h[v - 1], w = h[v - 2];
   if (u.startsWith("looksrare.org"))
-    return { itemId: g, contractAddress: w, network: "ethereum" };
+    return { itemId: y, contractAddress: w, network: "ethereum" };
   const d = h[v - 3];
-  return v >= 5 ? { itemId: g, contractAddress: w, network: d } : u.startsWith("x2y2.io") && d === "eth" ? { itemId: g, contractAddress: w, network: "ethereum" } : { contractAddress: null, itemId: null, network: null };
+  return v >= 5 ? { itemId: y, contractAddress: w, network: d } : u.startsWith("x2y2.io") && d === "eth" ? { itemId: y, contractAddress: w, network: "ethereum" } : { contractAddress: null, itemId: null, network: null };
 }
 const ht = "_ring_465es_1", Vr = {
   ring: ht,
@@ -1837,40 +1837,49 @@ function ir(u) {
 function dt(u) {
   if (typeof u < "u" && u !== null) {
     const s = Boolean(u === window.ethereum);
-    ir(s ? {
-      target: "sign_in",
-      data: { isInjected: s }
-    } : {
-      target: "sign_in",
-      data: {
-        connectorOptions: {
-          projectId: u.connector._clientId.toString(),
-          address: u.connector._accounts[0],
-          chainId: u.connector._chainId
+    if (s)
+      ir({
+        target: "sign_in",
+        data: { isInjected: s }
+      });
+    else {
+      const {
+        _accounts: h,
+        _chainId: v,
+        _clientId: y
+      } = u.connector;
+      ir({
+        target: "sign_in",
+        data: {
+          connectorOptions: {
+            projectId: y.toString(),
+            address: h[0],
+            chainId: v
+          }
         }
-      }
-    });
+      });
+    }
   } else
     ir({ target: "sign_in", data: null });
 }
 function gt({ provider: u }) {
-  const s = U.useRef(""), h = U.useRef(null), v = U.useRef(!1), g = U.useRef(!1), w = U.useContext(zr), { widgetState: d, setWidgetState: a } = w || {}, { ownerAddress: y } = d || {}, [I, x] = U.useState(g.current), [F, D] = U.useState(0), B = () => {
+  const s = U.useRef(""), h = U.useRef(null), v = U.useRef(!1), y = U.useRef(!1), w = U.useContext(zr), { widgetState: d, setWidgetState: a } = w || {}, { ownerAddress: g } = d || {}, [I, x] = U.useState(y.current), [F, D] = U.useState(0), B = () => {
     x((j) => {
       const P = Boolean(j);
-      return ir({ target: "widget_open", data: !P }), h.current && !P && ir({ ...h.current, redirect: !0 }), h.current = null, g.current = !P, !P;
+      return ir({ target: "widget_open", data: !P }), h.current && !P && ir({ ...h.current, redirect: !0 }), h.current = null, y.current = !P, !P;
     });
   };
   return U.useEffect(() => {
     I && !v.current && dt(u || null);
   }, [u, I]), U.useEffect(() => {
-    if (!(y != null && y.address))
+    if (!(g != null && g.address))
       return;
-    const j = y.address, P = ve(window.location.href);
+    const j = g.address, P = ve(window.location.href);
     P.network && (h.current = {
       ...P,
       ownerAddress: j
     }), h.current ? ir({ ...h.current, redirect: !0 }) : ir({ ownerAddress: j }), x(!0);
-  }, [y]), U.useEffect(() => {
+  }, [g]), U.useEffect(() => {
     const j = () => {
       if (window.location.href === s.current)
         return;
@@ -1882,7 +1891,7 @@ function gt({ provider: u }) {
   }, []), U.useEffect(() => {
     const j = (P) => {
       const { data: X } = P;
-      X.target === "unread_cnt" && D(X.data), X.closeWidget && B(), X.target === "sign_in" && a && (v.current = X.data), g.current && ir({ target: "widget_open", data: !0 });
+      X.target === "unread_cnt" && D(X.data), X.closeWidget && B(), X.target === "sign_in" && a && (v.current = X.data), y.current && ir({ target: "widget_open", data: !0 });
     };
     return window.addEventListener("message", j), () => window.removeEventListener("message", j);
   }, []), /* @__PURE__ */ Ar("div", { className: Vr["wallet-chat-widget__container"], children: [
@@ -1917,9 +1926,9 @@ const wt = ({
   ownerAddress: u,
   render: s
 }) => {
-  const h = U.useContext(zr), v = h == null ? void 0 : h.setWidgetState, g = s ? ({ onClick: w, children: d }) => U.cloneElement(s, { onClick: w }, d) : wt;
+  const h = U.useContext(zr), v = h == null ? void 0 : h.setWidgetState, y = s ? ({ onClick: w, children: d }) => U.cloneElement(s, { onClick: w }, d) : wt;
   return h ? /* @__PURE__ */ Ar(
-    g,
+    y,
     {
       onClick: () => v && v("ownerAddress", {
         address: u,
