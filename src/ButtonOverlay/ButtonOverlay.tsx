@@ -2,6 +2,7 @@ import React from 'react'
 import classnames from 'classnames'
 import { WalletChatContext } from '@/src/Context'
 import styles from './ButtonOverlay.module.css'
+import classNames from 'classnames'
 
 function getClickedNfts() {
   try {
@@ -59,7 +60,11 @@ export default function ButtonOverlay({
   }, [shouldRing])
 
   return (
-    <div className={styles.popupButton__container}>
+    <div
+      className={classNames(styles.popupButton__container, {
+        [styles['popupButton__container--open']]: isOpen,
+      })}
+    >
       <span
         className={isRinging ? styles.ring : undefined}
         style={{ boxShadow: 'none' }}

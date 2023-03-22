@@ -13,6 +13,7 @@ module.exports = {
       transitionProperty: {
         grow: 'width, min-width, height, min-height',
         'swap-icon': 'transform, opacity',
+        hide: 'margin-top, transform',
       },
       transitionDuration: {
         250: '250ms',
@@ -22,6 +23,7 @@ module.exports = {
       },
       height: {
         'widget-open': '65vh',
+        'widget-open-mobile': '75vh',
       },
       width: {
         'widget-open': '15vw',
@@ -32,7 +34,7 @@ module.exports = {
       },
       minWidth: {
         'widget-open': '440px',
-      }
+      },
     },
   },
   plugins: [],

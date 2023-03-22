@@ -3,7 +3,11 @@
 @tailwind utilities;
 
 .popupButton__container {
-  @apply relative mt-3 h-16 drop-shadow-2xl;
+  @apply relative mt-3 h-16 drop-shadow-2xl transition-hide;
+}
+
+.popupButton__container--open {
+  @apply right-6 -mt-16 translate-y-full sm:right-0 sm:mt-3 sm:translate-y-0;
 }
 
 .popupButton {

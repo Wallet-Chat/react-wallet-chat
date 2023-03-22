@@ -7,7 +7,7 @@
 }
 
 .widget-is-open {
-  @apply h-widget-open sm:w-widget-open w-widget-open-mobile min-h-widget-open sm:min-w-widget-open;
+  @apply h-widget-open-mobile sm:h-widget-open sm:w-widget-open w-widget-open-mobile min-h-widget-open sm:min-w-widget-open;
 }
 
 .widget-is-closed {
@@ -21,5 +21,9 @@
 }
 
 .wallet-chat-widget__container {
-  @apply fixed bottom-0 sm:bottom-2 right-0 sm:right-6 z-1000 select-none;
+  @apply fixed bottom-2 right-6 z-1000 select-none;
+}
+
+.wallet-chat-widget__container--open {
+  @apply bottom-0 right-0 sm:bottom-2 sm:right-6;
 }

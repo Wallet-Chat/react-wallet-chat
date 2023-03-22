@@ -169,7 +169,11 @@ export default function WalletChatWidget({ provider }: { provider?: any }) {
   }, [])
 
   return (
-    <div className={styles['wallet-chat-widget__container']}>
+    <div
+      className={classNames(styles['wallet-chat-widget__container'], {
+        [styles['wallet-chat-widget__container--open']]: isOpen,
+      })}
+    >
       <iframe
         title='WalletChat'
         name='WalletChat'
