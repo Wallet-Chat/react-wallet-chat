@@ -1,8 +1,8 @@
 import U from "react";
-var Pe = {}, qr = {};
-qr.byteLength = We;
-qr.toByteArray = $e;
-qr.fromByteArray = qe;
+var Pe = {}, Jr = {};
+Jr.byteLength = We;
+Jr.toByteArray = $e;
+Jr.fromByteArray = Je;
 var er = [], H = [], Le = typeof Uint8Array < "u" ? Uint8Array : Array, te = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 for (var yr = 0, Me = te.length; yr < Me; ++yr)
   er[yr] = te[yr], H[te.charCodeAt(yr)] = yr;
@@ -33,14 +33,14 @@ function $e(u) {
 function Ve(u) {
   return er[u >> 18 & 63] + er[u >> 12 & 63] + er[u >> 6 & 63] + er[u & 63];
 }
-function Je(u, s, h) {
+function qe(u, s, h) {
   for (var y, v = [], w = s; w < h; w += 3)
     y = (u[w] << 16 & 16711680) + (u[w + 1] << 8 & 65280) + (u[w + 2] & 255), v.push(Ve(y));
   return v.join("");
 }
-function qe(u) {
+function Je(u) {
   for (var s, h = u.length, y = h % 3, v = [], w = 16383, d = 0, a = h - y; d < a; d += w)
-    v.push(Je(u, d, d + w > a ? a : d + w));
+    v.push(qe(u, d, d + w > a ? a : d + w));
   return y === 1 ? (s = u[h - 1], v.push(
     er[s >> 2] + er[s << 4 & 63] + "=="
   )) : y === 2 && (s = (u[h - 2] << 8) + u[h - 1], v.push(
@@ -79,7 +79,7 @@ ae.write = function(u, s, h, y, v, w) {
  * @license  MIT
  */
 (function(u) {
-  var s = qr, h = ae, y = typeof Symbol == "function" && typeof Symbol.for == "function" ? Symbol.for("nodejs.util.inspect.custom") : null;
+  var s = Jr, h = ae, y = typeof Symbol == "function" && typeof Symbol.for == "function" ? Symbol.for("nodejs.util.inspect.custom") : null;
   u.Buffer = a, u.SlowBuffer = W, u.INSPECT_MAX_BYTES = 50;
   var v = 2147483647;
   u.kMaxLength = v, a.TYPED_ARRAY_SUPPORT = w(), !a.TYPED_ARRAY_SUPPORT && typeof console < "u" && typeof console.error == "function" && console.error(
@@ -889,12 +889,12 @@ ae.write = function(u, s, h, y, v, w) {
     return r;
   }();
 })(Pe);
-var Jr = {}, ze = {
+var qr = {}, ze = {
   get exports() {
-    return Jr;
+    return qr;
   },
   set exports(u) {
-    Jr = u;
+    qr = u;
   }
 }, N = ze.exports = {}, Z, rr;
 function ne() {
@@ -1059,7 +1059,7 @@ function Ke() {
 }
 var Ar = {}, we;
 function Qe() {
-  return we || (we = 1, Jr.env.NODE_ENV !== "production" && function() {
+  return we || (we = 1, qr.env.NODE_ENV !== "production" && function() {
     var u = U, s = Symbol.for("react.element"), h = Symbol.for("react.portal"), y = Symbol.for("react.fragment"), v = Symbol.for("react.strict_mode"), w = Symbol.for("react.profiler"), d = Symbol.for("react.provider"), a = Symbol.for("react.context"), g = Symbol.for("react.forward_ref"), A = Symbol.for("react.suspense"), x = Symbol.for("react.suspense_list"), F = Symbol.for("react.memo"), j = Symbol.for("react.lazy"), B = Symbol.for("react.offscreen"), L = Symbol.iterator, D = "@@iterator";
     function X(i) {
       if (i === null || typeof i != "object")
@@ -1645,9 +1645,9 @@ Check the top-level render call using <` + p + ">.");
   }()), Ar;
 }
 (function(u) {
-  Jr.env.NODE_ENV === "production" ? u.exports = Ke() : u.exports = Qe();
+  qr.env.NODE_ENV === "production" ? u.exports = Ke() : u.exports = Qe();
 })(Xe);
-const Ze = Cr.Fragment, q = Cr.jsx, Sr = Cr.jsxs;
+const Ze = Cr.Fragment, J = Cr.jsx, Sr = Cr.jsxs;
 var oe = {}, rt = {
   get exports() {
     return oe;
@@ -1705,9 +1705,9 @@ function vt({
     }),
     [s, y]
   );
-  return /* @__PURE__ */ q(zr.Provider, { value: v, children: u });
+  return /* @__PURE__ */ J(zr.Provider, { value: v, children: u });
 }
-const et = "_ring_7tcsj_47", tt = "_popupButton__container_7tcsj_5", nt = "_popupButton_7tcsj_5", it = "_icon_7tcsj_23", ot = "_inactiveIcon_7tcsj_31", at = "_activeIcon_7tcsj_35", ut = "_notif_7tcsj_39", ct = "_pinging_7tcsj_43", st = "_ping_7tcsj_43", J = {
+const et = "_ring_7tcsj_47", tt = "_popupButton__container_7tcsj_5", nt = "_popupButton_7tcsj_5", it = "_icon_7tcsj_23", ot = "_inactiveIcon_7tcsj_31", at = "_activeIcon_7tcsj_35", ut = "_notif_7tcsj_39", ct = "_pinging_7tcsj_43", st = "_ping_7tcsj_43", q = {
   ring: et,
   popupButton__container: tt,
   "popupButton__container--open": "_popupButton__container--open_7tcsj_9",
@@ -1747,34 +1747,34 @@ function lt({
   }, [A]), /* @__PURE__ */ Sr(
     "div",
     {
-      className: vr(J.popupButton__container, {
-        [J["popupButton__container--open"]]: h
+      className: vr(q.popupButton__container, {
+        [q["popupButton__container--open"]]: h
       }),
       children: [
-        /* @__PURE__ */ q(
+        /* @__PURE__ */ J(
           "span",
           {
-            className: x ? J.ring : void 0,
+            className: x ? q.ring : void 0,
             style: { boxShadow: "none" }
           }
         ),
         /* @__PURE__ */ Sr(
           "button",
           {
-            className: J.popupButton,
+            className: q.popupButton,
             type: "button",
             onClick: (j) => {
               F(!1), a && ft(a), y(j);
             },
             children: [
-              /* @__PURE__ */ q(
+              /* @__PURE__ */ J(
                 "div",
                 {
-                  className: vr(J.icon, {
-                    [J.activeIcon]: !h,
-                    [J.inactiveIcon]: h
+                  className: vr(q.icon, {
+                    [q.activeIcon]: !h,
+                    [q.inactiveIcon]: h
                   }),
-                  children: /* @__PURE__ */ q(
+                  children: /* @__PURE__ */ J(
                     "img",
                     {
                       alt: "WalletChat",
@@ -1784,14 +1784,14 @@ function lt({
                   )
                 }
               ),
-              /* @__PURE__ */ q(
+              /* @__PURE__ */ J(
                 "div",
                 {
-                  className: vr(J.icon, {
-                    [J.activeIcon]: h,
-                    [J.inactiveIcon]: !h
+                  className: vr(q.icon, {
+                    [q.activeIcon]: h,
+                    [q.inactiveIcon]: !h
                   }),
-                  children: /* @__PURE__ */ q(
+                  children: /* @__PURE__ */ J(
                     "svg",
                     {
                       focusable: "false",
@@ -1799,7 +1799,7 @@ function lt({
                       width: "28",
                       height: "25",
                       xmlns: "http://www.w3.org/2000/svg",
-                      children: /* @__PURE__ */ q(
+                      children: /* @__PURE__ */ J(
                         "path",
                         {
                           fillRule: "evenodd",
@@ -1815,8 +1815,8 @@ function lt({
           }
         ),
         s && /* @__PURE__ */ Sr(Ze, { children: [
-          /* @__PURE__ */ q("span", { className: vr(J.notif, J.pinging) }),
-          /* @__PURE__ */ q("span", { className: J.notif, children: u })
+          /* @__PURE__ */ J("span", { className: vr(q.notif, q.pinging) }),
+          /* @__PURE__ */ J("span", { className: q.notif, children: u })
         ] })
       ]
     }
@@ -1829,13 +1829,13 @@ function ye(u) {
   const d = h[y - 3];
   return y >= 5 ? { itemId: v, contractAddress: w, network: d } : u.startsWith("x2y2.io") && d === "eth" ? { itemId: v, contractAddress: w, network: "ethereum" } : { contractAddress: null, itemId: null, network: null };
 }
-const ht = "_ring_l9kib_1", Ir = {
+const ht = "_ring_q714d_1", Ir = {
   ring: ht,
-  "wallet-chat-widget": "_wallet-chat-widget_l9kib_23",
-  "widget-is-open": "_widget-is-open_l9kib_9",
-  "widget-is-closed": "_widget-is-closed_l9kib_13",
-  "wallet-chat-widget__container": "_wallet-chat-widget__container_l9kib_23",
-  "wallet-chat-widget__container--open": "_wallet-chat-widget__container--open_l9kib_27"
+  "wallet-chat-widget": "_wallet-chat-widget_q714d_23",
+  "widget-is-open": "_widget-is-open_q714d_9",
+  "widget-is-closed": "_widget-is-closed_q714d_13",
+  "wallet-chat-widget__container": "_wallet-chat-widget__container_q714d_23",
+  "wallet-chat-widget__container--open": "_wallet-chat-widget__container--open_q714d_27"
 }, pt = "https://staging.walletchat.fun", _e = Ir["wallet-chat-widget"];
 function ir(u) {
   var h;
@@ -1911,7 +1911,7 @@ function gt({ provider: u }) {
         [Ir["wallet-chat-widget__container--open"]]: A
       }),
       children: [
-        /* @__PURE__ */ q(
+        /* @__PURE__ */ J(
           "iframe",
           {
             title: "WalletChat",
@@ -1924,7 +1924,7 @@ function gt({ provider: u }) {
             src: pt
           }
         ),
-        /* @__PURE__ */ q(
+        /* @__PURE__ */ J(
           lt,
           {
             notiVal: F,
@@ -1940,7 +1940,7 @@ function gt({ provider: u }) {
 const wt = ({
   onClick: u,
   children: s
-}) => /* @__PURE__ */ q("button", { type: "button", onClick: u, children: s }), mt = ({
+}) => /* @__PURE__ */ J("button", { type: "button", onClick: u, children: s }), mt = ({
   ownerAddress: u,
   render: s
 }) => {
@@ -1953,7 +1953,7 @@ const wt = ({
         lastRequest: Date.now().toString()
       }),
       children: [
-        /* @__PURE__ */ q(
+        /* @__PURE__ */ J(
           "div",
           {
             style: {
@@ -1977,4 +1977,4 @@ export {
   vt as WalletChatProvider,
   gt as WalletChatWidget
 };
-(function(){"use strict";try{if(typeof document<"u"){var t=document.createElement("style");t.appendChild(document.createTextNode(".ring{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}._ring_7tcsj_47{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}._popupButton__container_7tcsj_5{position:relative;margin-top:.75rem;height:4rem;--tw-drop-shadow: drop-shadow(0 25px 25px rgb(0 0 0 / .15));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);transition-property:margin-top,transform;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}._popupButton__container--open_7tcsj_9{right:1.5rem;margin-top:-4rem;--tw-translate-y: 100%;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@media (min-width: 640px){._popupButton__container--open_7tcsj_9{right:0px;margin-top:.75rem;--tw-translate-y: 0px;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}}._popupButton_7tcsj_5{position:absolute;top:0px;right:0px;height:4rem;width:4rem;transform-origin:center;cursor:pointer;overflow:hidden;border-radius:9999px;--tw-bg-opacity: 1;background-color:rgb(0 0 0 / var(--tw-bg-opacity))}._icon_7tcsj_23{transition-property:transform,opacity;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s;transition-timing-function:linear;display:flex;height:100%;width:100%;cursor:pointer;align-items:center;justify-content:center}._icon_7tcsj_23 svg{height:2rem;width:1.75rem;fill:#fff}._inactiveIcon_7tcsj_31{position:absolute;--tw-rotate: 30deg;--tw-scale-x: 0;--tw-scale-y: 0;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));opacity:0}._activeIcon_7tcsj_35{--tw-rotate: 0deg;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));opacity:1}._notif_7tcsj_39{pointer-events:none;position:absolute;top:-.5rem;right:-.5rem;height:1.75rem;width:1.75rem;border-radius:9999px;--tw-bg-opacity: 1;background-color:rgb(219 39 119 / var(--tw-bg-opacity));text-align:center;font-size:.875rem;line-height:1.25rem;font-weight:700;line-height:1.5;--tw-text-opacity: 1;color:rgb(255 255 255 / var(--tw-text-opacity))}._pinging_7tcsj_43{animation:_ping_7tcsj_43 1s cubic-bezier(0,0,.2,1) infinite}._ring_7tcsj_47{position:fixed;right:0px;display:inline-flex;height:4rem;width:4rem}@keyframes _ping_7tcsj_43{75%,to{transform:scale(2);opacity:0}}._ring_7tcsj_47{animation:_ping_7tcsj_43 1s cubic-bezier(0,0,.2,1) infinite;border-radius:9999px;--tw-bg-opacity: 1;background-color:rgb(203 213 225 / var(--tw-bg-opacity));opacity:.75}*,:before,:after{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::backdrop{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }._ring_l9kib_1{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}#_wallet-chat-widget_l9kib_23{transition-property:width,min-width,height,min-height;transition-duration:.25s;transition-timing-function:cubic-bezier(.4,0,.2,1);overflow-x:hidden;overflow-y:hidden;border-radius:1rem;--tw-drop-shadow: drop-shadow(4px 4px 8px rgba(0,0,0,.5));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}._widget-is-open_l9kib_9{height:75vh;min-height:440px;width:100vw}@media (min-width: 640px){._widget-is-open_l9kib_9{height:65vh;width:15vw;min-width:440px}}._widget-is-closed_l9kib_13{height:0px;min-height:0px;width:0px;min-width:0px}._wallet-chat-widget__container_l9kib_23{position:fixed;bottom:.5rem;right:1.5rem;z-index:1000;-webkit-user-select:none;-moz-user-select:none;user-select:none}._wallet-chat-widget__container--open_l9kib_27{bottom:0px;right:0px}@media (min-width: 640px){._wallet-chat-widget__container--open_l9kib_27{bottom:.5rem;right:1.5rem}}")),document.head.appendChild(t)}}catch(r){console.error("vite-plugin-css-injected-by-js",r)}})();
+(function(){"use strict";try{if(typeof document<"u"){var t=document.createElement("style");t.appendChild(document.createTextNode(".ring{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}._ring_7tcsj_47{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}._popupButton__container_7tcsj_5{position:relative;margin-top:.75rem;height:4rem;--tw-drop-shadow: drop-shadow(0 25px 25px rgb(0 0 0 / .15));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);transition-property:margin-top,transform;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}._popupButton__container--open_7tcsj_9{right:1.5rem;margin-top:-4rem;--tw-translate-y: 100%;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@media (min-width: 640px){._popupButton__container--open_7tcsj_9{right:0px;margin-top:.75rem;--tw-translate-y: 0px;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}}._popupButton_7tcsj_5{position:absolute;top:0px;right:0px;height:4rem;width:4rem;transform-origin:center;cursor:pointer;overflow:hidden;border-radius:9999px;--tw-bg-opacity: 1;background-color:rgb(0 0 0 / var(--tw-bg-opacity))}._icon_7tcsj_23{transition-property:transform,opacity;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s;transition-timing-function:linear;display:flex;height:100%;width:100%;cursor:pointer;align-items:center;justify-content:center}._icon_7tcsj_23 svg{height:2rem;width:1.75rem;fill:#fff}._inactiveIcon_7tcsj_31{position:absolute;--tw-rotate: 30deg;--tw-scale-x: 0;--tw-scale-y: 0;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));opacity:0}._activeIcon_7tcsj_35{--tw-rotate: 0deg;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));opacity:1}._notif_7tcsj_39{pointer-events:none;position:absolute;top:-.5rem;right:-.5rem;height:1.75rem;width:1.75rem;border-radius:9999px;--tw-bg-opacity: 1;background-color:rgb(219 39 119 / var(--tw-bg-opacity));text-align:center;font-size:.875rem;line-height:1.25rem;font-weight:700;line-height:1.5;--tw-text-opacity: 1;color:rgb(255 255 255 / var(--tw-text-opacity))}._pinging_7tcsj_43{animation:_ping_7tcsj_43 1s cubic-bezier(0,0,.2,1) infinite}._ring_7tcsj_47{position:fixed;right:0px;display:inline-flex;height:4rem;width:4rem}@keyframes _ping_7tcsj_43{75%,to{transform:scale(2);opacity:0}}._ring_7tcsj_47{animation:_ping_7tcsj_43 1s cubic-bezier(0,0,.2,1) infinite;border-radius:9999px;--tw-bg-opacity: 1;background-color:rgb(203 213 225 / var(--tw-bg-opacity));opacity:.75}*,:before,:after{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::backdrop{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }._ring_q714d_1{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}#_wallet-chat-widget_q714d_23{transition-property:width,min-width,height,min-height;transition-duration:.25s;transition-timing-function:cubic-bezier(.4,0,.2,1);overflow-x:hidden;overflow-y:hidden;border-radius:1rem;--tw-drop-shadow: drop-shadow(4px 4px 8px rgba(0,0,0,.5));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}._widget-is-open_q714d_9{height:75vh;min-height:440px;width:calc(100vw - 2rem);--tw-translate-x: -1rem;--tw-translate-y: -.5rem;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@media (min-width: 640px){._widget-is-open_q714d_9{height:65vh;width:15vw;min-width:440px;--tw-translate-x: 0px;--tw-translate-y: 0px;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}}._widget-is-closed_q714d_13{height:0px;min-height:0px;width:0px;min-width:0px}._wallet-chat-widget__container_q714d_23{position:fixed;bottom:.5rem;right:1.5rem;z-index:1000;-webkit-user-select:none;-moz-user-select:none;user-select:none}._wallet-chat-widget__container--open_q714d_27{bottom:0px;right:0px}@media (min-width: 640px){._wallet-chat-widget__container--open_q714d_27{bottom:.5rem;right:1.5rem}}")),document.head.appendChild(t)}}catch(r){console.error("vite-plugin-css-injected-by-js",r)}})();

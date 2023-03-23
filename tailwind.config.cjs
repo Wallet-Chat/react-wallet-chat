@@ -27,7 +27,7 @@ module.exports = {
       },
       width: {
         'widget-open': '15vw',
-        'widget-open-mobile': '100vw',
+        'widget-open-mobile': 'calc(100vw - 2rem)',
       },
       minHeight: {
         'widget-open': '440px',

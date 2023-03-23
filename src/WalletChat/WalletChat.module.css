@@ -7,7 +7,7 @@
 }
 
 .widget-is-open {
-  @apply h-widget-open-mobile sm:h-widget-open sm:w-widget-open w-widget-open-mobile min-h-widget-open sm:min-w-widget-open;
+  @apply h-widget-open-mobile sm:h-widget-open sm:w-widget-open w-widget-open-mobile min-h-widget-open sm:min-w-widget-open -translate-x-4 -translate-y-2 sm:translate-x-0 sm:translate-y-0;
 }
 
 .widget-is-closed {
