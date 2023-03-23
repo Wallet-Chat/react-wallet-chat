@@ -23,7 +23,9 @@ function trySignIn(provider: any) {
     // The InjectedConnector supports wallets that inject an Ethereum Provider into the browser or window.
     // The MetaMask browser extension is the most popular example of this.
     // per docs at: https://github.com/wagmi-dev/wagmi/blob/4efdd206aef9f40d450fd3a7d29495cdd8b7e42d/docs/pages/core/connectors/injected.en-US.mdx
-    const isInjected = Boolean(provider === window.ethereum)
+    const isInjected = Boolean(
+      provider === window.ethereum || provider.id.toLowerCase() === 'metamask'
+    )
 
     if (isInjected) {
       postMessage({
@@ -31,19 +33,19 @@ function trySignIn(provider: any) {
         data: { isInjected },
       })
     } else {
-      const {
-        _accounts: accounts,
-        _chainId: chainId,
-        _clientId: clientId,
-      } = provider.connector
+      // const {
+      //   _accounts: accounts,
+      //   _chainId: chainId,
+      //   _clientId: clientId,
+      // } = provider.connector
 
       postMessage({
         target: 'sign_in',
         data: {
           connectorOptions: {
-            projectId: clientId.toString(),
-            address: accounts[0],
-            chainId,
+            // projectId: clientId.toString(),
+            // address: accounts[0],
+            // chainId,
           },
         },
       })
