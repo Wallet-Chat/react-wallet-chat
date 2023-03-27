@@ -10,11 +10,11 @@ export function WalletChatProvider({
 }: {
   children: React.ReactNode
 }) {
-  const [widgetState, setWidgetState] = React.useState<WidgetState>()
+  const [widgetState, setWidgetState] = React.useState<undefined | WidgetState>()
 
   const widgetStateSetter: WidgetStateSetter = React.useCallback(
     (key, value) =>
-      setWidgetState((prevState) => ({ ...prevState, [key]: value })),
+      setWidgetState((prevState) => ({ ...(prevState || {}), [key]: value })),
     []
   )
 

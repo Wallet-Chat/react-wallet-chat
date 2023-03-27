@@ -1,12 +1,12 @@
 import React from 'react'
 
 export type WidgetState = {
-  ownerAddress: {
+  ownerAddress?: {
     address: string,
     // -- this is used to force a state update for the same address --
     lastRequest: string
   },
-  foundNft: string
+  foundNft?: string
 }
 
 export type WidgetStateSetter = (

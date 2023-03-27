@@ -1,10 +1,10 @@
 import React from 'react';
 export type WidgetState = {
-    ownerAddress: {
+    ownerAddress?: {
         address: string;
         lastRequest: string;
     };
-    foundNft: string;
+    foundNft?: string;
 };
 export type WidgetStateSetter = (key: keyof WidgetState, value: WidgetState[typeof key]) => void;
 type Context = {
