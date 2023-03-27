@@ -4,13 +4,14 @@ import ButtonOverlay from '@/src/ButtonOverlay'
 import { WalletChatContext } from '@/src/Context'
 import { parseNftFromUrl } from '@/src/utils'
 import styles from './WalletChat.module.css'
+import { ConnectedWallet } from '@/src/types'
 
 const URL = 'https://staging.walletchat.fun'
 
 const iframeId = styles['wallet-chat-widget']
 
 // TODO: possibly make a lib for type-safe postMessage APIs
-function postMessage(data: any) {
+function postMessage(data: null | boolean | object) {
   if (typeof document === 'undefined') return
 
   const iframeElement = document?.getElementById(iframeId) as HTMLIFrameElement
@@ -18,12 +19,9 @@ function postMessage(data: any) {
   iframeElement?.contentWindow?.postMessage(data, '*')
 }
 
-function trySignIn(provider: any) {
-  if (typeof provider !== 'undefined' && provider !== null) {
-    // The InjectedConnector supports wallets that inject an Ethereum Provider into the browser or window.
-    // The MetaMask browser extension is the most popular example of this.
-    // per docs at: https://github.com/wagmi-dev/wagmi/blob/4efdd206aef9f40d450fd3a7d29495cdd8b7e42d/docs/pages/core/connectors/injected.en-US.mdx
-    const isInjected = Boolean(provider === window.ethereum)
+function trySignIn(connectedWallet?: null | ConnectedWallet) {
+  if (typeof connectedWallet !== 'undefined' && connectedWallet !== null) {
+    const isInjected = Boolean(connectedWallet.walletName === window.ethereum)
 
     if (isInjected) {
       postMessage({
@@ -31,29 +29,16 @@ function trySignIn(provider: any) {
         data: { isInjected },
       })
     } else {
-      const {
-        _accounts: accounts,
-        _chainId: chainId,
-        _clientId: clientId,
-      } = provider.connector
+      const { walletName, account, } = connectedWallet
 
-      postMessage({
-        target: 'sign_in',
-        data: {
-          connectorOptions: {
-            projectId: clientId.toString(),
-            address: accounts[0],
-            chainId,
-          },
-        },
-      })
+      postMessage({ target: 'sign_in', data: { walletName, account, }, })
     }
   } else {
     postMessage({ target: 'sign_in', data: null })
   }
 }
 
-export default function WalletChatWidget({ provider }: { provider?: any }) {
+export default function WalletChatWidget({ connectedWallet }: { connectedWallet?: ConnectedWallet }) {
   const previousUrlSent = React.useRef('')
   const nftInfoForContract = React.useRef<
     null | (ReturnType<typeof parseNftFromUrl> & { ownerAddress?: string })
@@ -88,9 +73,9 @@ export default function WalletChatWidget({ provider }: { provider?: any }) {
 
   React.useEffect(() => {
     if (isOpen && !widgetSignedIn.current) {
-      trySignIn(provider || null)
+      trySignIn(connectedWallet || null)
     }
-  }, [provider, isOpen])
+  }, [connectedWallet, isOpen])
 
   React.useEffect(() => {
     if (!ownerAddress?.address) return

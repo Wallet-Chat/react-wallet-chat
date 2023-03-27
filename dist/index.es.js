@@ -1,4 +1,15 @@
 import U from "react";
+function ne(u) {
+  const p = u.replace("https://", "").replace("http://", "").split("/"), y = p.length, g = p[y - 1], w = p[y - 2];
+  if (u.startsWith("looksrare.org"))
+    return { itemId: g, contractAddress: w, network: "ethereum" };
+  const d = p[y - 3];
+  return y >= 5 ? { itemId: g, contractAddress: w, network: d } : u.startsWith("x2y2.io") && d === "eth" ? { itemId: g, contractAddress: w, network: "ethereum" } : { contractAddress: null, itemId: null, network: null };
+}
+const vt = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  parseNftFromUrl: ne
+}, Symbol.toStringTag, { value: "Module" }));
 var Pe = {}, Jr = {};
 Jr.byteLength = We;
 Jr.toByteArray = $e;
@@ -12,45 +23,45 @@ function ve(u) {
   var s = u.length;
   if (s % 4 > 0)
     throw new Error("Invalid string. Length must be a multiple of 4");
-  var h = u.indexOf("=");
-  h === -1 && (h = s);
-  var y = h === s ? 0 : 4 - h % 4;
-  return [h, y];
+  var p = u.indexOf("=");
+  p === -1 && (p = s);
+  var y = p === s ? 0 : 4 - p % 4;
+  return [p, y];
 }
 function We(u) {
-  var s = ve(u), h = s[0], y = s[1];
-  return (h + y) * 3 / 4 - y;
+  var s = ve(u), p = s[0], y = s[1];
+  return (p + y) * 3 / 4 - y;
 }
-function Ye(u, s, h) {
-  return (s + h) * 3 / 4 - h;
+function Ye(u, s, p) {
+  return (s + p) * 3 / 4 - p;
 }
 function $e(u) {
-  var s, h = ve(u), y = h[0], v = h[1], w = new Le(Ye(u, y, v)), d = 0, a = v > 0 ? y - 4 : y, g;
-  for (g = 0; g < a; g += 4)
-    s = H[u.charCodeAt(g)] << 18 | H[u.charCodeAt(g + 1)] << 12 | H[u.charCodeAt(g + 2)] << 6 | H[u.charCodeAt(g + 3)], w[d++] = s >> 16 & 255, w[d++] = s >> 8 & 255, w[d++] = s & 255;
-  return v === 2 && (s = H[u.charCodeAt(g)] << 2 | H[u.charCodeAt(g + 1)] >> 4, w[d++] = s & 255), v === 1 && (s = H[u.charCodeAt(g)] << 10 | H[u.charCodeAt(g + 1)] << 4 | H[u.charCodeAt(g + 2)] >> 2, w[d++] = s >> 8 & 255, w[d++] = s & 255), w;
+  var s, p = ve(u), y = p[0], g = p[1], w = new Le(Ye(u, y, g)), d = 0, a = g > 0 ? y - 4 : y, v;
+  for (v = 0; v < a; v += 4)
+    s = H[u.charCodeAt(v)] << 18 | H[u.charCodeAt(v + 1)] << 12 | H[u.charCodeAt(v + 2)] << 6 | H[u.charCodeAt(v + 3)], w[d++] = s >> 16 & 255, w[d++] = s >> 8 & 255, w[d++] = s & 255;
+  return g === 2 && (s = H[u.charCodeAt(v)] << 2 | H[u.charCodeAt(v + 1)] >> 4, w[d++] = s & 255), g === 1 && (s = H[u.charCodeAt(v)] << 10 | H[u.charCodeAt(v + 1)] << 4 | H[u.charCodeAt(v + 2)] >> 2, w[d++] = s >> 8 & 255, w[d++] = s & 255), w;
 }
 function Ve(u) {
   return er[u >> 18 & 63] + er[u >> 12 & 63] + er[u >> 6 & 63] + er[u & 63];
 }
-function qe(u, s, h) {
-  for (var y, v = [], w = s; w < h; w += 3)
-    y = (u[w] << 16 & 16711680) + (u[w + 1] << 8 & 65280) + (u[w + 2] & 255), v.push(Ve(y));
-  return v.join("");
+function qe(u, s, p) {
+  for (var y, g = [], w = s; w < p; w += 3)
+    y = (u[w] << 16 & 16711680) + (u[w + 1] << 8 & 65280) + (u[w + 2] & 255), g.push(Ve(y));
+  return g.join("");
 }
 function Je(u) {
-  for (var s, h = u.length, y = h % 3, v = [], w = 16383, d = 0, a = h - y; d < a; d += w)
-    v.push(qe(u, d, d + w > a ? a : d + w));
-  return y === 1 ? (s = u[h - 1], v.push(
+  for (var s, p = u.length, y = p % 3, g = [], w = 16383, d = 0, a = p - y; d < a; d += w)
+    g.push(qe(u, d, d + w > a ? a : d + w));
+  return y === 1 ? (s = u[p - 1], g.push(
     er[s >> 2] + er[s << 4 & 63] + "=="
-  )) : y === 2 && (s = (u[h - 2] << 8) + u[h - 1], v.push(
+  )) : y === 2 && (s = (u[p - 2] << 8) + u[p - 1], g.push(
     er[s >> 10] + er[s >> 4 & 63] + er[s << 2 & 63] + "="
-  )), v.join("");
+  )), g.join("");
 }
-var ae = {};
+var ue = {};
 /*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
-ae.read = function(u, s, h, y, v) {
-  var w, d, a = v * 8 - y - 1, g = (1 << a) - 1, A = g >> 1, x = -7, F = h ? v - 1 : 0, j = h ? -1 : 1, B = u[s + F];
+ue.read = function(u, s, p, y, g) {
+  var w, d, a = g * 8 - y - 1, v = (1 << a) - 1, A = v >> 1, x = -7, F = p ? g - 1 : 0, j = p ? -1 : 1, B = u[s + F];
   for (F += j, w = B & (1 << -x) - 1, B >>= -x, x += a; x > 0; w = w * 256 + u[s + F], F += j, x -= 8)
     ;
   for (d = w & (1 << -x) - 1, w >>= -x, x += y; x > 0; d = d * 256 + u[s + F], F += j, x -= 8)
@@ -58,19 +69,19 @@ ae.read = function(u, s, h, y, v) {
   if (w === 0)
     w = 1 - A;
   else {
-    if (w === g)
+    if (w === v)
       return d ? NaN : (B ? -1 : 1) * (1 / 0);
     d = d + Math.pow(2, y), w = w - A;
   }
   return (B ? -1 : 1) * d * Math.pow(2, w - y);
 };
-ae.write = function(u, s, h, y, v, w) {
-  var d, a, g, A = w * 8 - v - 1, x = (1 << A) - 1, F = x >> 1, j = v === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0, B = y ? 0 : w - 1, L = y ? 1 : -1, D = s < 0 || s === 0 && 1 / s < 0 ? 1 : 0;
-  for (s = Math.abs(s), isNaN(s) || s === 1 / 0 ? (a = isNaN(s) ? 1 : 0, d = x) : (d = Math.floor(Math.log(s) / Math.LN2), s * (g = Math.pow(2, -d)) < 1 && (d--, g *= 2), d + F >= 1 ? s += j / g : s += j * Math.pow(2, 1 - F), s * g >= 2 && (d++, g /= 2), d + F >= x ? (a = 0, d = x) : d + F >= 1 ? (a = (s * g - 1) * Math.pow(2, v), d = d + F) : (a = s * Math.pow(2, F - 1) * Math.pow(2, v), d = 0)); v >= 8; u[h + B] = a & 255, B += L, a /= 256, v -= 8)
+ue.write = function(u, s, p, y, g, w) {
+  var d, a, v, A = w * 8 - g - 1, x = (1 << A) - 1, F = x >> 1, j = g === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0, B = y ? 0 : w - 1, L = y ? 1 : -1, D = s < 0 || s === 0 && 1 / s < 0 ? 1 : 0;
+  for (s = Math.abs(s), isNaN(s) || s === 1 / 0 ? (a = isNaN(s) ? 1 : 0, d = x) : (d = Math.floor(Math.log(s) / Math.LN2), s * (v = Math.pow(2, -d)) < 1 && (d--, v *= 2), d + F >= 1 ? s += j / v : s += j * Math.pow(2, 1 - F), s * v >= 2 && (d++, v /= 2), d + F >= x ? (a = 0, d = x) : d + F >= 1 ? (a = (s * v - 1) * Math.pow(2, g), d = d + F) : (a = s * Math.pow(2, F - 1) * Math.pow(2, g), d = 0)); g >= 8; u[p + B] = a & 255, B += L, a /= 256, g -= 8)
     ;
-  for (d = d << v | a, A += v; A > 0; u[h + B] = d & 255, B += L, d /= 256, A -= 8)
+  for (d = d << g | a, A += g; A > 0; u[p + B] = d & 255, B += L, d /= 256, A -= 8)
     ;
-  u[h + B - L] |= D * 128;
+  u[p + B - L] |= D * 128;
 };
 /*!
  * The buffer module from node.js, for the browser.
@@ -79,10 +90,10 @@ ae.write = function(u, s, h, y, v, w) {
  * @license  MIT
  */
 (function(u) {
-  var s = Jr, h = ae, y = typeof Symbol == "function" && typeof Symbol.for == "function" ? Symbol.for("nodejs.util.inspect.custom") : null;
+  var s = Jr, p = ue, y = typeof Symbol == "function" && typeof Symbol.for == "function" ? Symbol.for("nodejs.util.inspect.custom") : null;
   u.Buffer = a, u.SlowBuffer = W, u.INSPECT_MAX_BYTES = 50;
-  var v = 2147483647;
-  u.kMaxLength = v, a.TYPED_ARRAY_SUPPORT = w(), !a.TYPED_ARRAY_SUPPORT && typeof console < "u" && typeof console.error == "function" && console.error(
+  var g = 2147483647;
+  u.kMaxLength = g, a.TYPED_ARRAY_SUPPORT = w(), !a.TYPED_ARRAY_SUPPORT && typeof console < "u" && typeof console.error == "function" && console.error(
     "This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."
   );
   function w() {
@@ -109,7 +120,7 @@ ae.write = function(u, s, h, y, v, w) {
     }
   });
   function d(t) {
-    if (t > v)
+    if (t > g)
       throw new RangeError('The value "' + t + '" is invalid for option "size"');
     var r = new Uint8Array(t);
     return Object.setPrototypeOf(r, a.prototype), r;
@@ -122,10 +133,10 @@ ae.write = function(u, s, h, y, v, w) {
         );
       return F(t);
     }
-    return g(t, r, e);
+    return v(t, r, e);
   }
   a.poolSize = 8192;
-  function g(t, r, e) {
+  function v(t, r, e) {
     if (typeof t == "string")
       return j(t, r);
     if (ArrayBuffer.isView(t))
@@ -157,7 +168,7 @@ ae.write = function(u, s, h, y, v, w) {
     );
   }
   a.from = function(t, r, e) {
-    return g(t, r, e);
+    return v(t, r, e);
   }, Object.setPrototypeOf(a.prototype, Uint8Array.prototype), Object.setPrototypeOf(a, Uint8Array);
   function A(t) {
     if (typeof t != "number")
@@ -216,8 +227,8 @@ ae.write = function(u, s, h, y, v, w) {
       return B(t.data);
   }
   function $(t) {
-    if (t >= v)
-      throw new RangeError("Attempt to allocate Buffer larger than maximum size: 0x" + v.toString(16) + " bytes");
+    if (t >= g)
+      throw new RangeError("Attempt to allocate Buffer larger than maximum size: 0x" + g.toString(16) + " bytes");
     return t | 0;
   }
   function W(t) {
@@ -398,9 +409,9 @@ ae.write = function(u, s, h, y, v, w) {
       return 1;
     if (e >>>= 0, n >>>= 0, o >>>= 0, c >>>= 0, this === r)
       return 0;
-    for (var l = c - o, _ = n - e, T = Math.min(l, _), S = this.slice(o, c), M = r.slice(e, n), I = 0; I < T; ++I)
-      if (S[I] !== M[I]) {
-        l = S[I], _ = M[I];
+    for (var l = c - o, _ = n - e, T = Math.min(l, _), C = this.slice(o, c), M = r.slice(e, n), S = 0; S < T; ++S)
+      if (C[S] !== M[S]) {
+        l = C[S], _ = M[S];
         break;
       }
     return l < _ ? -1 : _ < l ? 1 : 0;
@@ -433,24 +444,24 @@ ae.write = function(u, s, h, y, v, w) {
     function T(Fr, Rr) {
       return c === 1 ? Fr[Rr] : Fr.readUInt16BE(Rr * c);
     }
-    var S;
+    var C;
     if (o) {
       var M = -1;
-      for (S = e; S < l; S++)
-        if (T(t, S) === T(r, M === -1 ? 0 : S - M)) {
-          if (M === -1 && (M = S), S - M + 1 === _)
+      for (C = e; C < l; C++)
+        if (T(t, C) === T(r, M === -1 ? 0 : C - M)) {
+          if (M === -1 && (M = C), C - M + 1 === _)
             return M * c;
         } else
-          M !== -1 && (S -= S - M), M = -1;
+          M !== -1 && (C -= C - M), M = -1;
     } else
-      for (e + _ > l && (e = l - _), S = e; S >= 0; S--) {
-        for (var I = !0, pr = 0; pr < _; pr++)
-          if (T(t, S + pr) !== T(r, pr)) {
-            I = !1;
+      for (e + _ > l && (e = l - _), C = e; C >= 0; C--) {
+        for (var S = !0, hr = 0; hr < _; hr++)
+          if (T(t, C + hr) !== T(r, hr)) {
+            S = !1;
             break;
           }
-        if (I)
-          return S;
+        if (S)
+          return C;
       }
     return -1;
   }
@@ -539,19 +550,19 @@ ae.write = function(u, s, h, y, v, w) {
     for (var n = [], o = r; o < e; ) {
       var c = t[o], l = null, _ = c > 239 ? 4 : c > 223 ? 3 : c > 191 ? 2 : 1;
       if (o + _ <= e) {
-        var T, S, M, I;
+        var T, C, M, S;
         switch (_) {
           case 1:
             c < 128 && (l = c);
             break;
           case 2:
-            T = t[o + 1], (T & 192) === 128 && (I = (c & 31) << 6 | T & 63, I > 127 && (l = I));
+            T = t[o + 1], (T & 192) === 128 && (S = (c & 31) << 6 | T & 63, S > 127 && (l = S));
             break;
           case 3:
-            T = t[o + 1], S = t[o + 2], (T & 192) === 128 && (S & 192) === 128 && (I = (c & 15) << 12 | (T & 63) << 6 | S & 63, I > 2047 && (I < 55296 || I > 57343) && (l = I));
+            T = t[o + 1], C = t[o + 2], (T & 192) === 128 && (C & 192) === 128 && (S = (c & 15) << 12 | (T & 63) << 6 | C & 63, S > 2047 && (S < 55296 || S > 57343) && (l = S));
             break;
           case 4:
-            T = t[o + 1], S = t[o + 2], M = t[o + 3], (T & 192) === 128 && (S & 192) === 128 && (M & 192) === 128 && (I = (c & 15) << 18 | (T & 63) << 12 | (S & 63) << 6 | M & 63, I > 65535 && I < 1114112 && (l = I));
+            T = t[o + 1], C = t[o + 2], M = t[o + 3], (T & 192) === 128 && (C & 192) === 128 && (M & 192) === 128 && (S = (c & 15) << 18 | (T & 63) << 12 | (C & 63) << 6 | M & 63, S > 65535 && S < 1114112 && (l = S));
         }
       }
       l === null ? (l = 65533, _ = 1) : l > 65535 && (l -= 65536, n.push(l >>> 10 & 1023 | 55296), l = 56320 | l & 1023), n.push(l), o += _;
@@ -588,7 +599,7 @@ ae.write = function(u, s, h, y, v, w) {
     var n = t.length;
     (!r || r < 0) && (r = 0), (!e || e < 0 || e > n) && (e = n);
     for (var o = "", c = r; c < e; ++c)
-      o += hr[t[c]];
+      o += pr[t[c]];
     return o;
   }
   function Mr(t, r, e) {
@@ -653,13 +664,13 @@ ae.write = function(u, s, h, y, v, w) {
   }, a.prototype.readInt32BE = function(r, e) {
     return r = r >>> 0, e || k(r, 4, this.length), this[r] << 24 | this[r + 1] << 16 | this[r + 2] << 8 | this[r + 3];
   }, a.prototype.readFloatLE = function(r, e) {
-    return r = r >>> 0, e || k(r, 4, this.length), h.read(this, r, !0, 23, 4);
+    return r = r >>> 0, e || k(r, 4, this.length), p.read(this, r, !0, 23, 4);
   }, a.prototype.readFloatBE = function(r, e) {
-    return r = r >>> 0, e || k(r, 4, this.length), h.read(this, r, !1, 23, 4);
+    return r = r >>> 0, e || k(r, 4, this.length), p.read(this, r, !1, 23, 4);
   }, a.prototype.readDoubleLE = function(r, e) {
-    return r = r >>> 0, e || k(r, 8, this.length), h.read(this, r, !0, 52, 8);
+    return r = r >>> 0, e || k(r, 8, this.length), p.read(this, r, !0, 52, 8);
   }, a.prototype.readDoubleBE = function(r, e) {
-    return r = r >>> 0, e || k(r, 8, this.length), h.read(this, r, !1, 52, 8);
+    return r = r >>> 0, e || k(r, 8, this.length), p.read(this, r, !1, 52, 8);
   };
   function Y(t, r, e, n, o, c) {
     if (!a.isBuffer(t))
@@ -733,7 +744,7 @@ ae.write = function(u, s, h, y, v, w) {
       throw new RangeError("Index out of range");
   }
   function Wr(t, r, e, n, o) {
-    return r = +r, e = e >>> 0, o || mr(t, r, e, 4), h.write(t, r, e, n, 23, 4), e + 4;
+    return r = +r, e = e >>> 0, o || mr(t, r, e, 4), p.write(t, r, e, n, 23, 4), e + 4;
   }
   a.prototype.writeFloatLE = function(r, e, n) {
     return Wr(this, r, e, !0, n);
@@ -741,7 +752,7 @@ ae.write = function(u, s, h, y, v, w) {
     return Wr(this, r, e, !1, n);
   };
   function Yr(t, r, e, n, o) {
-    return r = +r, e = e >>> 0, o || mr(t, r, e, 8), h.write(t, r, e, n, 52, 8), e + 8;
+    return r = +r, e = e >>> 0, o || mr(t, r, e, 8), p.write(t, r, e, n, 52, 8), e + 8;
   }
   a.prototype.writeDoubleLE = function(r, e, n) {
     return Yr(this, r, e, !0, n);
@@ -882,7 +893,7 @@ ae.write = function(u, s, h, y, v, w) {
   function br(t) {
     return t !== t;
   }
-  var hr = function() {
+  var pr = function() {
     for (var t = "0123456789abcdef", r = new Array(256), e = 0; e < 16; ++e)
       for (var n = e * 16, o = 0; o < 16; ++o)
         r[n + o] = t[e] + t[o];
@@ -897,28 +908,28 @@ var qr = {}, ze = {
     qr = u;
   }
 }, N = ze.exports = {}, Z, rr;
-function ne() {
+function ie() {
   throw new Error("setTimeout has not been defined");
 }
-function ie() {
+function oe() {
   throw new Error("clearTimeout has not been defined");
 }
 (function() {
   try {
-    typeof setTimeout == "function" ? Z = setTimeout : Z = ne;
+    typeof setTimeout == "function" ? Z = setTimeout : Z = ie;
   } catch {
-    Z = ne;
+    Z = ie;
   }
   try {
-    typeof clearTimeout == "function" ? rr = clearTimeout : rr = ie;
+    typeof clearTimeout == "function" ? rr = clearTimeout : rr = oe;
   } catch {
-    rr = ie;
+    rr = oe;
   }
 })();
 function ge(u) {
   if (Z === setTimeout)
     return setTimeout(u, 0);
-  if ((Z === ne || !Z) && setTimeout)
+  if ((Z === ie || !Z) && setTimeout)
     return Z = setTimeout, setTimeout(u, 0);
   try {
     return Z(u, 0);
@@ -933,7 +944,7 @@ function ge(u) {
 function Ge(u) {
   if (rr === clearTimeout)
     return clearTimeout(u);
-  if ((rr === ie || !rr) && clearTimeout)
+  if ((rr === oe || !rr) && clearTimeout)
     return rr = clearTimeout, clearTimeout(u);
   try {
     return rr(u);
@@ -964,8 +975,8 @@ function me() {
 N.nextTick = function(u) {
   var s = new Array(arguments.length - 1);
   if (arguments.length > 1)
-    for (var h = 1; h < arguments.length; h++)
-      s[h - 1] = arguments[h];
+    for (var p = 1; p < arguments.length; p++)
+      s[p - 1] = arguments[p];
   or.push(new xe(u, s)), or.length === 1 && !gr && ge(me);
 };
 function xe(u, s) {
@@ -1019,15 +1030,15 @@ N.umask = function() {
     configurable: !0,
     get: s
   });
-  var h = __magic__;
-  return h;
+  var p = __magic__;
+  return p;
 })(Object);
-var Cr = {}, Xe = {
+var Ir = {}, Xe = {
   get exports() {
-    return Cr;
+    return Ir;
   },
   set exports(u) {
-    Cr = u;
+    Ir = u;
   }
 }, Tr = {};
 /**
@@ -1039,28 +1050,28 @@ var Cr = {}, Xe = {
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-var de;
+var we;
 function Ke() {
-  if (de)
+  if (we)
     return Tr;
-  de = 1;
-  var u = U, s = Symbol.for("react.element"), h = Symbol.for("react.fragment"), y = Object.prototype.hasOwnProperty, v = u.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner, w = { key: !0, ref: !0, __self: !0, __source: !0 };
-  function d(a, g, A) {
+  we = 1;
+  var u = U, s = Symbol.for("react.element"), p = Symbol.for("react.fragment"), y = Object.prototype.hasOwnProperty, g = u.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner, w = { key: !0, ref: !0, __self: !0, __source: !0 };
+  function d(a, v, A) {
     var x, F = {}, j = null, B = null;
-    A !== void 0 && (j = "" + A), g.key !== void 0 && (j = "" + g.key), g.ref !== void 0 && (B = g.ref);
-    for (x in g)
-      y.call(g, x) && !w.hasOwnProperty(x) && (F[x] = g[x]);
+    A !== void 0 && (j = "" + A), v.key !== void 0 && (j = "" + v.key), v.ref !== void 0 && (B = v.ref);
+    for (x in v)
+      y.call(v, x) && !w.hasOwnProperty(x) && (F[x] = v[x]);
     if (a && a.defaultProps)
-      for (x in g = a.defaultProps, g)
-        F[x] === void 0 && (F[x] = g[x]);
-    return { $$typeof: s, type: a, key: j, ref: B, props: F, _owner: v.current };
+      for (x in v = a.defaultProps, v)
+        F[x] === void 0 && (F[x] = v[x]);
+    return { $$typeof: s, type: a, key: j, ref: B, props: F, _owner: g.current };
   }
-  return Tr.Fragment = h, Tr.jsx = d, Tr.jsxs = d, Tr;
+  return Tr.Fragment = p, Tr.jsx = d, Tr.jsxs = d, Tr;
 }
-var Ar = {}, we;
+var Ar = {}, ye;
 function Qe() {
-  return we || (we = 1, qr.env.NODE_ENV !== "production" && function() {
-    var u = U, s = Symbol.for("react.element"), h = Symbol.for("react.portal"), y = Symbol.for("react.fragment"), v = Symbol.for("react.strict_mode"), w = Symbol.for("react.profiler"), d = Symbol.for("react.provider"), a = Symbol.for("react.context"), g = Symbol.for("react.forward_ref"), A = Symbol.for("react.suspense"), x = Symbol.for("react.suspense_list"), F = Symbol.for("react.memo"), j = Symbol.for("react.lazy"), B = Symbol.for("react.offscreen"), L = Symbol.iterator, D = "@@iterator";
+  return ye || (ye = 1, qr.env.NODE_ENV !== "production" && function() {
+    var u = U, s = Symbol.for("react.element"), p = Symbol.for("react.portal"), y = Symbol.for("react.fragment"), g = Symbol.for("react.strict_mode"), w = Symbol.for("react.profiler"), d = Symbol.for("react.provider"), a = Symbol.for("react.context"), v = Symbol.for("react.forward_ref"), A = Symbol.for("react.suspense"), x = Symbol.for("react.suspense_list"), F = Symbol.for("react.memo"), j = Symbol.for("react.lazy"), B = Symbol.for("react.offscreen"), L = Symbol.iterator, D = "@@iterator";
     function X(i) {
       if (i === null || typeof i != "object")
         return null;
@@ -1070,36 +1081,36 @@ function Qe() {
     var $ = u.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
     function W(i) {
       {
-        for (var f = arguments.length, p = new Array(f > 1 ? f - 1 : 0), m = 1; m < f; m++)
-          p[m - 1] = arguments[m];
-        Br("error", i, p);
+        for (var f = arguments.length, h = new Array(f > 1 ? f - 1 : 0), m = 1; m < f; m++)
+          h[m - 1] = arguments[m];
+        Br("error", i, h);
       }
     }
-    function Br(i, f, p) {
+    function Br(i, f, h) {
       {
         var m = $.ReactDebugCurrentFrame, R = m.getStackAddendum();
-        R !== "" && (f += "%s", p = p.concat([R]));
-        var C = p.map(function(b) {
+        R !== "" && (f += "%s", h = h.concat([R]));
+        var I = h.map(function(b) {
           return String(b);
         });
-        C.unshift("Warning: " + f), Function.prototype.apply.call(console[i], console, C);
+        I.unshift("Warning: " + f), Function.prototype.apply.call(console[i], console, I);
       }
     }
     var Gr = !1, tr = !1, Ur = !1, kr = !1, Hr = !1, Or;
     Or = Symbol.for("react.module.reference");
     function Xr(i) {
-      return !!(typeof i == "string" || typeof i == "function" || i === y || i === w || Hr || i === v || i === A || i === x || kr || i === B || Gr || tr || Ur || typeof i == "object" && i !== null && (i.$$typeof === j || i.$$typeof === F || i.$$typeof === d || i.$$typeof === a || i.$$typeof === g || // This needs to include all possible module reference object
+      return !!(typeof i == "string" || typeof i == "function" || i === y || i === w || Hr || i === g || i === A || i === x || kr || i === B || Gr || tr || Ur || typeof i == "object" && i !== null && (i.$$typeof === j || i.$$typeof === F || i.$$typeof === d || i.$$typeof === a || i.$$typeof === v || // This needs to include all possible module reference object
       // types supported by any Flight configuration anywhere since
       // we don't know which Flight build this will end up being used
       // with.
       i.$$typeof === Or || i.getModuleId !== void 0));
     }
-    function Kr(i, f, p) {
+    function Kr(i, f, h) {
       var m = i.displayName;
       if (m)
         return m;
       var R = f.displayName || f.name || "";
-      return R !== "" ? p + "(" + R + ")" : p;
+      return R !== "" ? h + "(" + R + ")" : h;
     }
     function Nr(i) {
       return i.displayName || "Context";
@@ -1114,11 +1125,11 @@ function Qe() {
       switch (i) {
         case y:
           return "Fragment";
-        case h:
+        case p:
           return "Portal";
         case w:
           return "Profiler";
-        case v:
+        case g:
           return "StrictMode";
         case A:
           return "Suspense";
@@ -1131,17 +1142,17 @@ function Qe() {
             var f = i;
             return Nr(f) + ".Consumer";
           case d:
-            var p = i;
-            return Nr(p._context) + ".Provider";
-          case g:
+            var h = i;
+            return Nr(h._context) + ".Provider";
+          case v:
             return Kr(i, i.render, "ForwardRef");
           case F:
             var m = i.displayName || null;
             return m !== null ? m : K(i.type) || "Memo";
           case j: {
-            var R = i, C = R._payload, b = R._init;
+            var R = i, I = R._payload, b = R._init;
             try {
-              return K(b(C));
+              return K(b(I));
             } catch {
               return null;
             }
@@ -1212,7 +1223,7 @@ function Qe() {
       }
     }
     var xr = $.ReactCurrentDispatcher, Er;
-    function cr(i, f, p) {
+    function cr(i, f, h) {
       {
         if (Er === void 0)
           try {
@@ -1234,16 +1245,16 @@ function Qe() {
       if (!i || _r)
         return "";
       {
-        var p = lr.get(i);
-        if (p !== void 0)
-          return p;
+        var h = lr.get(i);
+        if (h !== void 0)
+          return h;
       }
       var m;
       _r = !0;
       var R = Error.prepareStackTrace;
       Error.prepareStackTrace = void 0;
-      var C;
-      C = xr.current, xr.current = null, Wr();
+      var I;
+      I = xr.current, xr.current = null, Wr();
       try {
         if (f) {
           var b = function() {
@@ -1296,19 +1307,19 @@ function Qe() {
             }
         }
       } finally {
-        _r = !1, xr.current = C, Yr(), Error.prepareStackTrace = R;
+        _r = !1, xr.current = I, Yr(), Error.prepareStackTrace = R;
       }
-      var wr = i ? i.displayName || i.name : "", pe = wr ? cr(wr) : "";
-      return typeof i == "function" && lr.set(i, pe), pe;
+      var wr = i ? i.displayName || i.name : "", de = wr ? cr(wr) : "";
+      return typeof i == "function" && lr.set(i, de), de;
     }
-    function z(i, f, p) {
+    function z(i, f, h) {
       return sr(i, !1);
     }
     function br(i) {
       var f = i.prototype;
       return !!(f && f.isReactComponent);
     }
-    function hr(i, f, p) {
+    function pr(i, f, h) {
       if (i == null)
         return "";
       if (typeof i == "function")
@@ -1323,14 +1334,14 @@ function Qe() {
       }
       if (typeof i == "object")
         switch (i.$$typeof) {
-          case g:
+          case v:
             return z(i.render);
           case F:
-            return hr(i.type, f, p);
+            return pr(i.type, f, h);
           case j: {
-            var m = i, R = m._payload, C = m._init;
+            var m = i, R = m._payload, I = m._init;
             try {
-              return hr(C(R), f, p);
+              return pr(I(R), f, h);
             } catch {
             }
           }
@@ -1340,27 +1351,27 @@ function Qe() {
     var t = Object.prototype.hasOwnProperty, r = {}, e = $.ReactDebugCurrentFrame;
     function n(i) {
       if (i) {
-        var f = i._owner, p = hr(i.type, i._source, f ? f.type : null);
-        e.setExtraStackFrame(p);
+        var f = i._owner, h = pr(i.type, i._source, f ? f.type : null);
+        e.setExtraStackFrame(h);
       } else
         e.setExtraStackFrame(null);
     }
-    function o(i, f, p, m, R) {
+    function o(i, f, h, m, R) {
       {
-        var C = Function.call.bind(t);
+        var I = Function.call.bind(t);
         for (var b in i)
-          if (C(i, b)) {
+          if (I(i, b)) {
             var E = void 0;
             try {
               if (typeof i[b] != "function") {
-                var V = Error((m || "React class") + ": " + p + " type `" + b + "` is invalid; it must be a function, usually from the `prop-types` package, but received `" + typeof i[b] + "`.This often happens because of typos such as `PropTypes.function` instead of `PropTypes.func`.");
+                var V = Error((m || "React class") + ": " + h + " type `" + b + "` is invalid; it must be a function, usually from the `prop-types` package, but received `" + typeof i[b] + "`.This often happens because of typos such as `PropTypes.function` instead of `PropTypes.func`.");
                 throw V.name = "Invariant Violation", V;
               }
-              E = i[b](f, b, m, p, null, "SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED");
+              E = i[b](f, b, m, h, null, "SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED");
             } catch (O) {
               E = O;
             }
-            E && !(E instanceof Error) && (n(R), W("%s: type specification of %s `%s` is invalid; the type checker function must return `null` or an `Error` but returned a %s. You may have forgotten to pass an argument to the type checker creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and shape all require an argument).", m || "React class", p, b, typeof E), n(null)), E instanceof Error && !(E.message in r) && (r[E.message] = !0, n(R), W("Failed %s type: %s", p, E.message), n(null));
+            E && !(E instanceof Error) && (n(R), W("%s: type specification of %s `%s` is invalid; the type checker function must return `null` or an `Error` but returned a %s. You may have forgotten to pass an argument to the type checker creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and shape all require an argument).", m || "React class", h, b, typeof E), n(null)), E instanceof Error && !(E.message in r) && (r[E.message] = !0, n(R), W("Failed %s type: %s", h, E.message), n(null));
           }
       }
     }
@@ -1370,25 +1381,25 @@ function Qe() {
     }
     function _(i) {
       {
-        var f = typeof Symbol == "function" && Symbol.toStringTag, p = f && i[Symbol.toStringTag] || i.constructor.name || "Object";
-        return p;
+        var f = typeof Symbol == "function" && Symbol.toStringTag, h = f && i[Symbol.toStringTag] || i.constructor.name || "Object";
+        return h;
       }
     }
     function T(i) {
       try {
-        return S(i), !1;
+        return C(i), !1;
       } catch {
         return !0;
       }
     }
-    function S(i) {
+    function C(i) {
       return "" + i;
     }
     function M(i) {
       if (T(i))
-        return W("The provided key is an unsupported type %s. This value must be coerced to a string before before using it here.", _(i)), S(i);
+        return W("The provided key is an unsupported type %s. This value must be coerced to a string before before using it here.", _(i)), C(i);
     }
-    var I = $.ReactCurrentOwner, pr = {
+    var S = $.ReactCurrentOwner, hr = {
       key: !0,
       ref: !0,
       __self: !0,
@@ -1412,44 +1423,44 @@ function Qe() {
       return i.key !== void 0;
     }
     function Re(i, f) {
-      if (typeof i.ref == "string" && I.current && f && I.current.stateNode !== f) {
-        var p = K(I.current.type);
-        Qr[p] || (W('Component "%s" contains the string ref "%s". Support for string refs will be removed in a future major release. This case cannot be automatically converted to an arrow function. We ask you to manually fix this case by using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref', K(I.current.type), i.ref), Qr[p] = !0);
+      if (typeof i.ref == "string" && S.current && f && S.current.stateNode !== f) {
+        var h = K(S.current.type);
+        Qr[h] || (W('Component "%s" contains the string ref "%s". Support for string refs will be removed in a future major release. This case cannot be automatically converted to an arrow function. We ask you to manually fix this case by using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref', K(S.current.type), i.ref), Qr[h] = !0);
       }
     }
     function Te(i, f) {
       {
-        var p = function() {
+        var h = function() {
           Fr || (Fr = !0, W("%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", f));
         };
-        p.isReactWarning = !0, Object.defineProperty(i, "key", {
-          get: p,
+        h.isReactWarning = !0, Object.defineProperty(i, "key", {
+          get: h,
           configurable: !0
         });
       }
     }
     function Ae(i, f) {
       {
-        var p = function() {
+        var h = function() {
           Rr || (Rr = !0, W("%s: `ref` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", f));
         };
-        p.isReactWarning = !0, Object.defineProperty(i, "ref", {
-          get: p,
+        h.isReactWarning = !0, Object.defineProperty(i, "ref", {
+          get: h,
           configurable: !0
         });
       }
     }
-    var Ie = function(i, f, p, m, R, C, b) {
+    var Se = function(i, f, h, m, R, I, b) {
       var E = {
         // This tag allows us to uniquely identify this as a React Element
         $$typeof: s,
         // Built-in properties that belong on the element
         type: i,
         key: f,
-        ref: p,
+        ref: h,
         props: b,
         // Record the component responsible for creating this element.
-        _owner: C
+        _owner: I
       };
       return E._store = {}, Object.defineProperty(E._store, "validated", {
         configurable: !1,
@@ -1468,38 +1479,38 @@ function Qe() {
         value: R
       }), Object.freeze && (Object.freeze(E.props), Object.freeze(E)), E;
     };
-    function Se(i, f, p, m, R) {
+    function Ce(i, f, h, m, R) {
       {
-        var C, b = {}, E = null, V = null;
-        p !== void 0 && (M(p), E = "" + p), Fe(f) && (M(f.key), E = "" + f.key), be(f) && (V = f.ref, Re(f, R));
-        for (C in f)
-          t.call(f, C) && !pr.hasOwnProperty(C) && (b[C] = f[C]);
+        var I, b = {}, E = null, V = null;
+        h !== void 0 && (M(h), E = "" + h), Fe(f) && (M(f.key), E = "" + f.key), be(f) && (V = f.ref, Re(f, R));
+        for (I in f)
+          t.call(f, I) && !hr.hasOwnProperty(I) && (b[I] = f[I]);
         if (i && i.defaultProps) {
           var O = i.defaultProps;
-          for (C in O)
-            b[C] === void 0 && (b[C] = O[C]);
+          for (I in O)
+            b[I] === void 0 && (b[I] = O[I]);
         }
         if (E || V) {
           var P = typeof i == "function" ? i.displayName || i.name || "Unknown" : i;
           E && Te(b, P), V && Ae(b, P);
         }
-        return Ie(i, E, V, R, m, I.current, b);
+        return Se(i, E, V, R, m, S.current, b);
       }
     }
-    var Zr = $.ReactCurrentOwner, ue = $.ReactDebugCurrentFrame;
+    var Zr = $.ReactCurrentOwner, ce = $.ReactDebugCurrentFrame;
     function dr(i) {
       if (i) {
-        var f = i._owner, p = hr(i.type, i._source, f ? f.type : null);
-        ue.setExtraStackFrame(p);
+        var f = i._owner, h = pr(i.type, i._source, f ? f.type : null);
+        ce.setExtraStackFrame(h);
       } else
-        ue.setExtraStackFrame(null);
+        ce.setExtraStackFrame(null);
     }
     var re;
     re = !1;
     function ee(i) {
       return typeof i == "object" && i !== null && i.$$typeof === s;
     }
-    function ce() {
+    function se() {
       {
         if (Zr.current) {
           var i = K(Zr.current.type);
@@ -1511,59 +1522,59 @@ Check the render method of \`` + i + "`.";
         return "";
       }
     }
-    function Ce(i) {
+    function Ie(i) {
       {
         if (i !== void 0) {
-          var f = i.fileName.replace(/^.*[\\\/]/, ""), p = i.lineNumber;
+          var f = i.fileName.replace(/^.*[\\\/]/, ""), h = i.lineNumber;
           return `
 
-Check your code at ` + f + ":" + p + ".";
+Check your code at ` + f + ":" + h + ".";
         }
         return "";
       }
     }
-    var se = {};
+    var fe = {};
     function Be(i) {
       {
-        var f = ce();
+        var f = se();
         if (!f) {
-          var p = typeof i == "string" ? i : i.displayName || i.name;
-          p && (f = `
+          var h = typeof i == "string" ? i : i.displayName || i.name;
+          h && (f = `
 
-Check the top-level render call using <` + p + ">.");
+Check the top-level render call using <` + h + ">.");
         }
         return f;
       }
     }
-    function fe(i, f) {
+    function le(i, f) {
       {
         if (!i._store || i._store.validated || i.key != null)
           return;
         i._store.validated = !0;
-        var p = Be(f);
-        if (se[p])
+        var h = Be(f);
+        if (fe[h])
           return;
-        se[p] = !0;
+        fe[h] = !0;
         var m = "";
-        i && i._owner && i._owner !== Zr.current && (m = " It was passed a child from " + K(i._owner.type) + "."), dr(i), W('Each child in a list should have a unique "key" prop.%s%s See https://reactjs.org/link/warning-keys for more information.', p, m), dr(null);
+        i && i._owner && i._owner !== Zr.current && (m = " It was passed a child from " + K(i._owner.type) + "."), dr(i), W('Each child in a list should have a unique "key" prop.%s%s See https://reactjs.org/link/warning-keys for more information.', h, m), dr(null);
       }
     }
-    function le(i, f) {
+    function pe(i, f) {
       {
         if (typeof i != "object")
           return;
         if (l(i))
-          for (var p = 0; p < i.length; p++) {
-            var m = i[p];
-            ee(m) && fe(m, f);
+          for (var h = 0; h < i.length; h++) {
+            var m = i[h];
+            ee(m) && le(m, f);
           }
         else if (ee(i))
           i._store && (i._store.validated = !0);
         else if (i) {
           var R = X(i);
           if (typeof R == "function" && R !== i.entries)
-            for (var C = R.call(i), b; !(b = C.next()).done; )
-              ee(b.value) && fe(b.value, f);
+            for (var I = R.call(i), b; !(b = I.next()).done; )
+              ee(b.value) && le(b.value, f);
         }
       }
     }
@@ -1572,18 +1583,18 @@ Check the top-level render call using <` + p + ">.");
         var f = i.type;
         if (f == null || typeof f == "string")
           return;
-        var p;
+        var h;
         if (typeof f == "function")
-          p = f.propTypes;
-        else if (typeof f == "object" && (f.$$typeof === g || // Note: Memo only checks outer props here.
+          h = f.propTypes;
+        else if (typeof f == "object" && (f.$$typeof === v || // Note: Memo only checks outer props here.
         // Inner props are checked in the reconciler.
         f.$$typeof === F))
-          p = f.propTypes;
+          h = f.propTypes;
         else
           return;
-        if (p) {
+        if (h) {
           var m = K(f);
-          o(p, i.props, "prop", m, i);
+          o(h, i.props, "prop", m, i);
         } else if (f.PropTypes !== void 0 && !re) {
           re = !0;
           var R = K(f);
@@ -1594,8 +1605,8 @@ Check the top-level render call using <` + p + ">.");
     }
     function ke(i) {
       {
-        for (var f = Object.keys(i.props), p = 0; p < f.length; p++) {
-          var m = f[p];
+        for (var f = Object.keys(i.props), h = 0; h < f.length; h++) {
+          var m = f[h];
           if (m !== "children" && m !== "key") {
             dr(i), W("Invalid prop `%s` supplied to `React.Fragment`. React.Fragment can only have `key` and `children` props.", m), dr(null);
             break;
@@ -1604,18 +1615,18 @@ Check the top-level render call using <` + p + ">.");
         i.ref !== null && (dr(i), W("Invalid attribute `ref` supplied to `React.Fragment`."), dr(null));
       }
     }
-    function he(i, f, p, m, R, C) {
+    function he(i, f, h, m, R, I) {
       {
         var b = Xr(i);
         if (!b) {
           var E = "";
           (i === void 0 || typeof i == "object" && i !== null && Object.keys(i).length === 0) && (E += " You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.");
-          var V = Ce(R);
-          V ? E += V : E += ce();
+          var V = Ie(R);
+          V ? E += V : E += se();
           var O;
           i === null ? O = "null" : l(i) ? O = "array" : i !== void 0 && i.$$typeof === s ? (O = "<" + (K(i.type) || "Unknown") + " />", E = " Did you accidentally export a JSX literal instead of a component?") : O = typeof i, W("React.jsx: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s", O, E);
         }
-        var P = Se(i, f, p, R, C);
+        var P = Ce(i, f, h, R, I);
         if (P == null)
           return P;
         if (b) {
@@ -1624,21 +1635,21 @@ Check the top-level render call using <` + p + ">.");
             if (m)
               if (l(G)) {
                 for (var wr = 0; wr < G.length; wr++)
-                  le(G[wr], i);
+                  pe(G[wr], i);
                 Object.freeze && Object.freeze(G);
               } else
                 W("React.jsx: Static children should always be an array. You are likely explicitly calling React.jsxs or React.jsxDEV. Use the Babel transform instead.");
             else
-              le(G, i);
+              pe(G, i);
         }
         return i === y ? ke(P) : Ue(P), P;
       }
     }
-    function Oe(i, f, p) {
-      return he(i, f, p, !0);
+    function Oe(i, f, h) {
+      return he(i, f, h, !0);
     }
-    function Ne(i, f, p) {
-      return he(i, f, p, !1);
+    function Ne(i, f, h) {
+      return he(i, f, h, !1);
     }
     var je = Ne, De = Oe;
     Ar.Fragment = y, Ar.jsx = je, Ar.jsxs = De;
@@ -1647,13 +1658,13 @@ Check the top-level render call using <` + p + ">.");
 (function(u) {
   qr.env.NODE_ENV === "production" ? u.exports = Ke() : u.exports = Qe();
 })(Xe);
-const Ze = Cr.Fragment, J = Cr.jsx, Sr = Cr.jsxs;
-var oe = {}, rt = {
+const Ze = Ir.Fragment, J = Ir.jsx, Cr = Ir.jsxs;
+var ae = {}, rt = {
   get exports() {
-    return oe;
+    return ae;
   },
   set exports(u) {
-    oe = u;
+    ae = u;
   }
 };
 /*!
@@ -1664,16 +1675,16 @@ var oe = {}, rt = {
 (function(u) {
   (function() {
     var s = {}.hasOwnProperty;
-    function h() {
-      for (var y = [], v = 0; v < arguments.length; v++) {
-        var w = arguments[v];
+    function p() {
+      for (var y = [], g = 0; g < arguments.length; g++) {
+        var w = arguments[g];
         if (w) {
           var d = typeof w;
           if (d === "string" || d === "number")
             y.push(w);
           else if (Array.isArray(w)) {
             if (w.length) {
-              var a = h.apply(null, w);
+              var a = p.apply(null, w);
               a && y.push(a);
             }
           } else if (d === "object") {
@@ -1681,31 +1692,31 @@ var oe = {}, rt = {
               y.push(w.toString());
               continue;
             }
-            for (var g in w)
-              s.call(w, g) && w[g] && y.push(g);
+            for (var v in w)
+              s.call(w, v) && w[v] && y.push(v);
           }
         }
       }
       return y.join(" ");
     }
-    u.exports ? (h.default = h, u.exports = h) : window.classNames = h;
+    u.exports ? (p.default = p, u.exports = p) : window.classNames = p;
   })();
 })(rt);
-const vr = oe, zr = U.createContext(null);
-function vt({
+const vr = ae, zr = U.createContext(null);
+function gt({
   children: u
 }) {
-  const [s, h] = U.useState(), y = U.useCallback(
-    (w, d) => h((a) => ({ ...a, [w]: d })),
+  const [s, p] = U.useState(), y = U.useCallback(
+    (w, d) => p((a) => ({ ...a, [w]: d })),
     []
-  ), v = U.useMemo(
+  ), g = U.useMemo(
     () => ({
       widgetState: s || null,
       setWidgetState: y
     }),
     [s, y]
   );
-  return /* @__PURE__ */ J(zr.Provider, { value: v, children: u });
+  return /* @__PURE__ */ J(zr.Provider, { value: g, children: u });
 }
 const et = "_ring_7tcsj_47", tt = "_popupButton__container_7tcsj_5", nt = "_popupButton_7tcsj_5", it = "_icon_7tcsj_23", ot = "_inactiveIcon_7tcsj_31", at = "_activeIcon_7tcsj_35", ut = "_notif_7tcsj_39", ct = "_pinging_7tcsj_43", st = "_ping_7tcsj_43", q = {
   ring: et,
@@ -1729,8 +1740,8 @@ function Ee() {
 }
 function ft(u) {
   try {
-    const h = [...Ee(), u];
-    typeof localStorage < "u" && localStorage.setItem("clickedNfts", JSON.stringify(h));
+    const p = [...Ee(), u];
+    typeof localStorage < "u" && localStorage.setItem("clickedNfts", JSON.stringify(p));
   } catch {
     return null;
   }
@@ -1738,17 +1749,17 @@ function ft(u) {
 function lt({
   notiVal: u,
   showNoti: s,
-  isOpen: h,
+  isOpen: p,
   clickHandler: y
 }) {
-  const v = Ee(), w = U.useContext(zr), d = w == null ? void 0 : w.widgetState, a = d == null ? void 0 : d.foundNft, g = a && JSON.parse(a).itemId, A = !h && (a ? !v.includes(a) && Boolean(g) : !1), [x, F] = U.useState(A);
+  const g = Ee(), w = U.useContext(zr), d = w == null ? void 0 : w.widgetState, a = d == null ? void 0 : d.foundNft, v = a && JSON.parse(a).itemId, A = !p && (a ? !g.includes(a) && !!v : !1), [x, F] = U.useState(A);
   return U.useEffect(() => {
     A && F(!0);
-  }, [A]), /* @__PURE__ */ Sr(
+  }, [A]), /* @__PURE__ */ Cr(
     "div",
     {
       className: vr(q.popupButton__container, {
-        [q["popupButton__container--open"]]: h
+        [q["popupButton__container--open"]]: p
       }),
       children: [
         /* @__PURE__ */ J(
@@ -1758,7 +1769,7 @@ function lt({
             style: { boxShadow: "none" }
           }
         ),
-        /* @__PURE__ */ Sr(
+        /* @__PURE__ */ Cr(
           "button",
           {
             className: q.popupButton,
@@ -1771,8 +1782,8 @@ function lt({
                 "div",
                 {
                   className: vr(q.icon, {
-                    [q.activeIcon]: !h,
-                    [q.inactiveIcon]: h
+                    [q.activeIcon]: !p,
+                    [q.inactiveIcon]: p
                   }),
                   children: /* @__PURE__ */ J(
                     "img",
@@ -1788,8 +1799,8 @@ function lt({
                 "div",
                 {
                   className: vr(q.icon, {
-                    [q.activeIcon]: h,
-                    [q.inactiveIcon]: !h
+                    [q.activeIcon]: p,
+                    [q.inactiveIcon]: !p
                   }),
                   children: /* @__PURE__ */ J(
                     "svg",
@@ -1814,7 +1825,7 @@ function lt({
             ]
           }
         ),
-        s && /* @__PURE__ */ Sr(Ze, { children: [
+        s && /* @__PURE__ */ Cr(Ze, { children: [
           /* @__PURE__ */ J("span", { className: vr(q.notif, q.pinging) }),
           /* @__PURE__ */ J("span", { className: q.notif, children: u })
         ] })
@@ -1822,93 +1833,73 @@ function lt({
     }
   );
 }
-function ye(u) {
-  const h = u.replace("https://", "").replace("http://", "").split("/"), y = h.length, v = h[y - 1], w = h[y - 2];
-  if (u.startsWith("looksrare.org"))
-    return { itemId: v, contractAddress: w, network: "ethereum" };
-  const d = h[y - 3];
-  return y >= 5 ? { itemId: v, contractAddress: w, network: d } : u.startsWith("x2y2.io") && d === "eth" ? { itemId: v, contractAddress: w, network: "ethereum" } : { contractAddress: null, itemId: null, network: null };
-}
-const ht = "_ring_q714d_1", Ir = {
-  ring: ht,
+const pt = "_ring_q714d_1", Sr = {
+  ring: pt,
   "wallet-chat-widget": "_wallet-chat-widget_q714d_23",
   "widget-is-open": "_widget-is-open_q714d_9",
   "widget-is-closed": "_widget-is-closed_q714d_13",
   "wallet-chat-widget__container": "_wallet-chat-widget__container_q714d_23",
   "wallet-chat-widget__container--open": "_wallet-chat-widget__container--open_q714d_27"
-}, pt = "https://staging.walletchat.fun", _e = Ir["wallet-chat-widget"];
+}, ht = "https://staging.walletchat.fun", _e = Sr["wallet-chat-widget"];
 function ir(u) {
-  var h;
+  var p;
   if (typeof document > "u")
     return;
   const s = document == null ? void 0 : document.getElementById(_e);
-  (h = s == null ? void 0 : s.contentWindow) == null || h.postMessage(u, "*");
+  (p = s == null ? void 0 : s.contentWindow) == null || p.postMessage(u, "*");
 }
 function dt(u) {
   if (typeof u < "u" && u !== null) {
-    const s = Boolean(u === window.ethereum);
+    const s = u.walletName === window.ethereum;
     if (s)
       ir({
         target: "sign_in",
         data: { isInjected: s }
       });
     else {
-      const {
-        _accounts: h,
-        _chainId: y,
-        _clientId: v
-      } = u.connector;
-      ir({
-        target: "sign_in",
-        data: {
-          connectorOptions: {
-            projectId: v.toString(),
-            address: h[0],
-            chainId: y
-          }
-        }
-      });
+      const { walletName: p, account: y } = u;
+      ir({ target: "sign_in", data: { walletName: p, account: y } });
     }
   } else
     ir({ target: "sign_in", data: null });
 }
-function gt({ provider: u }) {
-  const s = U.useRef(""), h = U.useRef(null), y = U.useRef(!1), v = U.useRef(!1), w = U.useContext(zr), { widgetState: d, setWidgetState: a } = w || {}, { ownerAddress: g } = d || {}, [A, x] = U.useState(v.current), [F, j] = U.useState(0), B = () => {
+function mt({ connectedWallet: u }) {
+  const s = U.useRef(""), p = U.useRef(null), y = U.useRef(!1), g = U.useRef(!1), w = U.useContext(zr), { widgetState: d, setWidgetState: a } = w || {}, { ownerAddress: v } = d || {}, [A, x] = U.useState(g.current), [F, j] = U.useState(0), B = () => {
     x((L) => {
-      const D = Boolean(L);
-      return ir({ target: "widget_open", data: !D }), h.current && !D && ir({ ...h.current, redirect: !0 }), h.current = null, v.current = !D, !D;
+      const D = !!L;
+      return ir({ target: "widget_open", data: !D }), p.current && !D && ir({ ...p.current, redirect: !0 }), p.current = null, g.current = !D, !D;
     });
   };
   return U.useEffect(() => {
     A && !y.current && dt(u || null);
   }, [u, A]), U.useEffect(() => {
-    if (!(g != null && g.address))
+    if (!(v != null && v.address))
       return;
-    const L = g.address, D = ye(window.location.href);
-    D.network && (h.current = {
+    const L = v.address, D = ne(window.location.href);
+    D.network && (p.current = {
       ...D,
       ownerAddress: L
-    }), h.current ? ir({ ...h.current, redirect: !0 }) : ir({ ownerAddress: L }), x(!0);
-  }, [g]), U.useEffect(() => {
+    }), p.current ? ir({ ...p.current, redirect: !0 }) : ir({ ownerAddress: L }), x(!0);
+  }, [v]), U.useEffect(() => {
     const L = () => {
       if (window.location.href === s.current)
         return;
       s.current = window.location.href;
-      const $ = ye(window.location.href);
-      a && a("foundNft", JSON.stringify($)), $.network && (h.current = $), ir($);
+      const $ = ne(window.location.href);
+      a && a("foundNft", JSON.stringify($)), $.network && (p.current = $), ir($);
     }, D = new MutationObserver(L), X = { subtree: !0, childList: !0 };
     return L(), D.observe(document, X), () => D.disconnect();
   }, []), U.useEffect(() => {
     const L = (D) => {
       const { data: X } = D;
-      X.target === "unread_cnt" && j(X.data), X.closeWidget && B(), X.target === "sign_in" && a && (y.current = X.data), v.current && ir({ target: "widget_open", data: !0 });
+      X.target === "unread_cnt" && j(X.data), X.closeWidget && B(), X.target === "sign_in" && a && (y.current = X.data), g.current && ir({ target: "widget_open", data: !0 });
     };
     return window.addEventListener("message", L), () => window.removeEventListener("message", L);
-  }, []), /* @__PURE__ */ Sr(
+  }, []), /* @__PURE__ */ Cr(
     "div",
     {
-      className: vr(Ir["wallet-chat-widget__container"], {
-        [Ir["wallet-chat-widget__container--open"]]: A
+      className: vr(Sr["wallet-chat-widget__container"], {
+        [Sr["wallet-chat-widget__container--open"]]: A
       }),
       children: [
         /* @__PURE__ */ J(
@@ -1918,10 +1909,10 @@ function gt({ provider: u }) {
             name: "WalletChat",
             id: _e,
             className: vr("", {
-              [Ir["widget-is-open"]]: A,
-              [Ir["widget-is-closed"]]: !A
+              [Sr["widget-is-open"]]: A,
+              [Sr["widget-is-closed"]]: !A
             }),
-            src: pt
+            src: ht
           }
         ),
         /* @__PURE__ */ J(
@@ -1940,13 +1931,13 @@ function gt({ provider: u }) {
 const wt = ({
   onClick: u,
   children: s
-}) => /* @__PURE__ */ J("button", { type: "button", onClick: u, children: s }), mt = ({
+}) => /* @__PURE__ */ J("button", { type: "button", onClick: u, children: s }), xt = ({
   ownerAddress: u,
   render: s
 }) => {
-  const h = U.useContext(zr), y = h == null ? void 0 : h.setWidgetState, v = s ? ({ onClick: w, children: d }) => U.cloneElement(s, { onClick: w }, d) : wt;
-  return h ? /* @__PURE__ */ Sr(
-    v,
+  const p = U.useContext(zr), y = p == null ? void 0 : p.setWidgetState, g = s ? ({ onClick: w, children: d }) => U.cloneElement(s, { onClick: w }, d) : wt;
+  return p ? /* @__PURE__ */ Cr(
+    g,
     {
       onClick: () => y && y("ownerAddress", {
         address: u,
@@ -1973,8 +1964,9 @@ const wt = ({
   ), null);
 };
 export {
-  mt as ChatWithOwner,
-  vt as WalletChatProvider,
-  gt as WalletChatWidget
+  xt as ChatWithOwner,
+  gt as WalletChatProvider,
+  mt as WalletChatWidget,
+  vt as utils
 };
-(function(){"use strict";try{if(typeof document<"u"){var t=document.createElement("style");t.appendChild(document.createTextNode(".ring{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}._ring_7tcsj_47{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}._popupButton__container_7tcsj_5{position:relative;margin-top:.75rem;height:4rem;--tw-drop-shadow: drop-shadow(0 25px 25px rgb(0 0 0 / .15));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);transition-property:margin-top,transform;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}._popupButton__container--open_7tcsj_9{right:1.5rem;margin-top:-4rem;--tw-translate-y: 100%;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@media (min-width: 640px){._popupButton__container--open_7tcsj_9{right:0px;margin-top:.75rem;--tw-translate-y: 0px;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}}._popupButton_7tcsj_5{position:absolute;top:0px;right:0px;height:4rem;width:4rem;transform-origin:center;cursor:pointer;overflow:hidden;border-radius:9999px;--tw-bg-opacity: 1;background-color:rgb(0 0 0 / var(--tw-bg-opacity))}._icon_7tcsj_23{transition-property:transform,opacity;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s;transition-timing-function:linear;display:flex;height:100%;width:100%;cursor:pointer;align-items:center;justify-content:center}._icon_7tcsj_23 svg{height:2rem;width:1.75rem;fill:#fff}._inactiveIcon_7tcsj_31{position:absolute;--tw-rotate: 30deg;--tw-scale-x: 0;--tw-scale-y: 0;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));opacity:0}._activeIcon_7tcsj_35{--tw-rotate: 0deg;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));opacity:1}._notif_7tcsj_39{pointer-events:none;position:absolute;top:-.5rem;right:-.5rem;height:1.75rem;width:1.75rem;border-radius:9999px;--tw-bg-opacity: 1;background-color:rgb(219 39 119 / var(--tw-bg-opacity));text-align:center;font-size:.875rem;line-height:1.25rem;font-weight:700;line-height:1.5;--tw-text-opacity: 1;color:rgb(255 255 255 / var(--tw-text-opacity))}._pinging_7tcsj_43{animation:_ping_7tcsj_43 1s cubic-bezier(0,0,.2,1) infinite}._ring_7tcsj_47{position:fixed;right:0px;display:inline-flex;height:4rem;width:4rem}@keyframes _ping_7tcsj_43{75%,to{transform:scale(2);opacity:0}}._ring_7tcsj_47{animation:_ping_7tcsj_43 1s cubic-bezier(0,0,.2,1) infinite;border-radius:9999px;--tw-bg-opacity: 1;background-color:rgb(203 213 225 / var(--tw-bg-opacity));opacity:.75}*,:before,:after{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::backdrop{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }._ring_q714d_1{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}#_wallet-chat-widget_q714d_23{transition-property:width,min-width,height,min-height;transition-duration:.25s;transition-timing-function:cubic-bezier(.4,0,.2,1);overflow-x:hidden;overflow-y:hidden;border-radius:1rem;--tw-drop-shadow: drop-shadow(4px 4px 8px rgba(0,0,0,.5));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}._widget-is-open_q714d_9{height:75vh;min-height:440px;width:calc(100vw - 2rem);--tw-translate-x: -1rem;--tw-translate-y: -.5rem;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@media (min-width: 640px){._widget-is-open_q714d_9{height:65vh;width:15vw;min-width:440px;--tw-translate-x: 0px;--tw-translate-y: 0px;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}}._widget-is-closed_q714d_13{height:0px;min-height:0px;width:0px;min-width:0px}._wallet-chat-widget__container_q714d_23{position:fixed;bottom:.5rem;right:1.5rem;z-index:1000;-webkit-user-select:none;-moz-user-select:none;user-select:none}._wallet-chat-widget__container--open_q714d_27{bottom:0px;right:0px}@media (min-width: 640px){._wallet-chat-widget__container--open_q714d_27{bottom:.5rem;right:1.5rem}}")),document.head.appendChild(t)}}catch(r){console.error("vite-plugin-css-injected-by-js",r)}})();
+(function(){"use strict";try{if(typeof document<"u"){var t=document.createElement("style");t.appendChild(document.createTextNode(".ring{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}._ring_7tcsj_47{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}._popupButton__container_7tcsj_5{position:relative;margin-top:.75rem;height:4rem;--tw-drop-shadow: drop-shadow(0 25px 25px rgb(0 0 0 / .15));-webkit-filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);transition-property:margin-top,-webkit-transform;transition-property:margin-top,transform;transition-property:margin-top,transform,-webkit-transform;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}._popupButton__container--open_7tcsj_9{right:1.5rem;margin-top:-4rem;--tw-translate-y: 100%;-webkit-transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@media (min-width: 640px){._popupButton__container--open_7tcsj_9{right:0px;margin-top:.75rem;--tw-translate-y: 0px;-webkit-transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}}._popupButton_7tcsj_5{position:absolute;top:0px;right:0px;height:4rem;width:4rem;-webkit-transform-origin:center;transform-origin:center;cursor:pointer;overflow:hidden;border-radius:9999px;--tw-bg-opacity: 1;background-color:rgb(0 0 0 / var(--tw-bg-opacity))}._icon_7tcsj_23{transition-property:opacity,-webkit-transform;transition-property:transform,opacity;transition-property:transform,opacity,-webkit-transform;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s;transition-timing-function:linear;display:flex;height:100%;width:100%;cursor:pointer;align-items:center;justify-content:center}._icon_7tcsj_23 svg{height:2rem;width:1.75rem;fill:#fff}._inactiveIcon_7tcsj_31{position:absolute;--tw-rotate: 30deg;--tw-scale-x: 0;--tw-scale-y: 0;-webkit-transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));opacity:0}._activeIcon_7tcsj_35{--tw-rotate: 0deg;-webkit-transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));opacity:1}._notif_7tcsj_39{pointer-events:none;position:absolute;top:-.5rem;right:-.5rem;height:1.75rem;width:1.75rem;border-radius:9999px;--tw-bg-opacity: 1;background-color:rgb(219 39 119 / var(--tw-bg-opacity));text-align:center;font-size:.875rem;line-height:1.25rem;font-weight:700;line-height:1.5;--tw-text-opacity: 1;color:rgb(255 255 255 / var(--tw-text-opacity))}@-webkit-keyframes _ping_7tcsj_43{75%,to{-webkit-transform:scale(2);transform:scale(2);opacity:0}}._pinging_7tcsj_43{-webkit-animation:_ping_7tcsj_43 1s cubic-bezier(0,0,.2,1) infinite;animation:_ping_7tcsj_43 1s cubic-bezier(0,0,.2,1) infinite}._ring_7tcsj_47{position:fixed;right:0px;display:inline-flex;height:4rem;width:4rem}@keyframes _ping_7tcsj_43{75%,to{-webkit-transform:scale(2);transform:scale(2);opacity:0}}._ring_7tcsj_47{-webkit-animation:_ping_7tcsj_43 1s cubic-bezier(0,0,.2,1) infinite;animation:_ping_7tcsj_43 1s cubic-bezier(0,0,.2,1) infinite;border-radius:9999px;--tw-bg-opacity: 1;background-color:rgb(203 213 225 / var(--tw-bg-opacity));opacity:.75}*,:before,:after{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::-webkit-backdrop{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::backdrop{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }._ring_q714d_1{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}#_wallet-chat-widget_q714d_23{transition-property:width,min-width,height,min-height;transition-duration:.25s;transition-timing-function:cubic-bezier(.4,0,.2,1);overflow-x:hidden;overflow-y:hidden;border-radius:1rem;--tw-drop-shadow: drop-shadow(4px 4px 8px rgba(0,0,0,.5));-webkit-filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}._widget-is-open_q714d_9{height:75vh;min-height:440px;width:calc(100vw - 2rem);--tw-translate-x: -1rem;--tw-translate-y: -.5rem;-webkit-transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@media (min-width: 640px){._widget-is-open_q714d_9{height:65vh;width:15vw;min-width:440px;--tw-translate-x: 0px;--tw-translate-y: 0px;-webkit-transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}}._widget-is-closed_q714d_13{height:0px;min-height:0px;width:0px;min-width:0px}._wallet-chat-widget__container_q714d_23{position:fixed;bottom:.5rem;right:1.5rem;z-index:1000;-webkit-user-select:none;user-select:none}._wallet-chat-widget__container--open_q714d_27{bottom:0px;right:0px}@media (min-width: 640px){._wallet-chat-widget__container--open_q714d_27{bottom:.5rem;right:1.5rem}}")),document.head.appendChild(t)}}catch(r){console.error("vite-plugin-css-injected-by-js",r)}})();
