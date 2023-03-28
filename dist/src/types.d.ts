@@ -1,6 +1,6 @@
 export type ConnectedWallet = {
     walletName: string;
-    account: string;
+    account: string | `0x${string}`;
     chainId: number;
 };
 export type API = {
