@@ -1,4 +1,3 @@
-import { SiweMessage as Le } from "siwe";
 import B from "react";
 function ne(u) {
   const p = u.replace("https://", "").replace("http://", "").split("/"), y = p.length, v = p[y - 1], w = p[y - 2];
@@ -7,37 +6,18 @@ function ne(u) {
   const d = p[y - 3];
   return y >= 5 ? { itemId: v, contractAddress: w, network: d } : u.startsWith("x2y2.io") && d === "eth" ? { itemId: v, contractAddress: w, network: "ethereum" } : { contractAddress: null, itemId: null, network: null };
 }
-async function Me(u, s, p, y) {
-  const v = window.location.host, w = window.location.protocol + v, d = "You are signing a plain-text message to prove you own this wallet address. No gas fees or transactions will occur.", g = new Le({
-    domain: v,
-    address: u,
-    statement: d,
-    uri: w,
-    version: "1",
-    chainId: s,
-    nonce: p
-  }).prepareMessage();
-  let T;
-  try {
-    T = await (y == null ? void 0 : y.signMessage(g));
-  } catch (x) {
-    console.log("🚨[SIWE][Failed or Rejected]:", x);
-  }
-  return { signature: T, messageToSign: g };
-}
-const xt = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const vt = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  doRequestSignature: Me,
   parseNftFromUrl: ne
-}, Symbol.toStringTag, { value: "Module" })), Et = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+}, Symbol.toStringTag, { value: "Module" })), gt = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null
 }, Symbol.toStringTag, { value: "Module" }));
-var We = {}, Jr = {};
-Jr.byteLength = Ve;
-Jr.toByteArray = Je;
-Jr.fromByteArray = He;
-var er = [], H = [], Ye = typeof Uint8Array < "u" ? Uint8Array : Array, te = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-for (var yr = 0, $e = te.length; yr < $e; ++yr)
+var Le = {}, Jr = {};
+Jr.byteLength = Ye;
+Jr.toByteArray = Ve;
+Jr.fromByteArray = ze;
+var er = [], H = [], Me = typeof Uint8Array < "u" ? Uint8Array : Array, te = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+for (var yr = 0, We = te.length; yr < We; ++yr)
   er[yr] = te[yr], H[te.charCodeAt(yr)] = yr;
 H["-".charCodeAt(0)] = 62;
 H["_".charCodeAt(0)] = 63;
@@ -50,30 +30,30 @@ function ge(u) {
   var y = p === s ? 0 : 4 - p % 4;
   return [p, y];
 }
-function Ve(u) {
+function Ye(u) {
   var s = ge(u), p = s[0], y = s[1];
   return (p + y) * 3 / 4 - y;
 }
-function qe(u, s, p) {
+function $e(u, s, p) {
   return (s + p) * 3 / 4 - p;
 }
-function Je(u) {
-  var s, p = ge(u), y = p[0], v = p[1], w = new Ye(qe(u, y, v)), d = 0, a = v > 0 ? y - 4 : y, g;
+function Ve(u) {
+  var s, p = ge(u), y = p[0], v = p[1], w = new Me($e(u, y, v)), d = 0, a = v > 0 ? y - 4 : y, g;
   for (g = 0; g < a; g += 4)
     s = H[u.charCodeAt(g)] << 18 | H[u.charCodeAt(g + 1)] << 12 | H[u.charCodeAt(g + 2)] << 6 | H[u.charCodeAt(g + 3)], w[d++] = s >> 16 & 255, w[d++] = s >> 8 & 255, w[d++] = s & 255;
   return v === 2 && (s = H[u.charCodeAt(g)] << 2 | H[u.charCodeAt(g + 1)] >> 4, w[d++] = s & 255), v === 1 && (s = H[u.charCodeAt(g)] << 10 | H[u.charCodeAt(g + 1)] << 4 | H[u.charCodeAt(g + 2)] >> 2, w[d++] = s >> 8 & 255, w[d++] = s & 255), w;
 }
-function ze(u) {
+function qe(u) {
   return er[u >> 18 & 63] + er[u >> 12 & 63] + er[u >> 6 & 63] + er[u & 63];
 }
-function Ge(u, s, p) {
+function Je(u, s, p) {
   for (var y, v = [], w = s; w < p; w += 3)
-    y = (u[w] << 16 & 16711680) + (u[w + 1] << 8 & 65280) + (u[w + 2] & 255), v.push(ze(y));
+    y = (u[w] << 16 & 16711680) + (u[w + 1] << 8 & 65280) + (u[w + 2] & 255), v.push(qe(y));
   return v.join("");
 }
-function He(u) {
+function ze(u) {
   for (var s, p = u.length, y = p % 3, v = [], w = 16383, d = 0, a = p - y; d < a; d += w)
-    v.push(Ge(u, d, d + w > a ? a : d + w));
+    v.push(Je(u, d, d + w > a ? a : d + w));
   return y === 1 ? (s = u[p - 1], v.push(
     er[s >> 2] + er[s << 4 & 63] + "=="
   )) : y === 2 && (s = (u[p - 2] << 8) + u[p - 1], v.push(
@@ -83,25 +63,25 @@ function He(u) {
 var ue = {};
 /*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
 ue.read = function(u, s, p, y, v) {
-  var w, d, a = v * 8 - y - 1, g = (1 << a) - 1, T = g >> 1, x = -7, F = p ? v - 1 : 0, k = p ? -1 : 1, O = u[s + F];
+  var w, d, a = v * 8 - y - 1, g = (1 << a) - 1, S = g >> 1, x = -7, F = p ? v - 1 : 0, k = p ? -1 : 1, O = u[s + F];
   for (F += k, w = O & (1 << -x) - 1, O >>= -x, x += a; x > 0; w = w * 256 + u[s + F], F += k, x -= 8)
     ;
   for (d = w & (1 << -x) - 1, w >>= -x, x += y; x > 0; d = d * 256 + u[s + F], F += k, x -= 8)
     ;
   if (w === 0)
-    w = 1 - T;
+    w = 1 - S;
   else {
     if (w === g)
       return d ? NaN : (O ? -1 : 1) * (1 / 0);
-    d = d + Math.pow(2, y), w = w - T;
+    d = d + Math.pow(2, y), w = w - S;
   }
   return (O ? -1 : 1) * d * Math.pow(2, w - y);
 };
 ue.write = function(u, s, p, y, v, w) {
-  var d, a, g, T = w * 8 - v - 1, x = (1 << T) - 1, F = x >> 1, k = v === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0, O = y ? 0 : w - 1, X = y ? 1 : -1, W = s < 0 || s === 0 && 1 / s < 0 ? 1 : 0;
+  var d, a, g, S = w * 8 - v - 1, x = (1 << S) - 1, F = x >> 1, k = v === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0, O = y ? 0 : w - 1, X = y ? 1 : -1, W = s < 0 || s === 0 && 1 / s < 0 ? 1 : 0;
   for (s = Math.abs(s), isNaN(s) || s === 1 / 0 ? (a = isNaN(s) ? 1 : 0, d = x) : (d = Math.floor(Math.log(s) / Math.LN2), s * (g = Math.pow(2, -d)) < 1 && (d--, g *= 2), d + F >= 1 ? s += k / g : s += k * Math.pow(2, 1 - F), s * g >= 2 && (d++, g /= 2), d + F >= x ? (a = 0, d = x) : d + F >= 1 ? (a = (s * g - 1) * Math.pow(2, v), d = d + F) : (a = s * Math.pow(2, F - 1) * Math.pow(2, v), d = 0)); v >= 8; u[p + O] = a & 255, O += X, a /= 256, v -= 8)
     ;
-  for (d = d << v | a, T += v; T > 0; u[p + O] = d & 255, O += X, d /= 256, T -= 8)
+  for (d = d << v | a, S += v; S > 0; u[p + O] = d & 255, O += X, d /= 256, S -= 8)
     ;
   u[p + O - X] |= W * 128;
 };
@@ -192,20 +172,20 @@ ue.write = function(u, s, p, y, v, w) {
   a.from = function(t, r, e) {
     return g(t, r, e);
   }, Object.setPrototypeOf(a.prototype, Uint8Array.prototype), Object.setPrototypeOf(a, Uint8Array);
-  function T(t) {
+  function S(t) {
     if (typeof t != "number")
       throw new TypeError('"size" argument must be of type number');
     if (t < 0)
       throw new RangeError('The value "' + t + '" is invalid for option "size"');
   }
   function x(t, r, e) {
-    return T(t), t <= 0 ? d(t) : r !== void 0 ? typeof e == "string" ? d(t).fill(r, e) : d(t).fill(r) : d(t);
+    return S(t), t <= 0 ? d(t) : r !== void 0 ? typeof e == "string" ? d(t).fill(r, e) : d(t).fill(r) : d(t);
   }
   a.alloc = function(t, r, e) {
     return x(t, r, e);
   };
   function F(t) {
-    return T(t), d(t < 0 ? 0 : P(t) | 0);
+    return S(t), d(t < 0 ? 0 : P(t) | 0);
   }
   a.allocUnsafe = function(t) {
     return F(t);
@@ -431,7 +411,7 @@ ue.write = function(u, s, p, y, v, w) {
       return 1;
     if (e >>>= 0, n >>>= 0, o >>>= 0, c >>>= 0, this === r)
       return 0;
-    for (var l = c - o, _ = n - e, S = Math.min(l, _), C = this.slice(o, c), M = r.slice(e, n), A = 0; A < S; ++A)
+    for (var l = c - o, _ = n - e, T = Math.min(l, _), C = this.slice(o, c), M = r.slice(e, n), A = 0; A < T; ++A)
       if (C[A] !== M[A]) {
         l = C[A], _ = M[A];
         break;
@@ -463,14 +443,14 @@ ue.write = function(u, s, p, y, v, w) {
         return -1;
       c = 2, l /= 2, _ /= 2, e /= 2;
     }
-    function S(Fr, Rr) {
+    function T(Fr, Rr) {
       return c === 1 ? Fr[Rr] : Fr.readUInt16BE(Rr * c);
     }
     var C;
     if (o) {
       var M = -1;
       for (C = e; C < l; C++)
-        if (S(t, C) === S(r, M === -1 ? 0 : C - M)) {
+        if (T(t, C) === T(r, M === -1 ? 0 : C - M)) {
           if (M === -1 && (M = C), C - M + 1 === _)
             return M * c;
         } else
@@ -478,7 +458,7 @@ ue.write = function(u, s, p, y, v, w) {
     } else
       for (e + _ > l && (e = l - _), C = e; C >= 0; C--) {
         for (var A = !0, hr = 0; hr < _; hr++)
-          if (S(t, C + hr) !== S(r, hr)) {
+          if (T(t, C + hr) !== T(r, hr)) {
             A = !1;
             break;
           }
@@ -572,19 +552,19 @@ ue.write = function(u, s, p, y, v, w) {
     for (var n = [], o = r; o < e; ) {
       var c = t[o], l = null, _ = c > 239 ? 4 : c > 223 ? 3 : c > 191 ? 2 : 1;
       if (o + _ <= e) {
-        var S, C, M, A;
+        var T, C, M, A;
         switch (_) {
           case 1:
             c < 128 && (l = c);
             break;
           case 2:
-            S = t[o + 1], (S & 192) === 128 && (A = (c & 31) << 6 | S & 63, A > 127 && (l = A));
+            T = t[o + 1], (T & 192) === 128 && (A = (c & 31) << 6 | T & 63, A > 127 && (l = A));
             break;
           case 3:
-            S = t[o + 1], C = t[o + 2], (S & 192) === 128 && (C & 192) === 128 && (A = (c & 15) << 12 | (S & 63) << 6 | C & 63, A > 2047 && (A < 55296 || A > 57343) && (l = A));
+            T = t[o + 1], C = t[o + 2], (T & 192) === 128 && (C & 192) === 128 && (A = (c & 15) << 12 | (T & 63) << 6 | C & 63, A > 2047 && (A < 55296 || A > 57343) && (l = A));
             break;
           case 4:
-            S = t[o + 1], C = t[o + 2], M = t[o + 3], (S & 192) === 128 && (C & 192) === 128 && (M & 192) === 128 && (A = (c & 15) << 18 | (S & 63) << 12 | (C & 63) << 6 | M & 63, A > 65535 && A < 1114112 && (l = A));
+            T = t[o + 1], C = t[o + 2], M = t[o + 3], (T & 192) === 128 && (C & 192) === 128 && (M & 192) === 128 && (A = (c & 15) << 18 | (T & 63) << 12 | (C & 63) << 6 | M & 63, A > 65535 && A < 1114112 && (l = A));
         }
       }
       l === null ? (l = 65533, _ = 1) : l > 65535 && (l -= 65536, n.push(l >>> 10 & 1023 | 55296), l = 56320 | l & 1023), n.push(l), o += _;
@@ -735,18 +715,18 @@ ue.write = function(u, s, p, y, v, w) {
       var c = Math.pow(2, 8 * n - 1);
       Y(this, r, e, n, c - 1, -c);
     }
-    var l = 0, _ = 1, S = 0;
+    var l = 0, _ = 1, T = 0;
     for (this[e] = r & 255; ++l < n && (_ *= 256); )
-      r < 0 && S === 0 && this[e + l - 1] !== 0 && (S = 1), this[e + l] = (r / _ >> 0) - S & 255;
+      r < 0 && T === 0 && this[e + l - 1] !== 0 && (T = 1), this[e + l] = (r / _ >> 0) - T & 255;
     return e + n;
   }, a.prototype.writeIntBE = function(r, e, n, o) {
     if (r = +r, e = e >>> 0, !o) {
       var c = Math.pow(2, 8 * n - 1);
       Y(this, r, e, n, c - 1, -c);
     }
-    var l = n - 1, _ = 1, S = 0;
+    var l = n - 1, _ = 1, T = 0;
     for (this[e + l] = r & 255; --l >= 0 && (_ *= 256); )
-      r < 0 && S === 0 && this[e + l + 1] !== 0 && (S = 1), this[e + l] = (r / _ >> 0) - S & 255;
+      r < 0 && T === 0 && this[e + l + 1] !== 0 && (T = 1), this[e + l] = (r / _ >> 0) - T & 255;
     return e + n;
   }, a.prototype.writeInt8 = function(r, e, n) {
     return r = +r, e = e >>> 0, n || Y(this, r, e, 1, 127, -128), r < 0 && (r = 255 + r + 1), this[e] = r & 255, e + 1;
@@ -820,11 +800,11 @@ ue.write = function(u, s, p, y, v, w) {
       for (l = e; l < n; ++l)
         this[l] = r;
     else {
-      var _ = a.isBuffer(r) ? r : a.from(r, o), S = _.length;
-      if (S === 0)
+      var _ = a.isBuffer(r) ? r : a.from(r, o), T = _.length;
+      if (T === 0)
         throw new TypeError('The value "' + r + '" is invalid for argument "value"');
       for (l = 0; l < n - e; ++l)
-        this[l + e] = _[l % S];
+        this[l + e] = _[l % T];
     }
     return this;
   };
@@ -921,15 +901,15 @@ ue.write = function(u, s, p, y, v, w) {
         r[n + o] = t[e] + t[o];
     return r;
   }();
-})(We);
-var qr = {}, Xe = {
+})(Le);
+var qr = {}, Ge = {
   get exports() {
     return qr;
   },
   set exports(u) {
     qr = u;
   }
-}, D = Xe.exports = {}, Z, rr;
+}, D = Ge.exports = {}, Z, rr;
 function ie() {
   throw new Error("setTimeout has not been defined");
 }
@@ -963,7 +943,7 @@ function me(u) {
     }
   }
 }
-function Ke(u) {
+function He(u) {
   if (rr === clearTimeout)
     return clearTimeout(u);
   if ((rr === oe || !rr) && clearTimeout)
@@ -979,19 +959,19 @@ function Ke(u) {
   }
 }
 var ir = [], gr = !1, fr, Vr = -1;
-function Qe() {
+function Xe() {
   !gr || !fr || (gr = !1, fr.length ? ir = fr.concat(ir) : Vr = -1, ir.length && xe());
 }
 function xe() {
   if (!gr) {
-    var u = me(Qe);
+    var u = me(Xe);
     gr = !0;
     for (var s = ir.length; s; ) {
       for (fr = ir, ir = []; ++Vr < s; )
         fr && fr[Vr].run();
       Vr = -1, s = ir.length;
     }
-    fr = null, gr = !1, Ke(u);
+    fr = null, gr = !1, He(u);
   }
 }
 D.nextTick = function(u) {
@@ -1055,7 +1035,7 @@ D.umask = function() {
   var p = __magic__;
   return p;
 })(Object);
-var Ir = {}, Ze = {
+var Ir = {}, Ke = {
   get exports() {
     return Ir;
   },
@@ -1073,14 +1053,14 @@ var Ir = {}, Ze = {
  * LICENSE file in the root directory of this source tree.
  */
 var we;
-function rt() {
+function Qe() {
   if (we)
     return Tr;
   we = 1;
   var u = B, s = Symbol.for("react.element"), p = Symbol.for("react.fragment"), y = Object.prototype.hasOwnProperty, v = u.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner, w = { key: !0, ref: !0, __self: !0, __source: !0 };
-  function d(a, g, T) {
+  function d(a, g, S) {
     var x, F = {}, k = null, O = null;
-    T !== void 0 && (k = "" + T), g.key !== void 0 && (k = "" + g.key), g.ref !== void 0 && (O = g.ref);
+    S !== void 0 && (k = "" + S), g.key !== void 0 && (k = "" + g.key), g.ref !== void 0 && (O = g.ref);
     for (x in g)
       y.call(g, x) && !w.hasOwnProperty(x) && (F[x] = g[x]);
     if (a && a.defaultProps)
@@ -1090,10 +1070,10 @@ function rt() {
   }
   return Tr.Fragment = p, Tr.jsx = d, Tr.jsxs = d, Tr;
 }
-var Sr = {}, ye;
-function et() {
+var Ar = {}, ye;
+function Ze() {
   return ye || (ye = 1, qr.env.NODE_ENV !== "production" && function() {
-    var u = B, s = Symbol.for("react.element"), p = Symbol.for("react.portal"), y = Symbol.for("react.fragment"), v = Symbol.for("react.strict_mode"), w = Symbol.for("react.profiler"), d = Symbol.for("react.provider"), a = Symbol.for("react.context"), g = Symbol.for("react.forward_ref"), T = Symbol.for("react.suspense"), x = Symbol.for("react.suspense_list"), F = Symbol.for("react.memo"), k = Symbol.for("react.lazy"), O = Symbol.for("react.offscreen"), X = Symbol.iterator, W = "@@iterator";
+    var u = B, s = Symbol.for("react.element"), p = Symbol.for("react.portal"), y = Symbol.for("react.fragment"), v = Symbol.for("react.strict_mode"), w = Symbol.for("react.profiler"), d = Symbol.for("react.provider"), a = Symbol.for("react.context"), g = Symbol.for("react.forward_ref"), S = Symbol.for("react.suspense"), x = Symbol.for("react.suspense_list"), F = Symbol.for("react.memo"), k = Symbol.for("react.lazy"), O = Symbol.for("react.offscreen"), X = Symbol.iterator, W = "@@iterator";
     function $(i) {
       if (i === null || typeof i != "object")
         return null;
@@ -1121,7 +1101,7 @@ function et() {
     var Gr = !1, tr = !1, Ur = !1, kr = !1, Hr = !1, Or;
     Or = Symbol.for("react.module.reference");
     function Xr(i) {
-      return !!(typeof i == "string" || typeof i == "function" || i === y || i === w || Hr || i === v || i === T || i === x || kr || i === O || Gr || tr || Ur || typeof i == "object" && i !== null && (i.$$typeof === k || i.$$typeof === F || i.$$typeof === d || i.$$typeof === a || i.$$typeof === g || // This needs to include all possible module reference object
+      return !!(typeof i == "string" || typeof i == "function" || i === y || i === w || Hr || i === v || i === S || i === x || kr || i === O || Gr || tr || Ur || typeof i == "object" && i !== null && (i.$$typeof === k || i.$$typeof === F || i.$$typeof === d || i.$$typeof === a || i.$$typeof === g || // This needs to include all possible module reference object
       // types supported by any Flight configuration anywhere since
       // we don't know which Flight build this will end up being used
       // with.
@@ -1153,7 +1133,7 @@ function et() {
           return "Profiler";
         case v:
           return "StrictMode";
-        case T:
+        case S:
           return "Suspense";
         case x:
           return "SuspenseList";
@@ -1349,7 +1329,7 @@ function et() {
       if (typeof i == "string")
         return ur(i);
       switch (i) {
-        case T:
+        case S:
           return ur("Suspense");
         case x:
           return ur("SuspenseList");
@@ -1407,7 +1387,7 @@ function et() {
         return h;
       }
     }
-    function S(i) {
+    function T(i) {
       try {
         return C(i), !1;
       } catch {
@@ -1418,7 +1398,7 @@ function et() {
       return "" + i;
     }
     function M(i) {
-      if (S(i))
+      if (T(i))
         return U("The provided key is an unsupported type %s. This value must be coerced to a string before before using it here.", _(i)), C(i);
     }
     var A = P.ReactCurrentOwner, hr = {
@@ -1450,7 +1430,7 @@ function et() {
         Qr[h] || (U('Component "%s" contains the string ref "%s". Support for string refs will be removed in a future major release. This case cannot be automatically converted to an arrow function. We ask you to manually fix this case by using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref', K(A.current.type), i.ref), Qr[h] = !0);
       }
     }
-    function Se(i, f) {
+    function Ae(i, f) {
       {
         var h = function() {
           Fr || (Fr = !0, U("%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", f));
@@ -1461,7 +1441,7 @@ function et() {
         });
       }
     }
-    function Ae(i, f) {
+    function Se(i, f) {
       {
         var h = function() {
           Rr || (Rr = !0, U("%s: `ref` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", f));
@@ -1514,7 +1494,7 @@ function et() {
         }
         if (E || V) {
           var L = typeof i == "function" ? i.displayName || i.name || "Unknown" : i;
-          E && Se(b, L), V && Ae(b, L);
+          E && Ae(b, L), V && Se(b, L);
         }
         return Ce(i, E, V, R, m, A.current, b);
       }
@@ -1674,14 +1654,14 @@ Check the top-level render call using <` + h + ">.");
       return he(i, f, h, !1);
     }
     var De = je, Pe = Ne;
-    Sr.Fragment = y, Sr.jsx = De, Sr.jsxs = Pe;
-  }()), Sr;
+    Ar.Fragment = y, Ar.jsx = De, Ar.jsxs = Pe;
+  }()), Ar;
 }
 (function(u) {
-  qr.env.NODE_ENV === "production" ? u.exports = rt() : u.exports = et();
-})(Ze);
-const tt = Ir.Fragment, J = Ir.jsx, Cr = Ir.jsxs;
-var ae = {}, nt = {
+  qr.env.NODE_ENV === "production" ? u.exports = Qe() : u.exports = Ze();
+})(Ke);
+const rt = Ir.Fragment, J = Ir.jsx, Cr = Ir.jsxs;
+var ae = {}, et = {
   get exports() {
     return ae;
   },
@@ -1723,9 +1703,9 @@ var ae = {}, nt = {
     }
     u.exports ? (p.default = p, u.exports = p) : window.classNames = p;
   })();
-})(nt);
+})(et);
 const vr = ae, zr = B.createContext(null);
-function _t({
+function mt({
   children: u
 }) {
   const [s, p] = B.useState(), y = B.useCallback(
@@ -1740,17 +1720,17 @@ function _t({
   );
   return /* @__PURE__ */ J(zr.Provider, { value: v, children: u });
 }
-const it = "_ring_7tcsj_47", ot = "_popupButton__container_7tcsj_5", at = "_popupButton_7tcsj_5", ut = "_icon_7tcsj_23", ct = "_inactiveIcon_7tcsj_31", st = "_activeIcon_7tcsj_35", ft = "_notif_7tcsj_39", lt = "_pinging_7tcsj_43", pt = "_ping_7tcsj_43", q = {
-  ring: it,
-  popupButton__container: ot,
+const tt = "_ring_7tcsj_47", nt = "_popupButton__container_7tcsj_5", it = "_popupButton_7tcsj_5", ot = "_icon_7tcsj_23", at = "_inactiveIcon_7tcsj_31", ut = "_activeIcon_7tcsj_35", ct = "_notif_7tcsj_39", st = "_pinging_7tcsj_43", ft = "_ping_7tcsj_43", q = {
+  ring: tt,
+  popupButton__container: nt,
   "popupButton__container--open": "_popupButton__container--open_7tcsj_9",
-  popupButton: at,
-  icon: ut,
-  inactiveIcon: ct,
-  activeIcon: st,
-  notif: ft,
-  pinging: lt,
-  ping: pt
+  popupButton: it,
+  icon: ot,
+  inactiveIcon: at,
+  activeIcon: ut,
+  notif: ct,
+  pinging: st,
+  ping: ft
 };
 function _e() {
   try {
@@ -1760,7 +1740,7 @@ function _e() {
     return [];
   }
 }
-function ht(u) {
+function lt(u) {
   try {
     const p = [..._e(), u];
     typeof localStorage < "u" && localStorage.setItem("clickedNfts", JSON.stringify(p));
@@ -1768,16 +1748,16 @@ function ht(u) {
     return null;
   }
 }
-function dt({
+function pt({
   notiVal: u,
   showNoti: s,
   isOpen: p,
   clickHandler: y
 }) {
-  const v = _e(), w = B.useContext(zr), d = w == null ? void 0 : w.widgetState, a = d == null ? void 0 : d.foundNft, g = a && JSON.parse(a).itemId, T = !p && (a ? !v.includes(a) && Boolean(g) : !1), [x, F] = B.useState(T);
+  const v = _e(), w = B.useContext(zr), d = w == null ? void 0 : w.widgetState, a = d == null ? void 0 : d.foundNft, g = a && JSON.parse(a).itemId, S = !p && (a ? !v.includes(a) && Boolean(g) : !1), [x, F] = B.useState(S);
   return B.useEffect(() => {
-    T && F(!0);
-  }, [T]), /* @__PURE__ */ Cr(
+    S && F(!0);
+  }, [S]), /* @__PURE__ */ Cr(
     "div",
     {
       className: vr(q.popupButton__container, {
@@ -1797,7 +1777,7 @@ function dt({
             className: q.popupButton,
             type: "button",
             onClick: (k) => {
-              F(!1), a && ht(a), y(k);
+              F(!1), a && lt(a), y(k);
             },
             children: [
               /* @__PURE__ */ J(
@@ -1847,7 +1827,7 @@ function dt({
             ]
           }
         ),
-        s && /* @__PURE__ */ Cr(tt, { children: [
+        s && /* @__PURE__ */ Cr(rt, { children: [
           /* @__PURE__ */ J("span", { className: vr(q.notif, q.pinging) }),
           /* @__PURE__ */ J("span", { className: q.notif, children: u })
         ] })
@@ -1855,14 +1835,14 @@ function dt({
     }
   );
 }
-const wt = "_ring_q714d_1", Ar = {
-  ring: wt,
+const ht = "_ring_q714d_1", Sr = {
+  ring: ht,
   "wallet-chat-widget": "_wallet-chat-widget_q714d_23",
   "widget-is-open": "_widget-is-open_q714d_9",
   "widget-is-closed": "_widget-is-closed_q714d_13",
   "wallet-chat-widget__container": "_wallet-chat-widget__container_q714d_23",
   "wallet-chat-widget__container--open": "_wallet-chat-widget__container--open_q714d_27"
-}, yt = "https://staging.walletchat.fun", be = Ar["wallet-chat-widget"];
+}, dt = "https://staging.walletchat.fun", be = Sr["wallet-chat-widget"];
 function sr(u) {
   var p;
   if (typeof document > "u")
@@ -1879,10 +1859,10 @@ function ve(u) {
     data: s ? u : null
   });
 }
-function bt({
+function xt({
   connectedWallet: u
 }) {
-  const s = B.useRef(""), p = B.useRef(null), y = B.useRef(!1), v = B.useRef(u), w = B.useRef(!1), d = B.useContext(zr), { widgetState: a, setWidgetState: g } = d || {}, { ownerAddress: T } = a || {}, [x, F] = B.useState(w.current), [k, O] = B.useState(0), X = () => {
+  const s = B.useRef(""), p = B.useRef(null), y = B.useRef(!1), v = B.useRef(u), w = B.useRef(!1), d = B.useContext(zr), { widgetState: a, setWidgetState: g } = d || {}, { ownerAddress: S } = a || {}, [x, F] = B.useState(w.current), [k, O] = B.useState(0), X = () => {
     F((W) => {
       const $ = Boolean(W);
       return sr({ target: "widget_open", data: !$ }), p.current && !$ && sr({
@@ -1894,9 +1874,9 @@ function bt({
   return B.useEffect(() => {
     x && !y.current && ve(u || null);
   }, [u, x]), B.useEffect(() => {
-    if (!(T != null && T.address))
+    if (!(S != null && S.address))
       return;
-    const W = T.address, $ = ne(window.location.href);
+    const W = S.address, $ = ne(window.location.href);
     $.network && (p.current = {
       ...$,
       ownerAddress: W
@@ -1904,7 +1884,7 @@ function bt({
       target: "nft_info",
       data: { ...p.current, redirect: !0 }
     }) : sr({ target: "nft_info", data: { ownerAddress: W } }), F(!0);
-  }, [T]), B.useEffect(() => {
+  }, [S]), B.useEffect(() => {
     const W = () => {
       if (window.location.href === s.current)
         return;
@@ -1924,8 +1904,8 @@ function bt({
   }, []), /* @__PURE__ */ Cr(
     "div",
     {
-      className: vr(Ar["wallet-chat-widget__container"], {
-        [Ar["wallet-chat-widget__container--open"]]: x
+      className: vr(Sr["wallet-chat-widget__container"], {
+        [Sr["wallet-chat-widget__container--open"]]: x
       }),
       children: [
         /* @__PURE__ */ J(
@@ -1935,14 +1915,14 @@ function bt({
             name: "WalletChat",
             id: be,
             className: vr("", {
-              [Ar["widget-is-open"]]: x,
-              [Ar["widget-is-closed"]]: !x
+              [Sr["widget-is-open"]]: x,
+              [Sr["widget-is-closed"]]: !x
             }),
-            src: yt
+            src: dt
           }
         ),
         /* @__PURE__ */ J(
-          dt,
+          pt,
           {
             notiVal: k,
             showNoti: k > 0,
@@ -1954,14 +1934,14 @@ function bt({
     }
   );
 }
-const vt = ({
+const wt = ({
   onClick: u,
   children: s
-}) => /* @__PURE__ */ J("button", { type: "button", onClick: u, children: s }), Ft = ({
+}) => /* @__PURE__ */ J("button", { type: "button", onClick: u, children: s }), Et = ({
   ownerAddress: u,
   render: s
 }) => {
-  const p = B.useContext(zr), y = p == null ? void 0 : p.setWidgetState, v = s ? ({ onClick: w, children: d }) => B.cloneElement(s, { onClick: w }, d) : vt;
+  const p = B.useContext(zr), y = p == null ? void 0 : p.setWidgetState, v = s ? ({ onClick: w, children: d }) => B.cloneElement(s, { onClick: w }, d) : wt;
   return p ? /* @__PURE__ */ Cr(
     v,
     {
@@ -1990,10 +1970,10 @@ const vt = ({
   ), null);
 };
 export {
-  Ft as ChatWithOwner,
-  _t as WalletChatProvider,
-  bt as WalletChatWidget,
-  Et as types,
-  xt as utils
+  Et as ChatWithOwner,
+  mt as WalletChatProvider,
+  xt as WalletChatWidget,
+  gt as types,
+  vt as utils
 };
 (function(){"use strict";try{if(typeof document<"u"){var t=document.createElement("style");t.appendChild(document.createTextNode(".ring{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}._ring_7tcsj_47{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}._popupButton__container_7tcsj_5{position:relative;margin-top:.75rem;height:4rem;--tw-drop-shadow: drop-shadow(0 25px 25px rgb(0 0 0 / .15));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);transition-property:margin-top,transform;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}._popupButton__container--open_7tcsj_9{right:1.5rem;margin-top:-4rem;--tw-translate-y: 100%;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@media (min-width: 640px){._popupButton__container--open_7tcsj_9{right:0px;margin-top:.75rem;--tw-translate-y: 0px;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}}._popupButton_7tcsj_5{position:absolute;top:0px;right:0px;height:4rem;width:4rem;transform-origin:center;cursor:pointer;overflow:hidden;border-radius:9999px;--tw-bg-opacity: 1;background-color:rgb(0 0 0 / var(--tw-bg-opacity))}._icon_7tcsj_23{transition-property:transform,opacity;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s;transition-timing-function:linear;display:flex;height:100%;width:100%;cursor:pointer;align-items:center;justify-content:center}._icon_7tcsj_23 svg{height:2rem;width:1.75rem;fill:#fff}._inactiveIcon_7tcsj_31{position:absolute;--tw-rotate: 30deg;--tw-scale-x: 0;--tw-scale-y: 0;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));opacity:0}._activeIcon_7tcsj_35{--tw-rotate: 0deg;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));opacity:1}._notif_7tcsj_39{pointer-events:none;position:absolute;top:-.5rem;right:-.5rem;height:1.75rem;width:1.75rem;border-radius:9999px;--tw-bg-opacity: 1;background-color:rgb(219 39 119 / var(--tw-bg-opacity));text-align:center;font-size:.875rem;line-height:1.25rem;font-weight:700;line-height:1.5;--tw-text-opacity: 1;color:rgb(255 255 255 / var(--tw-text-opacity))}._pinging_7tcsj_43{animation:_ping_7tcsj_43 1s cubic-bezier(0,0,.2,1) infinite}._ring_7tcsj_47{position:fixed;right:0px;display:inline-flex;height:4rem;width:4rem}@keyframes _ping_7tcsj_43{75%,to{transform:scale(2);opacity:0}}._ring_7tcsj_47{animation:_ping_7tcsj_43 1s cubic-bezier(0,0,.2,1) infinite;border-radius:9999px;--tw-bg-opacity: 1;background-color:rgb(203 213 225 / var(--tw-bg-opacity));opacity:.75}*,:before,:after{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::backdrop{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }._ring_q714d_1{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}#_wallet-chat-widget_q714d_23{transition-property:width,min-width,height,min-height;transition-duration:.25s;transition-timing-function:cubic-bezier(.4,0,.2,1);overflow-x:hidden;overflow-y:hidden;border-radius:1rem;--tw-drop-shadow: drop-shadow(4px 4px 8px rgba(0,0,0,.5));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}._widget-is-open_q714d_9{height:75vh;min-height:440px;width:calc(100vw - 2rem);--tw-translate-x: -1rem;--tw-translate-y: -.5rem;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@media (min-width: 640px){._widget-is-open_q714d_9{height:65vh;width:15vw;min-width:440px;--tw-translate-x: 0px;--tw-translate-y: 0px;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}}._widget-is-closed_q714d_13{height:0px;min-height:0px;width:0px;min-width:0px}._wallet-chat-widget__container_q714d_23{position:fixed;bottom:.5rem;right:1.5rem;z-index:1000;-webkit-user-select:none;-moz-user-select:none;user-select:none}._wallet-chat-widget__container--open_q714d_27{bottom:0px;right:0px}@media (min-width: 640px){._wallet-chat-widget__container--open_q714d_27{bottom:.5rem;right:1.5rem}}")),document.head.appendChild(t)}}catch(r){console.error("vite-plugin-css-injected-by-js",r)}})();
