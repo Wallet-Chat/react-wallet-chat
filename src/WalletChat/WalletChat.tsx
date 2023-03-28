@@ -4,14 +4,13 @@ import ButtonOverlay from '@/src/ButtonOverlay'
 import { WalletChatContext } from '@/src/Context'
 import { parseNftFromUrl } from '@/src/utils'
 import styles from './WalletChat.module.css'
-import { ConnectedWallet } from '@/src/types'
+import { API, ConnectedWallet } from '@/src/types'
 
 const URL = 'https://staging.walletchat.fun'
 
 const iframeId = styles['wallet-chat-widget']
 
-// TODO: possibly make a lib for type-safe postMessage APIs
-function postMessage(data: null | boolean | object) {
+function postMessage(data: API) {
   if (typeof document === 'undefined') return
 
   const iframeElement = document?.getElementById(iframeId) as HTMLIFrameElement
@@ -20,11 +19,20 @@ function postMessage(data: null | boolean | object) {
 }
 
 function trySignIn(connectedWallet?: null | ConnectedWallet) {
-  const hasConnectedWallet = Boolean(typeof connectedWallet !== 'undefined' && connectedWallet !== null)
-  postMessage({ target: 'sign_in', data: hasConnectedWallet ? connectedWallet : null })
+  const hasConnectedWallet = Boolean(
+    typeof connectedWallet !== 'undefined' && connectedWallet !== null
+  )
+  postMessage({
+    target: 'sign_in',
+    data: hasConnectedWallet ? connectedWallet : null,
+  })
 }
 
-export default function WalletChatWidget({ connectedWallet }: { connectedWallet?: ConnectedWallet }) {
+export default function WalletChatWidget({
+  connectedWallet,
+}: {
+  connectedWallet?: ConnectedWallet
+}) {
   const previousUrlSent = React.useRef('')
   const nftInfoForContract = React.useRef<
     null | (ReturnType<typeof parseNftFromUrl> & { ownerAddress?: string })
@@ -48,7 +56,10 @@ export default function WalletChatWidget({ connectedWallet }: { connectedWallet?
       postMessage({ target: 'widget_open', data: !wasOpen })
 
       if (nftInfoForContract.current && !wasOpen) {
-        postMessage({ ...nftInfoForContract.current, redirect: true })
+        postMessage({
+          target: 'nft_info',
+          data: { ...nftInfoForContract.current, redirect: true },
+        })
       }
 
       nftInfoForContract.current = null
@@ -77,10 +88,13 @@ export default function WalletChatWidget({ connectedWallet }: { connectedWallet?
 
     // if was able to retrieve the NFT info for the page -- send to that DM page
     if (nftInfoForContract.current) {
-      postMessage({ ...nftInfoForContract.current, redirect: true })
+      postMessage({
+        target: 'nft_info',
+        data: { ...nftInfoForContract.current, redirect: true },
+      })
     } else {
       // otherwise send to regular DM page
-      postMessage({ ownerAddress: address })
+      postMessage({ target: 'nft_info', data: { ownerAddress: address } })
     }
 
     setIsOpen(true)
@@ -100,7 +114,7 @@ export default function WalletChatWidget({ connectedWallet }: { connectedWallet?
         nftInfoForContract.current = nftInfo
       }
 
-      postMessage(nftInfo)
+      postMessage({ target: 'nft_info', data: nftInfo })
     }
 
     const observer = new MutationObserver(sendContractInfo)

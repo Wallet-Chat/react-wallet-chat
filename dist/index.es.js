@@ -1887,13 +1887,21 @@ function sr(u) {
   (s = f == null ? void 0 : f.contentWindow) == null || s.postMessage(u, "*");
 }
 function lt(u) {
-  sr({ target: "sign_in", data: typeof u < "u" && u !== null ? u : null });
+  sr({
+    target: "sign_in",
+    data: typeof u < "u" && u !== null ? u : null
+  });
 }
-function gt({ connectedWallet: u }) {
+function gt({
+  connectedWallet: u
+}) {
   const f = k.useRef(""), s = k.useRef(null), v = k.useRef(!1), y = k.useRef(!1), h = k.useContext(Jr), { widgetState: d, setWidgetState: a } = h || {}, { ownerAddress: g } = d || {}, [E, x] = k.useState(y.current), [_, F] = k.useState(0), S = () => {
     x((j) => {
       const P = !!j;
-      return sr({ target: "widget_open", data: !P }), s.current && !P && sr({ ...s.current, redirect: !0 }), s.current = null, y.current = !P, !P;
+      return sr({ target: "widget_open", data: !P }), s.current && !P && sr({
+        target: "nft_info",
+        data: { ...s.current, redirect: !0 }
+      }), s.current = null, y.current = !P, !P;
     });
   };
   return k.useEffect(() => {
@@ -1905,14 +1913,17 @@ function gt({ connectedWallet: u }) {
     P.network && (s.current = {
       ...P,
       ownerAddress: j
-    }), s.current ? sr({ ...s.current, redirect: !0 }) : sr({ ownerAddress: j }), x(!0);
+    }), s.current ? sr({
+      target: "nft_info",
+      data: { ...s.current, redirect: !0 }
+    }) : sr({ target: "nft_info", data: { ownerAddress: j } }), x(!0);
   }, [g]), k.useEffect(() => {
     const j = () => {
       if (window.location.href === f.current)
         return;
       f.current = window.location.href;
       const X = ne(window.location.href);
-      a && a("foundNft", JSON.stringify(X)), X.network && (s.current = X), sr(X);
+      a && a("foundNft", JSON.stringify(X)), X.network && (s.current = X), sr({ target: "nft_info", data: X });
     }, P = new MutationObserver(j), H = { subtree: !0, childList: !0 };
     return j(), P.observe(document, H), () => P.disconnect();
   }, []), k.useEffect(() => {
