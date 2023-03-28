@@ -38,6 +38,7 @@ export default function WalletChatWidget({
     null | (ReturnType<typeof parseNftFromUrl> & { ownerAddress?: string })
   >(null)
   const widgetSignedIn = React.useRef(false)
+  const connectedWalletRef = React.useRef(connectedWallet)
 
   // this is used for receive message effect without triggering the effect
   const widgetOpen = React.useRef(false)
@@ -127,6 +128,10 @@ export default function WalletChatWidget({
   }, [])
 
   React.useEffect(() => {
+    connectedWalletRef.current = connectedWallet
+  }, [connectedWallet])
+
+  React.useEffect(() => {
     const handleMsg = (e: any) => {
       const { data } = e
 
@@ -138,12 +143,18 @@ export default function WalletChatWidget({
         clickHandler()
       }
 
-      if (data.target === 'sign_in' && setWidgetState) {
-        // received message that is already signed in -> no need to keep trying
-        widgetSignedIn.current = data.data
+      if (data.target === 'sign_in') {
+        if (data) {
+          // received message that is already signed in -> no need to keep trying
+          widgetSignedIn.current = data.data
+        } else {
+          widgetSignedIn.current = false
+          trySignIn(connectedWalletRef.current || null)
+        }
       }
 
       if (widgetOpen.current) {
+        // this is just a 'ping' message back to let the app know that it's open
         postMessage({ target: 'widget_open', data: true })
       }
     }
