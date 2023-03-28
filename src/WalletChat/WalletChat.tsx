@@ -144,10 +144,10 @@ export default function WalletChatWidget({
       }
 
       if (data.target === 'sign_in') {
-        if (data) {
+        if (data.data) {
           // received message that is already signed in -> no need to keep trying
-          widgetSignedIn.current = data.data
-        } else {
+          widgetSignedIn.current = data.true
+        } else if (data.data === null) {
           widgetSignedIn.current = false
           trySignIn(connectedWalletRef.current || null)
         }
