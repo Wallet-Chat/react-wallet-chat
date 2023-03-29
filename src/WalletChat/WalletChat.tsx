@@ -2,11 +2,11 @@ import React from 'react'
 import classNames from 'classnames'
 import ButtonOverlay from '@/src/ButtonOverlay'
 import { WalletChatContext } from '@/src/Context'
-import { parseNftFromUrl } from '@/src/utils'
+import { getSiweMessage, parseNftFromUrl } from '@/src/utils'
 import styles from './WalletChat.module.css'
 import { API, ConnectedWallet } from '@/src/types'
 
-const URL = 'https://staging.walletchat.fun'
+const URL = 'http://localhost:5173'
 
 const iframeId = styles['wallet-chat-widget']
 
@@ -18,20 +18,16 @@ function postMessage(data: API) {
   iframeElement?.contentWindow?.postMessage(data, '*')
 }
 
-function trySignIn(connectedWallet?: null | ConnectedWallet) {
-  const hasConnectedWallet = Boolean(
-    typeof connectedWallet !== 'undefined' && connectedWallet !== null
-  )
-  postMessage({
-    target: 'sign_in',
-    data: hasConnectedWallet ? connectedWallet : null,
-  })
+function trySignIn(connectedWallet?: ConnectedWallet) {
+  postMessage({ target: 'sign_in', data: connectedWallet || null })
 }
 
 export default function WalletChatWidget({
   connectedWallet,
+  signer,
 }: {
   connectedWallet?: ConnectedWallet
+  signer?: any
 }) {
   const previousUrlSent = React.useRef('')
   const nftInfoForContract = React.useRef<
@@ -49,6 +45,8 @@ export default function WalletChatWidget({
 
   const [isOpen, setIsOpen] = React.useState(widgetOpen.current)
   const [numUnread, setNumUnread] = React.useState(0)
+
+  const requestSignature = Boolean(signer)
 
   const clickHandler = () => {
     setIsOpen((prev) => {
@@ -70,10 +68,10 @@ export default function WalletChatWidget({
   }
 
   React.useEffect(() => {
-    if (isOpen && !widgetSignedIn.current) {
-      trySignIn(connectedWallet || null)
+    if ((isOpen || requestSignature) && !widgetSignedIn.current) {
+      trySignIn(connectedWallet && { ...connectedWallet, requestSignature })
     }
-  }, [connectedWallet, isOpen])
+  }, [connectedWallet, isOpen, requestSignature])
 
   React.useEffect(() => {
     if (!ownerAddress?.address) return
@@ -139,6 +137,24 @@ export default function WalletChatWidget({
         setNumUnread(data.data)
       }
 
+      if (data.target === 'nonce') {
+        if (signer && connectedWalletRef.current) {
+          const messageToSign = getSiweMessage(
+            connectedWalletRef.current.account,
+            connectedWalletRef.current.chainId,
+            data.data
+          )
+
+          signer
+            .signMessage(messageToSign)
+            .then(
+              (signature: string) =>
+                signature &&
+                postMessage({ target: 'signed_message', data: signature })
+            )
+        }
+      }
+
       if (data.closeWidget) {
         clickHandler()
       }
@@ -149,7 +165,12 @@ export default function WalletChatWidget({
           widgetSignedIn.current = data.true
         } else if (data.data === null) {
           widgetSignedIn.current = false
-          trySignIn(connectedWalletRef.current || null)
+          trySignIn(
+            connectedWalletRef.current && {
+              ...connectedWalletRef.current,
+              requestSignature,
+            }
+          )
         }
       }
 
@@ -162,7 +183,7 @@ export default function WalletChatWidget({
     window.addEventListener('message', handleMsg)
 
     return () => window.removeEventListener('message', handleMsg)
-  }, [])
+  }, [signer])
 
   return (
     <div

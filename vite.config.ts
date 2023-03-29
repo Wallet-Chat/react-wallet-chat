@@ -31,10 +31,11 @@ export default defineConfig({
       fileName: (format) => `index.${format}.js`,
     },
     rollupOptions: {
-      external: ['react'],
+      external: ['react', 'siwe'],
       output: {
         globals: {
           react: 'React',
+          siwe: 'siwe',
         },
       },
     },
