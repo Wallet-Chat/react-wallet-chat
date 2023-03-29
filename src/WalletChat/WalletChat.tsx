@@ -6,7 +6,7 @@ import { getSiweMessage, parseNftFromUrl } from '@/src/utils'
 import styles from './WalletChat.module.css'
 import { API, ConnectedWallet } from '@/src/types'
 
-const URL = 'http://localhost:5173'
+const URL = 'https://staging.walletchat.fun'
 
 const iframeId = styles['wallet-chat-widget']
 

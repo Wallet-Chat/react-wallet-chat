@@ -1874,7 +1874,7 @@ const gt = "_ring_q714d_1", Ir = {
   "widget-is-closed": "_widget-is-closed_q714d_13",
   "wallet-chat-widget__container": "_wallet-chat-widget__container_q714d_23",
   "wallet-chat-widget__container--open": "_wallet-chat-widget__container--open_q714d_27"
-}, vt = "http://localhost:5173", Te = Ir["wallet-chat-widget"];
+}, vt = "https://staging.walletchat.fun", Te = Ir["wallet-chat-widget"];
 function sr(u) {
   var p;
   if (typeof document > "u")
