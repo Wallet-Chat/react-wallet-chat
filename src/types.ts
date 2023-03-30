@@ -11,6 +11,7 @@ export type API =
   | { target: 'widget_open'; data: boolean }
   | { target: 'nft_info'; data: null | object }
   | { target: 'signed_message'; data: { signature: string; signedMsg: string } }
+  | { target: 'origin'; data: { domain: string } }
 
 // Messages the walletchat app sends to the widget
 export type AppAPI =
