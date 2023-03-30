@@ -1,6 +1,6 @@
 import U from "react";
 function ne(u) {
-  const p = u.replace("https://", "").replace("http://", "").split("/"), y = p.length, v = p[y - 1], w = p[y - 2];
+  const p = u.replace("https://", "").replace("http://", "").split("/"), y = p.length, v = p[y - 1].split("?")[0], w = p[y - 2];
   if (u.startsWith("looksrare.org"))
     return { itemId: v, contractAddress: w, network: "ethereum" };
   const h = p[y - 3];

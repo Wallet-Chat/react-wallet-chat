@@ -5,7 +5,7 @@ export function parseNftFromUrl(url: string) {
 
   // Assuming url..../0x....../12345, the itemId will always come last,
   // and the contract address will always come before that
-  const itemId = parts[length - 1]
+  const itemId = parts[length - 1].split('?')[0]
   const contractAddress = parts[length - 2]
 
   if (url.startsWith('looksrare.org')) {
