@@ -314,7 +314,7 @@ ue.write = function(u, s, p, y, v, w) {
           return e;
         case "utf8":
         case "utf-8":
-          return sr(t).length;
+          return cr(t).length;
         case "ucs2":
         case "ucs-2":
         case "utf16le":
@@ -326,7 +326,7 @@ ue.write = function(u, s, p, y, v, w) {
           return Vr(t).length;
         default:
           if (o)
-            return n ? -1 : sr(t).length;
+            return n ? -1 : cr(t).length;
           r = ("" + r).toLowerCase(), o = !0;
       }
   }
@@ -489,7 +489,7 @@ ue.write = function(u, s, p, y, v, w) {
     return l;
   }
   function Nr(t, r, e, n) {
-    return fr(sr(r, t.length - e), t, e, n);
+    return fr(cr(r, t.length - e), t, e, n);
   }
   function Xr(t, r, e, n) {
     return fr(Fr(r), t, e, n);
@@ -571,15 +571,15 @@ ue.write = function(u, s, p, y, v, w) {
     }
     return Dr(n);
   }
-  var cr = 4096;
+  var ur = 4096;
   function Dr(t) {
     var r = t.length;
-    if (r <= cr)
+    if (r <= ur)
       return String.fromCharCode.apply(String, t);
     for (var e = "", n = 0; n < r; )
       e += String.fromCharCode.apply(
         String,
-        t.slice(n, n += cr)
+        t.slice(n, n += ur)
       );
     return e;
   }
@@ -816,7 +816,7 @@ ue.write = function(u, s, p, y, v, w) {
       t = t + "=";
     return t;
   }
-  function sr(t, r) {
+  function cr(t, r) {
     r = r || 1 / 0;
     for (var e, n = t.length, o = null, c = [], l = 0; l < n; ++l) {
       if (e = t.charCodeAt(l), e > 55295 && e < 57344) {
@@ -958,18 +958,18 @@ function He(u) {
     }
   }
 }
-var ar = [], xr = !1, lr, qr = -1;
+var or = [], xr = !1, lr, qr = -1;
 function Xe() {
-  !xr || !lr || (xr = !1, lr.length ? ar = lr.concat(ar) : qr = -1, ar.length && xe());
+  !xr || !lr || (xr = !1, lr.length ? or = lr.concat(or) : qr = -1, or.length && xe());
 }
 function xe() {
   if (!xr) {
     var u = me(Xe);
     xr = !0;
-    for (var s = ar.length; s; ) {
-      for (lr = ar, ar = []; ++qr < s; )
+    for (var s = or.length; s; ) {
+      for (lr = or, or = []; ++qr < s; )
         lr && lr[qr].run();
-      qr = -1, s = ar.length;
+      qr = -1, s = or.length;
     }
     lr = null, xr = !1, He(u);
   }
@@ -979,7 +979,7 @@ P.nextTick = function(u) {
   if (arguments.length > 1)
     for (var p = 1; p < arguments.length; p++)
       s[p - 1] = arguments[p];
-  ar.push(new Ee(u, s)), ar.length === 1 && !xr && me(xe);
+  or.push(new Ee(u, s)), or.length === 1 && !xr && me(xe);
 };
 function Ee(u, s) {
   this.fun = u, this.array = s;
@@ -993,17 +993,17 @@ P.env = {};
 P.argv = [];
 P.version = "";
 P.versions = {};
-function ur() {
+function ar() {
 }
-P.on = ur;
-P.addListener = ur;
-P.once = ur;
-P.off = ur;
-P.removeListener = ur;
-P.removeAllListeners = ur;
-P.emit = ur;
-P.prependListener = ur;
-P.prependOnceListener = ur;
+P.on = ar;
+P.addListener = ar;
+P.once = ar;
+P.off = ar;
+P.removeListener = ar;
+P.removeAllListeners = ar;
+P.emit = ar;
+P.prependListener = ar;
+P.prependOnceListener = ar;
 P.listeners = function(u) {
   return [];
 };
@@ -1162,13 +1162,13 @@ function Ze() {
         }
       return null;
     }
-    var Z = Object.assign, cr = 0, Dr, Pr, Lr, Mr, Wr, j, Y;
+    var Z = Object.assign, ur = 0, Dr, Pr, Lr, Mr, Wr, j, Y;
     function Er() {
     }
     Er.__reactDisabledLog = !0;
     function Yr() {
       {
-        if (cr === 0) {
+        if (ur === 0) {
           Dr = console.log, Pr = console.info, Lr = console.warn, Mr = console.error, Wr = console.group, j = console.groupCollapsed, Y = console.groupEnd;
           var i = {
             configurable: !0,
@@ -1186,12 +1186,12 @@ function Ze() {
             groupEnd: i
           });
         }
-        cr++;
+        ur++;
       }
     }
     function $r() {
       {
-        if (cr--, cr === 0) {
+        if (ur--, ur === 0) {
           var i = {
             configurable: !0,
             enumerable: !0,
@@ -1221,11 +1221,11 @@ function Ze() {
             })
           });
         }
-        cr < 0 && T("disabledDepth fell below zero. This is a bug in React. Please file an issue.");
+        ur < 0 && T("disabledDepth fell below zero. This is a bug in React. Please file an issue.");
       }
     }
     var _r = N.ReactCurrentDispatcher, br;
-    function sr(i, f, h) {
+    function cr(i, f, h) {
       {
         if (br === void 0)
           try {
@@ -1311,7 +1311,7 @@ function Ze() {
       } finally {
         Fr = !1, _r.current = I, $r(), Error.prepareStackTrace = R;
       }
-      var vr = i ? i.displayName || i.name : "", de = vr ? sr(vr) : "";
+      var vr = i ? i.displayName || i.name : "", de = vr ? cr(vr) : "";
       return typeof i == "function" && hr.set(i, de), de;
     }
     function J(i, f, h) {
@@ -1327,12 +1327,12 @@ function Ze() {
       if (typeof i == "function")
         return fr(i, Rr(i));
       if (typeof i == "string")
-        return sr(i);
+        return cr(i);
       switch (i) {
         case B:
-          return sr("Suspense");
+          return cr("Suspense");
         case x:
-          return sr("SuspenseList");
+          return cr("SuspenseList");
       }
       if (typeof i == "object")
         switch (i.$$typeof) {
@@ -1843,7 +1843,7 @@ const ht = "_ring_q714d_1", Ir = {
   "wallet-chat-widget__container": "_wallet-chat-widget__container_q714d_23",
   "wallet-chat-widget__container--open": "_wallet-chat-widget__container--open_q714d_27"
 }, dt = "https://staging.walletchat.fun", be = Ir["wallet-chat-widget"];
-function or(u) {
+function sr(u) {
   var p;
   if (typeof document > "u")
     return;
@@ -1851,7 +1851,7 @@ function or(u) {
   (p = s == null ? void 0 : s.contentWindow) == null || p.postMessage(u, "*");
 }
 function ve(u) {
-  or({ target: "sign_in", data: u || null });
+  sr({ target: "sign_in", data: u || null });
 }
 function xt({
   connectedWallet: u,
@@ -1860,7 +1860,7 @@ function xt({
   const p = U.useRef(""), y = U.useRef(null), v = U.useRef(!1), w = U.useRef(u), d = U.useRef(!1), a = U.useContext(Gr), { widgetState: g, setWidgetState: B } = a || {}, { ownerAddress: x } = g || {}, [E, O] = U.useState(d.current), [k, Q] = U.useState(0), H = Boolean(s), pr = () => {
     O((N) => {
       const T = Boolean(N);
-      return or({ target: "widget_open", data: !T }), y.current && !T && or({
+      return sr({ target: "widget_open", data: !T }), y.current && !T && sr({
         target: "nft_info",
         data: { ...y.current, redirect: !0 }
       }), y.current = null, d.current = !T, !T;
@@ -1880,17 +1880,17 @@ function xt({
     T.network && (y.current = {
       ...T,
       ownerAddress: N
-    }), y.current ? or({
+    }), y.current ? sr({
       target: "nft_info",
       data: { ...y.current, redirect: !0 }
-    }) : or({ target: "nft_info", data: { ownerAddress: N } }), O(!0);
+    }) : sr({ target: "nft_info", data: { ownerAddress: N } }), O(!0);
   }, [x]), U.useEffect(() => {
     const N = () => {
       if (window.location.href === p.current)
         return;
       p.current = window.location.href;
       const X = ne(window.location.href);
-      B && B("foundNft", JSON.stringify(X)), X.network && (y.current = X), or({ target: "nft_info", data: X });
+      B && B("foundNft", JSON.stringify(X)), X.network && (y.current = X), sr({ target: "nft_info", data: X });
     }, T = new MutationObserver(N), W = { subtree: !0, childList: !0 };
     return N(), T.observe(document, W), () => T.disconnect();
   }, []), U.useEffect(() => {
@@ -1899,7 +1899,7 @@ function xt({
     const N = (T) => {
       const W = T.data;
       W.target === "unread_cnt" && Q(W.data), W.target === "message_to_sign" && s && w.current && s({ message: W.data }).then(
-        (X) => X && or({
+        (X) => X && sr({
           target: "signed_message",
           data: { signature: X, signedMsg: W.data }
         })
@@ -1908,7 +1908,7 @@ function xt({
           ...w.current,
           requestSignature: Boolean(s)
         }
-      ))), d.current && or({ target: "widget_open", data: !0 }), or({ target: "origin", data: { domain: window.location.host } });
+      ))), d.current && sr({ target: "widget_open", data: !0 });
     };
     return window.addEventListener("message", N), () => window.removeEventListener("message", N);
   }, [s]), /* @__PURE__ */ Br(
