@@ -195,7 +195,7 @@ ue.write = function(u, s, p, y, v, w) {
   function B(t, r) {
     if ((typeof r != "string" || r === "") && (r = "utf8"), !a.isEncoding(r))
       throw new TypeError("Unknown encoding: " + r);
-    var e = W(t, r) | 0, n = h(e), o = n.write(t, r);
+    var e = M(t, r) | 0, n = h(e), o = n.write(t, r);
     return o !== e && (n = n.slice(0, o)), n;
   }
   function O(t) {
@@ -294,7 +294,7 @@ ue.write = function(u, s, p, y, v, w) {
     }
     return o;
   };
-  function W(t, r) {
+  function M(t, r) {
     if (a.isBuffer(t))
       return t.length;
     if (ArrayBuffer.isView(t) || G(t, ArrayBuffer))
@@ -330,8 +330,8 @@ ue.write = function(u, s, p, y, v, w) {
           r = ("" + r).toLowerCase(), o = !0;
       }
   }
-  a.byteLength = W;
-  function Y(t, r, e) {
+  a.byteLength = M;
+  function W(t, r, e) {
     var n = !1;
     if ((r === void 0 || r < 0) && (r = 0), r > this.length || ((e === void 0 || e > this.length) && (e = this.length), e <= 0) || (e >>>= 0, r >>>= 0, e <= r))
       return "";
@@ -361,7 +361,7 @@ ue.write = function(u, s, p, y, v, w) {
       }
   }
   a.prototype._isBuffer = !0;
-  function M(t, r, e) {
+  function Y(t, r, e) {
     var n = t[r];
     t[r] = t[e], t[e] = n;
   }
@@ -370,25 +370,25 @@ ue.write = function(u, s, p, y, v, w) {
     if (r % 2 !== 0)
       throw new RangeError("Buffer size must be a multiple of 16-bits");
     for (var e = 0; e < r; e += 2)
-      M(this, e, e + 1);
+      Y(this, e, e + 1);
     return this;
   }, a.prototype.swap32 = function() {
     var r = this.length;
     if (r % 4 !== 0)
       throw new RangeError("Buffer size must be a multiple of 32-bits");
     for (var e = 0; e < r; e += 4)
-      M(this, e, e + 3), M(this, e + 1, e + 2);
+      Y(this, e, e + 3), Y(this, e + 1, e + 2);
     return this;
   }, a.prototype.swap64 = function() {
     var r = this.length;
     if (r % 8 !== 0)
       throw new RangeError("Buffer size must be a multiple of 64-bits");
     for (var e = 0; e < r; e += 8)
-      M(this, e, e + 7), M(this, e + 1, e + 6), M(this, e + 2, e + 5), M(this, e + 3, e + 4);
+      Y(this, e, e + 7), Y(this, e + 1, e + 6), Y(this, e + 2, e + 5), Y(this, e + 3, e + 4);
     return this;
   }, a.prototype.toString = function() {
     var r = this.length;
-    return r === 0 ? "" : arguments.length === 0 ? Z(this, 0, r) : Y.apply(this, arguments);
+    return r === 0 ? "" : arguments.length === 0 ? Z(this, 0, r) : W.apply(this, arguments);
   }, a.prototype.toLocaleString = a.prototype.toString, a.prototype.equals = function(r) {
     if (!a.isBuffer(r))
       throw new TypeError("Argument must be a Buffer");
@@ -1085,10 +1085,10 @@ function Ze() {
       {
         for (var f = arguments.length, d = new Array(f > 1 ? f - 1 : 0), m = 1; m < f; m++)
           d[m - 1] = arguments[m];
-        W("error", i, d);
+        M("error", i, d);
       }
     }
-    function W(i, f, d) {
+    function M(i, f, d) {
       {
         var m = q.ReactDebugCurrentFrame, R = m.getStackAddendum();
         R !== "" && (f += "%s", d = d.concat([R]));
@@ -1098,10 +1098,10 @@ function Ze() {
         I.unshift("Warning: " + f), Function.prototype.apply.call(console[i], console, I);
       }
     }
-    var Y = !1, M = !1, kr = !1, Or = !1, Hr = !1, Nr;
+    var W = !1, Y = !1, kr = !1, Or = !1, Hr = !1, Nr;
     Nr = Symbol.for("react.module.reference");
     function Xr(i) {
-      return !!(typeof i == "string" || typeof i == "function" || i === y || i === w || Hr || i === v || i === k || i === x || Or || i === O || Y || M || kr || typeof i == "object" && i !== null && (i.$$typeof === B || i.$$typeof === E || i.$$typeof === h || i.$$typeof === a || i.$$typeof === g || // This needs to include all possible module reference object
+      return !!(typeof i == "string" || typeof i == "function" || i === y || i === w || Hr || i === v || i === k || i === x || Or || i === O || W || Y || kr || typeof i == "object" && i !== null && (i.$$typeof === B || i.$$typeof === E || i.$$typeof === h || i.$$typeof === a || i.$$typeof === g || // This needs to include all possible module reference object
       // types supported by any Flight configuration anywhere since
       // we don't know which Flight build this will end up being used
       // with.
@@ -1735,7 +1735,7 @@ const tt = "_ring_7tcsj_47", nt = "_popupButton__container_7tcsj_5", it = "_popu
 function _e() {
   try {
     const u = typeof localStorage < "u" && localStorage.getItem("clickedNfts") || "";
-    return u ? JSON.parse(u) : [];
+    return u ? Array.from(new Set(JSON.parse(u))) : [];
   } catch {
     return [];
   }
@@ -1756,7 +1756,7 @@ function pt({
 }) {
   const v = _e(), w = U.useContext(Gr), h = w == null ? void 0 : w.widgetState, a = h == null ? void 0 : h.foundNft, g = a && JSON.parse(a).itemId, k = !p && (a ? !v.includes(a) && Boolean(g) : !1), [x, E] = U.useState(k);
   return U.useEffect(() => {
-    k && E(!0);
+    E(k);
   }, [k]), /* @__PURE__ */ Br(
     "div",
     {
@@ -1842,7 +1842,7 @@ const ht = "_ring_q714d_1", Ir = {
   "widget-is-closed": "_widget-is-closed_q714d_13",
   "wallet-chat-widget__container": "_wallet-chat-widget__container_q714d_23",
   "wallet-chat-widget__container--open": "_wallet-chat-widget__container--open_q714d_27"
-}, dt = "http://localhost:5173", be = Ir["wallet-chat-widget"];
+}, dt = "https://staging.walletchat.fun", be = Ir["wallet-chat-widget"];
 function rr(u) {
   var p;
   if (typeof document > "u")
@@ -1860,11 +1860,11 @@ function xt({
 }) {
   const y = U.useRef(""), v = U.useRef(null), w = U.useRef(!1), h = U.useRef(u), a = U.useRef(!1), g = U.useContext(Gr), { widgetState: k, setWidgetState: x } = g || {}, { ownerAddress: E } = k || {}, [B, O] = U.useState(a.current), [K, ir] = U.useState(0), fr = Boolean(s), q = () => {
     O((S) => {
-      const W = Boolean(S);
-      return rr({ target: "widget_open", data: !W }), v.current && !W && rr({
+      const M = Boolean(S);
+      return rr({ target: "widget_open", data: !M }), v.current && !M && rr({
         target: "nft_info",
         data: { ...v.current, redirect: !0 }
-      }), v.current = null, a.current = !W, !W;
+      }), v.current = null, a.current = !M, !M;
     });
   };
   return U.useEffect(() => {
@@ -1877,9 +1877,9 @@ function xt({
   }, [u, B, fr]), U.useEffect(() => {
     if (!(E != null && E.address))
       return;
-    const S = E.address, W = ne(window.location.href);
-    W.network && (v.current = {
-      ...W,
+    const S = E.address, M = ne(window.location.href);
+    M.network && (v.current = {
+      ...M,
       ownerAddress: S
     }), v.current ? rr({
       target: "nft_info",
@@ -1890,26 +1890,26 @@ function xt({
       if (window.location.href === y.current)
         return;
       y.current = window.location.href;
-      const M = ne(window.location.href);
-      console.log(1e3, M), x && x("foundNft", JSON.stringify(M)), M.network && (v.current = M), rr({ target: "nft_info", data: M });
-    }, W = new MutationObserver(S), Y = { subtree: !0, childList: !0 };
-    return S(), W.observe(document, Y), () => W.disconnect();
+      const Y = ne(window.location.href);
+      x && x("foundNft", JSON.stringify(Y)), Y.network && (v.current = Y), rr({ target: "nft_info", data: Y });
+    }, M = new MutationObserver(S), W = { subtree: !0, childList: !0 };
+    return S(), M.observe(document, W), () => M.disconnect();
   }, [x]), U.useEffect(() => {
     h.current = u;
   }, [u]), U.useEffect(() => {
-    const S = (W) => {
-      const Y = W.data;
-      Y.target === "unread_cnt" && ir(Y.data), Y.target === "message_to_sign" && s && h.current && s({ message: Y.data }).then(
-        (M) => M && rr({
+    const S = (M) => {
+      const W = M.data;
+      W.target === "unread_cnt" && ir(W.data), W.target === "message_to_sign" && s && h.current && s({ message: W.data }).then(
+        (Y) => Y && rr({
           target: "signed_message",
-          data: { signature: M, signedMsg: Y.data }
+          data: { signature: Y, signedMsg: W.data }
         })
       ).catch(
         () => rr({
           target: "signed_message",
-          data: { signature: null, signedMsg: Y.data }
+          data: { signature: null, signedMsg: W.data }
         })
-      ), Y.target === "close_widget" && q(), Y.target === "is_signed_in" && (Y.data ? w.current = Y.data : Y.data === null && (w.current = !1, ve(
+      ), W.target === "close_widget" && q(), W.target === "is_signed_in" && (W.data ? w.current = W.data : W.data === null && (w.current = !1, ve(
         h.current && {
           ...h.current,
           requestSignature: Boolean(s)

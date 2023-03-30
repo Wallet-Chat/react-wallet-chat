@@ -2,7 +2,6 @@ import React from 'react'
 import classnames from 'classnames'
 import { WalletChatContext } from '@/src/Context'
 import styles from './ButtonOverlay.module.css'
-import classNames from 'classnames'
 
 function getClickedNfts() {
   try {
@@ -11,7 +10,7 @@ function getClickedNfts() {
         localStorage.getItem('clickedNfts')) ||
       ''
 
-    return clickedNfts ? JSON.parse(clickedNfts) : []
+    return clickedNfts ? Array.from(new Set(JSON.parse(clickedNfts))) : []
   } catch (error: any) {
     return []
   }
@@ -54,14 +53,12 @@ export default function ButtonOverlay({
   const [isRinging, setIsRinging] = React.useState(shouldRing)
 
   React.useEffect(() => {
-    if (shouldRing) {
-      setIsRinging(true)
-    }
+      setIsRinging(shouldRing)
   }, [shouldRing])
 
   return (
     <div
-      className={classNames(styles.popupButton__container, {
+      className={classnames(styles.popupButton__container, {
         [styles['popupButton__container--open']]: isOpen,
       })}
     >
