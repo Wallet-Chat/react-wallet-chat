@@ -25,9 +25,11 @@ function trySignIn(connectedWallet?: ConnectedWallet) {
 export default function WalletChatWidget({
   connectedWallet,
   signMessage,
+  style,
 }: {
   connectedWallet?: ConnectedWallet
   signMessage?: (args?: { message: string }) => Promise<string | `0x${string}`>
+  style?: React.CSSProperties
 }) {
   const previousUrlSent = React.useRef('')
   const nftInfoForContract = React.useRef<
@@ -198,6 +200,7 @@ export default function WalletChatWidget({
       className={classNames(styles['wallet-chat-widget__container'], {
         [styles['wallet-chat-widget__container--open']]: isOpen,
       })}
+      style={style}
     >
       <iframe
         title='WalletChat'
