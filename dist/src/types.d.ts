@@ -15,9 +15,26 @@ export type API = {
     data: null | object;
 } | {
     target: 'signed_message';
-    data: string;
+    data: {
+        signature: string;
+        signedMsg: string;
+    };
+} | {
+    target: 'origin';
+    data: {
+        domain: string;
+    };
 };
-export type FrameAPI = {
-    target: 'nonce';
+export type AppAPI = {
+    target: 'unread_cnt';
+    data: number;
+} | {
+    target: 'message_to_sign';
     data: string;
+} | {
+    target: 'close_widget';
+    data: null;
+} | {
+    target: 'is_signed_in';
+    data: boolean;
 };

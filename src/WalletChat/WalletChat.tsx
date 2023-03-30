@@ -2,11 +2,11 @@ import React from 'react'
 import classNames from 'classnames'
 import ButtonOverlay from '@/src/ButtonOverlay'
 import { WalletChatContext } from '@/src/Context'
-import { getSiweMessage, parseNftFromUrl } from '@/src/utils'
+import { parseNftFromUrl } from '@/src/utils'
 import styles from './WalletChat.module.css'
-import { API, ConnectedWallet } from '@/src/types'
+import { API, ConnectedWallet, AppAPI } from '@/src/types'
 
-const URL = 'http://localhost:5173'
+const URL = 'https://staging.walletchat.fun'
 
 const iframeId = styles['wallet-chat-widget']
 
@@ -24,10 +24,10 @@ function trySignIn(connectedWallet?: ConnectedWallet) {
 
 export default function WalletChatWidget({
   connectedWallet,
-  signer,
+  signMessage,
 }: {
   connectedWallet?: ConnectedWallet
-  signer?: any
+  signMessage?: (args?: { message: string }) => Promise<string | `0x${string}`>
 }) {
   const previousUrlSent = React.useRef('')
   const nftInfoForContract = React.useRef<
@@ -46,7 +46,7 @@ export default function WalletChatWidget({
   const [isOpen, setIsOpen] = React.useState(widgetOpen.current)
   const [numUnread, setNumUnread] = React.useState(0)
 
-  const requestSignature = Boolean(signer)
+  const shouldRequestSignature = Boolean(signMessage)
 
   const clickHandler = () => {
     setIsOpen((prev) => {
@@ -68,10 +68,15 @@ export default function WalletChatWidget({
   }
 
   React.useEffect(() => {
-    if ((isOpen || requestSignature) && !widgetSignedIn.current) {
-      trySignIn(connectedWallet && { ...connectedWallet, requestSignature })
+    if ((isOpen || shouldRequestSignature) && !widgetSignedIn.current) {
+      trySignIn(
+        connectedWallet && {
+          ...connectedWallet,
+          requestSignature: shouldRequestSignature,
+        }
+      )
     }
-  }, [connectedWallet, isOpen, requestSignature])
+  }, [connectedWallet, isOpen, shouldRequestSignature])
 
   React.useEffect(() => {
     if (!ownerAddress?.address) return
@@ -131,44 +136,39 @@ export default function WalletChatWidget({
 
   React.useEffect(() => {
     const handleMsg = (e: any) => {
-      const { data } = e
+      const data = e.data as AppAPI
 
       if (data.target === 'unread_cnt') {
         setNumUnread(data.data)
       }
 
-      if (data.target === 'nonce') {
-        if (signer && connectedWalletRef.current) {
-          const messageToSign = getSiweMessage(
-            connectedWalletRef.current.account,
-            connectedWalletRef.current.chainId,
-            data.data
+      if (data.target === 'message_to_sign') {
+        if (signMessage && connectedWalletRef.current) {
+          signMessage({ message: data.data }).then(
+            (signature: string) =>
+              signature &&
+              postMessage({
+                target: 'signed_message',
+                data: { signature, signedMsg: data.data },
+              })
           )
-
-          signer
-            .signMessage(messageToSign)
-            .then(
-              (signature: string) =>
-                signature &&
-                postMessage({ target: 'signed_message', data: signature })
-            )
         }
       }
 
-      if (data.closeWidget) {
+      if (data.target === 'close_widget') {
         clickHandler()
       }
 
-      if (data.target === 'sign_in') {
+      if (data.target === 'is_signed_in') {
         if (data.data) {
           // received message that is already signed in -> no need to keep trying
-          widgetSignedIn.current = data.true
+          widgetSignedIn.current = data.data
         } else if (data.data === null) {
           widgetSignedIn.current = false
           trySignIn(
             connectedWalletRef.current && {
               ...connectedWalletRef.current,
-              requestSignature,
+              requestSignature: Boolean(signMessage),
             }
           )
         }
@@ -178,12 +178,14 @@ export default function WalletChatWidget({
         // this is just a 'ping' message back to let the app know that it's open
         postMessage({ target: 'widget_open', data: true })
       }
+
+      postMessage({ target: 'origin', data: { domain: window.location.host } })
     }
 
     window.addEventListener('message', handleMsg)
 
     return () => window.removeEventListener('message', handleMsg)
-  }, [signer])
+  }, [signMessage])
 
   return (
     <div
