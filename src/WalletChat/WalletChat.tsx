@@ -179,7 +179,13 @@ export default function WalletChatWidget({
         postMessage({ target: 'widget_open', data: true })
       }
 
-      postMessage({ target: 'origin', data: { domain: window.location.host } })
+      postMessage({
+        target: 'origin',
+        data: {
+          domain: window.location.host,
+          origin: window.location.protocol + window.location.host,
+        },
+      })
     }
 
     window.addEventListener('message', handleMsg)

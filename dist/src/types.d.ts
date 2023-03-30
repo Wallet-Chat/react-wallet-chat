@@ -19,6 +19,12 @@ export type API = {
         signature: string;
         signedMsg: string;
     };
+} | {
+    target: 'origin';
+    data: {
+        domain: string;
+        origin: string;
+    };
 };
 export type AppAPI = {
     target: 'unread_cnt';
