@@ -178,8 +178,6 @@ export default function WalletChatWidget({
         // this is just a 'ping' message back to let the app know that it's open
         postMessage({ target: 'widget_open', data: true })
       }
-
-      postMessage({ target: 'origin', data: { domain: window.location.host } })
     }
 
     window.addEventListener('message', handleMsg)
