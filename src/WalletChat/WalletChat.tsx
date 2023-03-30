@@ -130,7 +130,7 @@ export default function WalletChatWidget({
 
     observer.observe(document, config)
     return () => observer.disconnect()
-  }, [])
+  }, [setWidgetState])
 
   React.useEffect(() => {
     connectedWalletRef.current = connectedWallet
@@ -146,14 +146,21 @@ export default function WalletChatWidget({
 
       if (data.target === 'message_to_sign') {
         if (signMessage && connectedWalletRef.current) {
-          signMessage({ message: data.data }).then(
-            (signature: string) =>
-              signature &&
+          signMessage({ message: data.data })
+            .then(
+              (signature: string) =>
+                signature &&
+                postMessage({
+                  target: 'signed_message',
+                  data: { signature, signedMsg: data.data },
+                })
+            )
+            .catch(() =>
               postMessage({
                 target: 'signed_message',
-                data: { signature, signedMsg: data.data },
+                data: { signature: null, signedMsg: data.data },
               })
-          )
+            )
         }
       }
 

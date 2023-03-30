@@ -12,11 +12,17 @@ export type API = {
     data: boolean;
 } | {
     target: 'nft_info';
-    data: null | object;
+    data: null | {
+        contractAddress?: null | string;
+        itemId?: null | string;
+        network?: null | string;
+        ownerAddress?: string;
+        redirect?: boolean;
+    };
 } | {
     target: 'signed_message';
     data: {
-        signature: string;
+        signature: null | string;
         signedMsg: string;
     };
 } | {
