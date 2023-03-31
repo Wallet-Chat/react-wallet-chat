@@ -182,12 +182,7 @@ export default function WalletChatWidget({
           widgetSignedIn.current = data.data
         } else if (data.data === null) {
           widgetSignedIn.current = false
-          trySignIn(
-            connectedWalletRef.current && {
-              ...connectedWalletRef.current,
-              requestSignature: Boolean(signMessage),
-            }
-          )
+          trySignIn(connectedWalletRef.current)
         }
       }
 
