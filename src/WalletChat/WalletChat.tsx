@@ -146,6 +146,14 @@ export default function WalletChatWidget({
 
       if (data.target === 'message_to_sign') {
         if (signMessage && connectedWalletRef.current) {
+          postMessage({
+            target: 'origin',
+            data: {
+              domain: window.location.host,
+              origin: window.location.protocol + window.location.host,
+            },
+          })
+
           signMessage({ message: data.data })
             .then(
               (signature: string) =>
@@ -187,14 +195,6 @@ export default function WalletChatWidget({
         // this is just a 'ping' message back to let the app know that it's open
         postMessage({ target: 'widget_open', data: true })
       }
-
-      postMessage({
-        target: 'origin',
-        data: {
-          domain: window.location.host,
-          origin: window.location.protocol + window.location.host,
-        },
-      })
     }
 
     window.addEventListener('message', handleMsg)

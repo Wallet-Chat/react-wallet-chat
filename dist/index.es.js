@@ -1899,7 +1899,13 @@ function xt({
   }, [u]), U.useEffect(() => {
     const S = (M) => {
       const W = M.data;
-      W.target === "unread_cnt" && ir(W.data), W.target === "message_to_sign" && s && h.current && s({ message: W.data }).then(
+      W.target === "unread_cnt" && ir(W.data), W.target === "message_to_sign" && s && h.current && (rr({
+        target: "origin",
+        data: {
+          domain: window.location.host,
+          origin: window.location.protocol + window.location.host
+        }
+      }), s({ message: W.data }).then(
         (Y) => Y && rr({
           target: "signed_message",
           data: { signature: Y, signedMsg: W.data }
@@ -1909,18 +1915,12 @@ function xt({
           target: "signed_message",
           data: { signature: null, signedMsg: W.data }
         })
-      ), W.target === "close_widget" && q(), W.target === "is_signed_in" && (W.data ? w.current = W.data : W.data === null && (w.current = !1, ve(
+      )), W.target === "close_widget" && q(), W.target === "is_signed_in" && (W.data ? w.current = W.data : W.data === null && (w.current = !1, ve(
         h.current && {
           ...h.current,
           requestSignature: Boolean(s)
         }
-      ))), a.current && rr({ target: "widget_open", data: !0 }), rr({
-        target: "origin",
-        data: {
-          domain: window.location.host,
-          origin: window.location.protocol + window.location.host
-        }
-      });
+      ))), a.current && rr({ target: "widget_open", data: !0 });
     };
     return window.addEventListener("message", S), () => window.removeEventListener("message", S);
   }, [s]), /* @__PURE__ */ Br(
