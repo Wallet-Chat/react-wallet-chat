@@ -2,14 +2,11 @@ export type ConnectedWallet = {
     walletName: string;
     account: string | `0x${string}`;
     chainId: number;
-    requestSignature?: boolean;
+    hasSigner?: boolean;
 };
 export type API = {
     target: 'sign_in';
     data: null | ConnectedWallet;
-} | {
-    target: 'widget_open';
-    data: boolean;
 } | {
     target: 'nft_info';
     data: null | {

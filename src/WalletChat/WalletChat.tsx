@@ -18,8 +18,16 @@ function postMessage(data: API) {
   iframeElement?.contentWindow?.postMessage(data, '*')
 }
 
-function trySignIn(connectedWallet?: ConnectedWallet) {
-  postMessage({ target: 'sign_in', data: connectedWallet || null })
+function trySignIn(wallet?: ConnectedWallet) {
+  postMessage({
+    target: 'origin',
+    data: {
+      domain: window.location.host,
+      origin: window.location.protocol + window.location.host,
+    },
+  })
+
+  postMessage({ target: 'sign_in', data: wallet || null })
 }
 
 export default function WalletChatWidget({
@@ -35,7 +43,6 @@ export default function WalletChatWidget({
   const nftInfoForContract = React.useRef<
     null | (ReturnType<typeof parseNftFromUrl> & { ownerAddress?: string })
   >(null)
-  const widgetSignedIn = React.useRef(false)
   const connectedWalletRef = React.useRef(connectedWallet)
 
   // this is used for receive message effect without triggering the effect
@@ -48,13 +55,11 @@ export default function WalletChatWidget({
   const [isOpen, setIsOpen] = React.useState(widgetOpen.current)
   const [numUnread, setNumUnread] = React.useState(0)
 
-  const shouldRequestSignature = Boolean(signMessage)
+  const hasSigner = Boolean(signMessage)
 
   const clickHandler = () => {
     setIsOpen((prev) => {
       const wasOpen = Boolean(prev)
-
-      postMessage({ target: 'widget_open', data: !wasOpen })
 
       if (nftInfoForContract.current && !wasOpen) {
         postMessage({
@@ -69,16 +74,15 @@ export default function WalletChatWidget({
     })
   }
 
-  React.useEffect(() => {
-    if ((isOpen || shouldRequestSignature) && !widgetSignedIn.current) {
-      trySignIn(
-        connectedWallet && {
-          ...connectedWallet,
-          requestSignature: shouldRequestSignature,
-        }
-      )
+  const doSignIn = React.useCallback(() => {
+    if (connectedWallet && (isOpen || hasSigner)) {
+      trySignIn({ ...connectedWallet, hasSigner })
     }
-  }, [connectedWallet, isOpen, shouldRequestSignature])
+  }, [connectedWallet, isOpen, hasSigner])
+
+  React.useEffect(() => {
+    doSignIn()
+  }, [doSignIn])
 
   React.useEffect(() => {
     if (!ownerAddress?.address) return
@@ -146,14 +150,6 @@ export default function WalletChatWidget({
 
       if (data.target === 'message_to_sign') {
         if (signMessage && connectedWalletRef.current) {
-          postMessage({
-            target: 'origin',
-            data: {
-              domain: window.location.host,
-              origin: window.location.protocol + window.location.host,
-            },
-          })
-
           signMessage({ message: data.data })
             .then(
               (signature: string) =>
@@ -176,26 +172,16 @@ export default function WalletChatWidget({
         clickHandler()
       }
 
-      if (data.target === 'is_signed_in') {
-        if (data.data) {
-          // received message that is already signed in -> no need to keep trying
-          widgetSignedIn.current = data.data
-        } else if (data.data === null) {
-          widgetSignedIn.current = false
-          trySignIn(connectedWalletRef.current)
-        }
-      }
-
-      if (widgetOpen.current) {
-        // this is just a 'ping' message back to let the app know that it's open
-        postMessage({ target: 'widget_open', data: true })
+      if (data.target === 'is_signed_in' && !data.data) {
+        // if the user is not signed in, still send the data needed to enable log in
+        doSignIn()
       }
     }
 
     window.addEventListener('message', handleMsg)
 
     return () => window.removeEventListener('message', handleMsg)
-  }, [signMessage])
+  }, [signMessage, doSignIn])
 
   return (
     <div
