@@ -5,8 +5,11 @@ import { WalletChatContext } from '@/src/Context'
 import { parseNftFromUrl } from '@/src/utils'
 import styles from './WalletChat.module.css'
 import { API, ConnectedWallet, AppAPI } from '@/src/types'
+import dotenv from 'dotenv';
 
-const URL = 'https://staging.walletchat.fun'
+dotenv.config();
+
+const URL = process.env.REACT_APP_APP_URL || 'https://staging.walletchat.fun'
 
 const iframeId = styles['wallet-chat-widget']
 
