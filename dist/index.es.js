@@ -1842,7 +1842,7 @@ const pt = "_ring_q714d_1", Ir = {
   "widget-is-closed": "_widget-is-closed_q714d_13",
   "wallet-chat-widget__container": "_wallet-chat-widget__container_q714d_23",
   "wallet-chat-widget__container--open": "_wallet-chat-widget__container--open_q714d_27"
-}, ht = Ur.env.REACT_APP_APP_URL || "https://app.walletchat.fun", _e = Ir["wallet-chat-widget"];
+}, ht = Ur.env.REACT_APP_APP_URL || "https://staging.walletchat.fun", _e = Ir["wallet-chat-widget"];
 function sr(u) {
   var p;
   if (typeof document > "u")

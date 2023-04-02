@@ -7,7 +7,7 @@ import styles from './WalletChat.module.css'
 import { API, ConnectedWallet, AppAPI } from '@/src/types'
 import {config as configDotenv} from 'dotenv'
 
-const URL = process.env.REACT_APP_APP_URL || 'https://app.walletchat.fun'
+const URL = process.env.REACT_APP_APP_URL || 'https://staging.walletchat.fun'
 
 const iframeId = styles['wallet-chat-widget']
 
