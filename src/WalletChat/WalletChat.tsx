@@ -6,7 +6,7 @@ import { parseNftFromUrl } from '@/src/utils'
 import styles from './WalletChat.module.css'
 import { API, ConnectedWallet, AppAPI } from '@/src/types'
 
-const URL = process.env.REACT_APP_APP_URL || 'https://staging.walletchat.fun'
+const URL = process.env.VITE_REACT_APP_APP_URL || 'https://app.walletchat.fun'
 
 const iframeId = styles['wallet-chat-widget']
 
