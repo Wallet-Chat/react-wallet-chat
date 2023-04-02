@@ -7,7 +7,7 @@ import styles from './WalletChat.module.css'
 import { API, ConnectedWallet, AppAPI } from '@/src/types'
 import dotenv from 'dotenv';
 
-dotenv.config();
+dotenv.config({ path: '../../../../' });
 
 const URL = process.env.REACT_APP_APP_URL || 'https://staging.walletchat.fun'
 

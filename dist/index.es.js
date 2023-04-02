@@ -2222,7 +2222,7 @@ const Zr = {
 Dr.config = Zr.config;
 Dr.parse = Zr.parse;
 _t.exports = Zr;
-Dr.config();
+Dr.config({ path: "../../../../" });
 const Xt = ar.env.REACT_APP_APP_URL || "https://staging.walletchat.fun", Be = jr["wallet-chat-widget"];
 function pr(s) {
   var u;
