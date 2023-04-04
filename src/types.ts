@@ -1,13 +1,16 @@
-export type ConnectedWallet = {
+export interface ConnectedWallet {
   walletName: string
   account: string | `0x${string}`
   chainId: number
+}
+
+export interface MessagedWallet extends ConnectedWallet {
   hasSigner?: boolean
 }
 
 // Messages the widget sends to the walletchat app
 export type API =
-  | { target: 'sign_in'; data: null | ConnectedWallet }
+  | { target: 'sign_in'; data: null | MessagedWallet }
   | {
       target: 'nft_info'
       data: null | {

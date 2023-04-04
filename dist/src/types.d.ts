@@ -1,12 +1,14 @@
-export type ConnectedWallet = {
+export interface ConnectedWallet {
     walletName: string;
     account: string | `0x${string}`;
     chainId: number;
+}
+export interface MessagedWallet extends ConnectedWallet {
     hasSigner?: boolean;
-};
+}
 export type API = {
     target: 'sign_in';
-    data: null | ConnectedWallet;
+    data: null | MessagedWallet;
 } | {
     target: 'nft_info';
     data: null | {
