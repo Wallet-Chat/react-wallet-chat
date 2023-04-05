@@ -6,8 +6,7 @@ import { parseNftFromUrl } from '@/src/utils'
 import styles from './WalletChat.module.css'
 import { API, ConnectedWallet, MessagedWallet, AppAPI } from '@/src/types'
 
-const URL =
-  import.meta.env.VITE_REACT_APP_APP_URL || 'https://staging.walletchat.fun'
+let URL = 'https://staging.walletchat.fun'
 
 const iframeId = styles['wallet-chat-widget']
 
@@ -144,6 +143,10 @@ export default function WalletChatWidget({
   React.useEffect(() => {
     const handleMsg = (e: any) => {
       const data = e.data as AppAPI
+
+      if (data.target === 'url_env' && data.data !== URL) {
+        URL = data.data
+      }
 
       if (data.target === 'unread_cnt') {
         setNumUnread(data.data)

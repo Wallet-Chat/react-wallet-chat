@@ -33,3 +33,4 @@ export type AppAPI =
   | { target: 'message_to_sign'; data: string }
   | { target: 'close_widget'; data: null }
   | { target: 'is_signed_in'; data: boolean }
+  | { target: 'url_env'; data: string }

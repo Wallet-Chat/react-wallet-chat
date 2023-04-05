@@ -43,4 +43,7 @@ export type AppAPI = {
 } | {
     target: 'is_signed_in';
     data: boolean;
+} | {
+    target: 'url_env';
+    data: string;
 };
