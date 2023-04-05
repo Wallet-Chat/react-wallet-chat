@@ -5,7 +5,7 @@ export interface ConnectedWallet {
 }
 
 export interface MessagedWallet extends ConnectedWallet {
-  hasSigner?: boolean
+  requestSignature?: boolean
 }
 
 // Messages the widget sends to the walletchat app

@@ -33,10 +33,12 @@ function trySignIn(wallet?: MessagedWallet) {
 export default function WalletChatWidget({
   connectedWallet,
   signMessage,
+  requestSignature,
   style,
 }: {
   connectedWallet?: ConnectedWallet
   signMessage?: (args?: { message: string }) => Promise<string | `0x${string}`>
+  requestSignature?: boolean
   style?: React.CSSProperties
 }) {
   const previousUrlSent = React.useRef('')
@@ -54,8 +56,6 @@ export default function WalletChatWidget({
 
   const [isOpen, setIsOpen] = React.useState(widgetOpen.current)
   const [numUnread, setNumUnread] = React.useState(0)
-
-  const hasSigner = Boolean(signMessage)
 
   const clickHandler = () => {
     setIsOpen((prev) => {
@@ -75,10 +75,10 @@ export default function WalletChatWidget({
   }
 
   const doSignIn = React.useCallback(() => {
-    if (connectedWallet && (isOpen || hasSigner)) {
-      trySignIn({ ...connectedWallet, hasSigner })
+    if (connectedWallet && (isOpen || requestSignature)) {
+      trySignIn({ ...connectedWallet, requestSignature })
     }
-  }, [connectedWallet, isOpen, hasSigner])
+  }, [connectedWallet, isOpen, requestSignature])
 
   React.useEffect(() => {
     doSignIn()

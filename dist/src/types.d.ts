@@ -4,7 +4,7 @@ export interface ConnectedWallet {
     chainId: number;
 }
 export interface MessagedWallet extends ConnectedWallet {
-    hasSigner?: boolean;
+    requestSignature?: boolean;
 }
 export type API = {
     target: 'sign_in';
