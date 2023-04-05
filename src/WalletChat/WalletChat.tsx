@@ -6,7 +6,7 @@ import { parseNftFromUrl } from '@/src/utils'
 import styles from './WalletChat.module.css'
 import { API, ConnectedWallet, MessagedWallet, AppAPI } from '@/src/types'
 
-let URL = 'https://staging.walletchat.fun'
+const URL = 'https://staging.walletchat.fun'
 
 const iframeId = styles['wallet-chat-widget']
 
@@ -41,6 +41,8 @@ export default function WalletChatWidget({
   requestSignature?: boolean
   style?: React.CSSProperties
 }) {
+  const [url, setUrl] = React.useState(URL)
+
   const previousUrlSent = React.useRef('')
   const nftInfoForContract = React.useRef<
     null | (ReturnType<typeof parseNftFromUrl> & { ownerAddress?: string })
@@ -145,7 +147,7 @@ export default function WalletChatWidget({
       const data = e.data as AppAPI
 
       if (data.target === 'url_env' && data.data !== URL) {
-        URL = data.data
+        setUrl(data.data)
       }
 
       if (data.target === 'unread_cnt') {
@@ -202,7 +204,7 @@ export default function WalletChatWidget({
           [styles['widget-is-open']]: isOpen,
           [styles['widget-is-closed']]: !isOpen,
         })}
-        src={URL}
+        src={url}
       />
 
       <ButtonOverlay
