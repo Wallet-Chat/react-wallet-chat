@@ -19,14 +19,6 @@ function postMessage(data: API) {
 }
 
 function trySignIn(wallet?: MessagedWallet) {
-  postMessage({
-    target: 'origin',
-    data: {
-      domain: window.location.host,
-      origin: window.location.protocol + window.location.host,
-    },
-  })
-
   postMessage({ target: 'sign_in', data: wallet || null })
 }
 
@@ -48,6 +40,7 @@ export default function WalletChatWidget({
     null | (ReturnType<typeof parseNftFromUrl> & { ownerAddress?: string })
   >(null)
   const connectedWalletRef = React.useRef(connectedWallet)
+  const didSendOrigin = React.useRef(false)
 
   // this is used for receive message effect without triggering the effect
   const widgetOpen = React.useRef(false)
@@ -145,6 +138,16 @@ export default function WalletChatWidget({
   React.useEffect(() => {
     const handleMsg = (e: any) => {
       const data = e.data as AppAPI
+
+      if (!didSendOrigin.current) {
+        postMessage({
+          target: 'origin',
+          data: {
+            domain: window.location.host,
+            origin: window.location.protocol + window.location.host,
+          },
+        })
+      }
 
       if (data.target === 'url_env' && data.data !== URL) {
         setUrl(data.data)
