@@ -24,12 +24,10 @@ function trySignIn(wallet?: MessagedWallet) {
 
 export default function WalletChatWidget({
   connectedWallet,
-  signMessage,
   requestSignature,
   style,
 }: {
   connectedWallet?: ConnectedWallet
-  signMessage?: (args?: { message: string }) => Promise<string | `0x${string}`>
   requestSignature?: boolean
   style?: React.CSSProperties
 }) {
@@ -157,26 +155,6 @@ export default function WalletChatWidget({
         setNumUnread(data.data)
       }
 
-      if (data.target === 'message_to_sign') {
-        if (signMessage && connectedWalletRef.current) {
-          signMessage({ message: data.data })
-            .then(
-              (signature: string) =>
-                signature &&
-                postMessage({
-                  target: 'signed_message',
-                  data: { signature, signedMsg: data.data },
-                })
-            )
-            .catch(() =>
-              postMessage({
-                target: 'signed_message',
-                data: { signature: null, signedMsg: data.data },
-              })
-            )
-        }
-      }
-
       if (data.target === 'close_widget') {
         clickHandler()
       }
@@ -190,7 +168,7 @@ export default function WalletChatWidget({
     window.addEventListener('message', handleMsg)
 
     return () => window.removeEventListener('message', handleMsg)
-  }, [signMessage, doSignIn])
+  }, [doSignIn])
 
   return (
     <div

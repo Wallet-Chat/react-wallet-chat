@@ -30,7 +30,6 @@ export type API =
 // Messages the walletchat app sends to the widget
 export type AppAPI =
   | { target: 'unread_cnt'; data: number }
-  | { target: 'message_to_sign'; data: string }
   | { target: 'close_widget'; data: null }
   | { target: 'is_signed_in'; data: boolean }
   | { target: 'url_env'; data: string }

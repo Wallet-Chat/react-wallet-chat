@@ -35,9 +35,6 @@ export type AppAPI = {
     target: 'unread_cnt';
     data: number;
 } | {
-    target: 'message_to_sign';
-    data: string;
-} | {
     target: 'close_widget';
     data: null;
 } | {
