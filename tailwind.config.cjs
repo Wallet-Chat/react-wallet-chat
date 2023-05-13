@@ -30,7 +30,10 @@ module.exports = {
         'widget-open-mobile': 'calc(100vw - 2rem)',
       },
       minHeight: {
-        'widget-open': '440px',
+        'widget-open': '500px',
+      },
+      maxHeight: {
+        'widget-open': '640px',
       },
       minWidth: {
         'widget-open': '440px',

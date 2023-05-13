@@ -63,25 +63,25 @@ function Ve(u) {
 var ue = {};
 /*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
 ue.read = function(u, f, p, v, y) {
-  var d, h, a = y * 8 - v - 1, g = (1 << a) - 1, b = g >> 1, x = -7, E = p ? y - 1 : 0, T = p ? -1 : 1, C = u[f + E];
+  var d, h, a = y * 8 - v - 1, g = (1 << a) - 1, R = g >> 1, x = -7, E = p ? y - 1 : 0, T = p ? -1 : 1, C = u[f + E];
   for (E += T, d = C & (1 << -x) - 1, C >>= -x, x += a; x > 0; d = d * 256 + u[f + E], E += T, x -= 8)
     ;
   for (h = d & (1 << -x) - 1, d >>= -x, x += v; x > 0; h = h * 256 + u[f + E], E += T, x -= 8)
     ;
   if (d === 0)
-    d = 1 - b;
+    d = 1 - R;
   else {
     if (d === g)
       return h ? NaN : (C ? -1 : 1) * (1 / 0);
-    h = h + Math.pow(2, v), d = d - b;
+    h = h + Math.pow(2, v), d = d - R;
   }
   return (C ? -1 : 1) * h * Math.pow(2, d - v);
 };
 ue.write = function(u, f, p, v, y, d) {
-  var h, a, g, b = d * 8 - y - 1, x = (1 << b) - 1, E = x >> 1, T = y === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0, C = v ? 0 : d - 1, W = v ? 1 : -1, Z = f < 0 || f === 0 && 1 / f < 0 ? 1 : 0;
+  var h, a, g, R = d * 8 - y - 1, x = (1 << R) - 1, E = x >> 1, T = y === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0, C = v ? 0 : d - 1, W = v ? 1 : -1, Z = f < 0 || f === 0 && 1 / f < 0 ? 1 : 0;
   for (f = Math.abs(f), isNaN(f) || f === 1 / 0 ? (a = isNaN(f) ? 1 : 0, h = x) : (h = Math.floor(Math.log(f) / Math.LN2), f * (g = Math.pow(2, -h)) < 1 && (h--, g *= 2), h + E >= 1 ? f += T / g : f += T * Math.pow(2, 1 - E), f * g >= 2 && (h++, g /= 2), h + E >= x ? (a = 0, h = x) : h + E >= 1 ? (a = (f * g - 1) * Math.pow(2, y), h = h + E) : (a = f * Math.pow(2, E - 1) * Math.pow(2, y), h = 0)); y >= 8; u[p + C] = a & 255, C += W, a /= 256, y -= 8)
     ;
-  for (h = h << y | a, b += y; b > 0; u[p + C] = h & 255, C += W, h /= 256, b -= 8)
+  for (h = h << y | a, R += y; R > 0; u[p + C] = h & 255, C += W, h /= 256, R -= 8)
     ;
   u[p + C - W] |= Z * 128;
 };
@@ -172,20 +172,20 @@ ue.write = function(u, f, p, v, y, d) {
   a.from = function(t, r, e) {
     return g(t, r, e);
   }, Object.setPrototypeOf(a.prototype, Uint8Array.prototype), Object.setPrototypeOf(a, Uint8Array);
-  function b(t) {
+  function R(t) {
     if (typeof t != "number")
       throw new TypeError('"size" argument must be of type number');
     if (t < 0)
       throw new RangeError('The value "' + t + '" is invalid for option "size"');
   }
   function x(t, r, e) {
-    return b(t), t <= 0 ? h(t) : r !== void 0 ? typeof e == "string" ? h(t).fill(r, e) : h(t).fill(r) : h(t);
+    return R(t), t <= 0 ? h(t) : r !== void 0 ? typeof e == "string" ? h(t).fill(r, e) : h(t).fill(r) : h(t);
   }
   a.alloc = function(t, r, e) {
     return x(t, r, e);
   };
   function E(t) {
-    return b(t), h(t < 0 ? 0 : ur(t) | 0);
+    return R(t), h(t < 0 ? 0 : ur(t) | 0);
   }
   a.allocUnsafe = function(t) {
     return E(t);
@@ -331,7 +331,7 @@ ue.write = function(u, f, p, v, y, d) {
       }
   }
   a.byteLength = I;
-  function V(t, r, e) {
+  function q(t, r, e) {
     var n = !1;
     if ((r === void 0 || r < 0) && (r = 0), r > this.length || ((e === void 0 || e > this.length) && (e = this.length), e <= 0) || (e >>>= 0, r >>>= 0, e <= r))
       return "";
@@ -388,7 +388,7 @@ ue.write = function(u, f, p, v, y, d) {
     return this;
   }, a.prototype.toString = function() {
     var r = this.length;
-    return r === 0 ? "" : arguments.length === 0 ? G(this, 0, r) : V.apply(this, arguments);
+    return r === 0 ? "" : arguments.length === 0 ? G(this, 0, r) : q.apply(this, arguments);
   }, a.prototype.toLocaleString = a.prototype.toString, a.prototype.equals = function(r) {
     if (!a.isBuffer(r))
       throw new TypeError("Argument must be a Buffer");
@@ -418,7 +418,7 @@ ue.write = function(u, f, p, v, y, d) {
       }
     return l < _ ? -1 : _ < l ? 1 : 0;
   };
-  function q(t, r, e, n, o) {
+  function $(t, r, e, n, o) {
     if (t.length === 0)
       return -1;
     if (typeof e == "string" ? (n = e, e = 0) : e > 2147483647 ? e = 2147483647 : e < -2147483648 && (e = -2147483648), e = +e, Cr(e) && (e = o ? 0 : t.length - 1), e < 0 && (e = t.length + e), e >= t.length) {
@@ -470,11 +470,11 @@ ue.write = function(u, f, p, v, y, d) {
   a.prototype.includes = function(r, e, n) {
     return this.indexOf(r, e, n) !== -1;
   }, a.prototype.indexOf = function(r, e, n) {
-    return q(this, r, e, n, !0);
+    return $(this, r, e, n, !0);
   }, a.prototype.lastIndexOf = function(r, e, n) {
-    return q(this, r, e, n, !1);
+    return $(this, r, e, n, !1);
   };
-  function $(t, r, e, n) {
+  function V(t, r, e, n) {
     e = Number(e) || 0;
     var o = t.length - e;
     n ? (n = Number(n), n > o && (n = o)) : n = o;
@@ -518,7 +518,7 @@ ue.write = function(u, f, p, v, y, d) {
     for (var l = !1; ; )
       switch (o) {
         case "hex":
-          return $(this, r, e, n);
+          return V(this, r, e, n);
         case "utf8":
         case "utf-8":
           return zr(this, r, e, n);
@@ -739,14 +739,14 @@ ue.write = function(u, f, p, v, y, d) {
   }, a.prototype.writeInt32BE = function(r, e, n) {
     return r = +r, e = e >>> 0, n || Y(this, r, e, 4, 2147483647, -2147483648), r < 0 && (r = 4294967295 + r + 1), this[e] = r >>> 24, this[e + 1] = r >>> 16, this[e + 2] = r >>> 8, this[e + 3] = r & 255, e + 4;
   };
-  function Rr(t, r, e, n, o, c) {
+  function br(t, r, e, n, o, c) {
     if (e + n > t.length)
       throw new RangeError("Index out of range");
     if (e < 0)
       throw new RangeError("Index out of range");
   }
   function Dr(t, r, e, n, o) {
-    return r = +r, e = e >>> 0, o || Rr(t, r, e, 4), p.write(t, r, e, n, 23, 4), e + 4;
+    return r = +r, e = e >>> 0, o || br(t, r, e, 4), p.write(t, r, e, n, 23, 4), e + 4;
   }
   a.prototype.writeFloatLE = function(r, e, n) {
     return Dr(this, r, e, !0, n);
@@ -754,7 +754,7 @@ ue.write = function(u, f, p, v, y, d) {
     return Dr(this, r, e, !1, n);
   };
   function Lr(t, r, e, n, o) {
-    return r = +r, e = e >>> 0, o || Rr(t, r, e, 8), p.write(t, r, e, n, 52, 8), e + 8;
+    return r = +r, e = e >>> 0, o || br(t, r, e, 8), p.write(t, r, e, n, 52, 8), e + 8;
   }
   a.prototype.writeDoubleLE = function(r, e, n) {
     return Lr(this, r, e, !0, n);
@@ -958,20 +958,20 @@ function Je(u) {
     }
   }
 }
-var ar = [], br = !1, hr, $r = -1;
+var ar = [], Rr = !1, hr, $r = -1;
 function ze() {
-  !br || !hr || (br = !1, hr.length ? ar = hr.concat(ar) : $r = -1, ar.length && Ee());
+  !Rr || !hr || (Rr = !1, hr.length ? ar = hr.concat(ar) : $r = -1, ar.length && Ee());
 }
 function Ee() {
-  if (!br) {
+  if (!Rr) {
     var u = me(ze);
-    br = !0;
+    Rr = !0;
     for (var f = ar.length; f; ) {
       for (hr = ar, ar = []; ++$r < f; )
         hr && hr[$r].run();
       $r = -1, f = ar.length;
     }
-    hr = null, br = !1, Je(u);
+    hr = null, Rr = !1, Je(u);
   }
 }
 D.nextTick = function(u) {
@@ -979,7 +979,7 @@ D.nextTick = function(u) {
   if (arguments.length > 1)
     for (var p = 1; p < arguments.length; p++)
       f[p - 1] = arguments[p];
-  ar.push(new _e(u, f)), ar.length === 1 && !br && me(Ee);
+  ar.push(new _e(u, f)), ar.length === 1 && !Rr && me(Ee);
 };
 function _e(u, f) {
   this.fun = u, this.array = f;
@@ -1049,7 +1049,7 @@ object-assign
 @license MIT
 */
 var ee, we;
-function be() {
+function Re() {
   if (we)
     return ee;
   we = 1;
@@ -1073,23 +1073,23 @@ function be() {
       });
       if (g.join("") !== "0123456789")
         return !1;
-      var b = {};
+      var R = {};
       return "abcdefghijklmnopqrst".split("").forEach(function(x) {
-        b[x] = x;
-      }), Object.keys(Object.assign({}, b)).join("") === "abcdefghijklmnopqrst";
+        R[x] = x;
+      }), Object.keys(Object.assign({}, R)).join("") === "abcdefghijklmnopqrst";
     } catch {
       return !1;
     }
   }
   return ee = y() ? Object.assign : function(d, h) {
-    for (var a, g = v(d), b, x = 1; x < arguments.length; x++) {
+    for (var a, g = v(d), R, x = 1; x < arguments.length; x++) {
       a = Object(arguments[x]);
       for (var E in a)
         f.call(a, E) && (g[E] = a[E]);
       if (u) {
-        b = u(a);
-        for (var T = 0; T < b.length; T++)
-          p.call(a, b[T]) && (g[b[T]] = a[b[T]]);
+        R = u(a);
+        for (var T = 0; T < R.length; T++)
+          p.call(a, R[T]) && (g[R[T]] = a[R[T]]);
       }
     }
     return g;
@@ -1107,16 +1107,16 @@ var ve;
 function He() {
   if (ve)
     return mr;
-  ve = 1, be();
+  ve = 1, Re();
   var u = O, f = 60103;
   if (mr.Fragment = 60107, typeof Symbol == "function" && Symbol.for) {
     var p = Symbol.for;
     f = p("react.element"), mr.Fragment = p("react.fragment");
   }
   var v = u.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner, y = Object.prototype.hasOwnProperty, d = { key: !0, ref: !0, __self: !0, __source: !0 };
-  function h(a, g, b) {
+  function h(a, g, R) {
     var x, E = {}, T = null, C = null;
-    b !== void 0 && (T = "" + b), g.key !== void 0 && (T = "" + g.key), g.ref !== void 0 && (C = g.ref);
+    R !== void 0 && (T = "" + R), g.key !== void 0 && (T = "" + g.key), g.ref !== void 0 && (C = g.ref);
     for (x in g)
       y.call(g, x) && !d.hasOwnProperty(x) && (E[x] = g[x]);
     if (a && a.defaultProps)
@@ -1130,22 +1130,22 @@ var te = {}, ge;
 function Ke() {
   return ge || (ge = 1, function(u) {
     Vr.env.NODE_ENV !== "production" && function() {
-      var f = O, p = be(), v = 60103, y = 60106;
+      var f = O, p = Re(), v = 60103, y = 60106;
       u.Fragment = 60107;
-      var d = 60108, h = 60114, a = 60109, g = 60110, b = 60112, x = 60113, E = 60120, T = 60115, C = 60116, W = 60121, Z = 60122, sr = 60117, ur = 60129, lr = 60131;
+      var d = 60108, h = 60114, a = 60109, g = 60110, R = 60112, x = 60113, E = 60120, T = 60115, C = 60116, W = 60121, Z = 60122, sr = 60117, ur = 60129, lr = 60131;
       if (typeof Symbol == "function" && Symbol.for) {
         var I = Symbol.for;
-        v = I("react.element"), y = I("react.portal"), u.Fragment = I("react.fragment"), d = I("react.strict_mode"), h = I("react.profiler"), a = I("react.provider"), g = I("react.context"), b = I("react.forward_ref"), x = I("react.suspense"), E = I("react.suspense_list"), T = I("react.memo"), C = I("react.lazy"), W = I("react.block"), Z = I("react.server.block"), sr = I("react.fundamental"), I("react.scope"), I("react.opaque.id"), ur = I("react.debug_trace_mode"), I("react.offscreen"), lr = I("react.legacy_hidden");
+        v = I("react.element"), y = I("react.portal"), u.Fragment = I("react.fragment"), d = I("react.strict_mode"), h = I("react.profiler"), a = I("react.provider"), g = I("react.context"), R = I("react.forward_ref"), x = I("react.suspense"), E = I("react.suspense_list"), T = I("react.memo"), C = I("react.lazy"), W = I("react.block"), Z = I("react.server.block"), sr = I("react.fundamental"), I("react.scope"), I("react.opaque.id"), ur = I("react.debug_trace_mode"), I("react.offscreen"), lr = I("react.legacy_hidden");
       }
-      var V = typeof Symbol == "function" && Symbol.iterator, j = "@@iterator";
-      function q(i) {
+      var q = typeof Symbol == "function" && Symbol.iterator, j = "@@iterator";
+      function $(i) {
         if (i === null || typeof i != "object")
           return null;
-        var s = V && i[V] || i[j];
+        var s = q && i[q] || i[j];
         return typeof s == "function" ? s : null;
       }
       var z = f.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
-      function $(i) {
+      function V(i) {
         {
           for (var s = arguments.length, w = new Array(s > 1 ? s - 1 : 0), m = 1; m < s; m++)
             w[m - 1] = arguments[m];
@@ -1164,7 +1164,7 @@ function Ke() {
       }
       var Gr = !1;
       function Hr(i) {
-        return !!(typeof i == "string" || typeof i == "function" || i === u.Fragment || i === h || i === ur || i === d || i === x || i === E || i === lr || Gr || typeof i == "object" && i !== null && (i.$$typeof === C || i.$$typeof === T || i.$$typeof === a || i.$$typeof === g || i.$$typeof === b || i.$$typeof === sr || i.$$typeof === W || i[0] === Z));
+        return !!(typeof i == "string" || typeof i == "function" || i === u.Fragment || i === h || i === ur || i === d || i === x || i === E || i === lr || Gr || typeof i == "object" && i !== null && (i.$$typeof === C || i.$$typeof === T || i.$$typeof === a || i.$$typeof === g || i.$$typeof === R || i.$$typeof === sr || i.$$typeof === W || i[0] === Z));
       }
       function Kr(i, s, w) {
         var m = s.displayName || s.name || "";
@@ -1176,7 +1176,7 @@ function Ke() {
       function G(i) {
         if (i == null)
           return null;
-        if (typeof i.tag == "number" && $("Received an unexpected object in getComponentName(). This is likely a bug in React. Please file an issue."), typeof i == "function")
+        if (typeof i.tag == "number" && V("Received an unexpected object in getComponentName(). This is likely a bug in React. Please file an issue."), typeof i == "function")
           return i.displayName || i.name || null;
         if (typeof i == "string")
           return i;
@@ -1202,7 +1202,7 @@ function Ke() {
             case a:
               var w = i;
               return Ur(w._context) + ".Provider";
-            case b:
+            case R:
               return Kr(i, i.render, "ForwardRef");
             case T:
               return G(i.type);
@@ -1220,9 +1220,9 @@ function Ke() {
         return null;
       }
       var cr = 0, Or, kr, jr, Pr, Nr, P, Y;
-      function Rr() {
+      function br() {
       }
-      Rr.__reactDisabledLog = !0;
+      br.__reactDisabledLog = !0;
       function Dr() {
         {
           if (cr === 0) {
@@ -1230,7 +1230,7 @@ function Ke() {
             var i = {
               configurable: !0,
               enumerable: !0,
-              value: Rr,
+              value: br,
               writable: !0
             };
             Object.defineProperties(console, {
@@ -1278,7 +1278,7 @@ function Ke() {
               })
             });
           }
-          cr < 0 && $("disabledDepth fell below zero. This is a bug in React. Please file an issue.");
+          cr < 0 && V("disabledDepth fell below zero. This is a bug in React. Please file an issue.");
         }
       }
       var Ar = z.ReactCurrentDispatcher, Tr;
@@ -1348,17 +1348,17 @@ function Ke() {
           }
         } catch (ir) {
           if (ir && m && typeof ir.stack == "string") {
-            for (var R = ir.stack.split(`
+            for (var b = ir.stack.split(`
 `), J = m.stack.split(`
-`), N = R.length - 1, L = J.length - 1; N >= 1 && L >= 0 && R[N] !== J[L]; )
+`), N = b.length - 1, L = J.length - 1; N >= 1 && L >= 0 && b[N] !== J[L]; )
               L--;
             for (; N >= 1 && L >= 0; N--, L--)
-              if (R[N] !== J[L]) {
+              if (b[N] !== J[L]) {
                 if (N !== 1 || L !== 1)
                   do
-                    if (N--, L--, L < 0 || R[N] !== J[L]) {
+                    if (N--, L--, L < 0 || b[N] !== J[L]) {
                       var nr = `
-` + R[N].replace(" at new ", " at ");
+` + b[N].replace(" at new ", " at ");
                       return typeof i == "function" && dr.set(i, nr), nr;
                     }
                   while (N >= 1 && L >= 0);
@@ -1393,7 +1393,7 @@ function Ke() {
         }
         if (typeof i == "object")
           switch (i.$$typeof) {
-            case b:
+            case R:
               return H(i.render);
             case T:
               return wr(i.type, s, w);
@@ -1422,17 +1422,17 @@ function Ke() {
           var U = Function.call.bind(Object.prototype.hasOwnProperty);
           for (var A in i)
             if (U(i, A)) {
-              var R = void 0;
+              var b = void 0;
               try {
                 if (typeof i[A] != "function") {
                   var J = Error((m || "React class") + ": " + w + " type `" + A + "` is invalid; it must be a function, usually from the `prop-types` package, but received `" + typeof i[A] + "`.This often happens because of typos such as `PropTypes.function` instead of `PropTypes.func`.");
                   throw J.name = "Invariant Violation", J;
                 }
-                R = i[A](s, A, m, w, null, "SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED");
+                b = i[A](s, A, m, w, null, "SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED");
               } catch (N) {
-                R = N;
+                b = N;
               }
-              R && !(R instanceof Error) && (e(S), $("%s: type specification of %s `%s` is invalid; the type checker function must return `null` or an `Error` but returned a %s. You may have forgotten to pass an argument to the type checker creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and shape all require an argument).", m || "React class", w, A, typeof R), e(null)), R instanceof Error && !(R.message in t) && (t[R.message] = !0, e(S), $("Failed %s type: %s", w, R.message), e(null));
+              b && !(b instanceof Error) && (e(S), V("%s: type specification of %s `%s` is invalid; the type checker function must return `null` or an `Error` but returned a %s. You may have forgotten to pass an argument to the type checker creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and shape all require an argument).", m || "React class", w, A, typeof b), e(null)), b instanceof Error && !(b.message in t) && (t[b.message] = !0, e(S), V("Failed %s type: %s", w, b.message), e(null));
             }
         }
       }
@@ -1462,13 +1462,13 @@ function Ke() {
       function vr(i, s) {
         if (typeof i.ref == "string" && o.current && s && o.current.stateNode !== s) {
           var w = G(o.current.type);
-          B[w] || ($('Component "%s" contains the string ref "%s". Support for string refs will be removed in a future major release. This case cannot be automatically converted to an arrow function. We ask you to manually fix this case by using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref', G(o.current.type), i.ref), B[w] = !0);
+          B[w] || (V('Component "%s" contains the string ref "%s". Support for string refs will be removed in a future major release. This case cannot be automatically converted to an arrow function. We ask you to manually fix this case by using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref', G(o.current.type), i.ref), B[w] = !0);
         }
       }
       function Wr(i, s) {
         {
           var w = function() {
-            _ || (_ = !0, $("%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", s));
+            _ || (_ = !0, V("%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", s));
           };
           w.isReactWarning = !0, Object.defineProperty(i, "key", {
             get: w,
@@ -1479,7 +1479,7 @@ function Ke() {
       function Yr(i, s) {
         {
           var w = function() {
-            F || (F = !0, $("%s: `ref` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", s));
+            F || (F = !0, V("%s: `ref` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", s));
           };
           w.isReactWarning = !0, Object.defineProperty(i, "ref", {
             get: w,
@@ -1488,7 +1488,7 @@ function Ke() {
         }
       }
       var Te = function(i, s, w, m, S, U, A) {
-        var R = {
+        var b = {
           // This tag allows us to uniquely identify this as a React Element
           $$typeof: v,
           // Built-in properties that belong on the element
@@ -1499,27 +1499,27 @@ function Ke() {
           // Record the component responsible for creating this element.
           _owner: U
         };
-        return R._store = {}, Object.defineProperty(R._store, "validated", {
+        return b._store = {}, Object.defineProperty(b._store, "validated", {
           configurable: !1,
           enumerable: !1,
           writable: !0,
           value: !1
-        }), Object.defineProperty(R, "_self", {
+        }), Object.defineProperty(b, "_self", {
           configurable: !1,
           enumerable: !1,
           writable: !1,
           value: m
-        }), Object.defineProperty(R, "_source", {
+        }), Object.defineProperty(b, "_source", {
           configurable: !1,
           enumerable: !1,
           writable: !1,
           value: S
-        }), Object.freeze && (Object.freeze(R.props), Object.freeze(R)), R;
+        }), Object.freeze && (Object.freeze(b.props), Object.freeze(b)), b;
       };
       function Fe(i, s, w, m, S) {
         {
-          var U, A = {}, R = null, J = null;
-          w !== void 0 && (R = "" + w), k(s) && (R = "" + s.key), M(s) && (J = s.ref, vr(s, S));
+          var U, A = {}, b = null, J = null;
+          w !== void 0 && (b = "" + w), k(s) && (b = "" + s.key), M(s) && (J = s.ref, vr(s, S));
           for (U in s)
             c.call(s, U) && !l.hasOwnProperty(U) && (A[U] = s[U]);
           if (i && i.defaultProps) {
@@ -1527,11 +1527,11 @@ function Ke() {
             for (U in N)
               A[U] === void 0 && (A[U] = N[U]);
           }
-          if (R || J) {
+          if (b || J) {
             var L = typeof i == "function" ? i.displayName || i.name || "Unknown" : i;
-            R && Wr(A, L), J && Yr(A, L);
+            b && Wr(A, L), J && Yr(A, L);
           }
-          return Te(i, R, J, S, m, o.current, A);
+          return Te(i, b, J, S, m, o.current, A);
         }
       }
       var Xr = z.ReactCurrentOwner, ce = z.ReactDebugCurrentFrame;
@@ -1593,7 +1593,7 @@ Check the top-level render call using <` + w + ">.");
             return;
           se[w] = !0;
           var m = "";
-          i && i._owner && i._owner !== Xr.current && (m = " It was passed a child from " + G(i._owner.type) + "."), gr(i), $('Each child in a list should have a unique "key" prop.%s%s See https://reactjs.org/link/warning-keys for more information.', w, m), gr(null);
+          i && i._owner && i._owner !== Xr.current && (m = " It was passed a child from " + G(i._owner.type) + "."), gr(i), V('Each child in a list should have a unique "key" prop.%s%s See https://reactjs.org/link/warning-keys for more information.', w, m), gr(null);
         }
       }
       function pe(i, s) {
@@ -1608,7 +1608,7 @@ Check the top-level render call using <` + w + ">.");
           else if (Zr(i))
             i._store && (i._store.validated = !0);
           else if (i) {
-            var S = q(i);
+            var S = $(i);
             if (typeof S == "function" && S !== i.entries)
               for (var U = S.call(i), A; !(A = U.next()).done; )
                 Zr(A.value) && le(A.value, s);
@@ -1623,7 +1623,7 @@ Check the top-level render call using <` + w + ">.");
           var w;
           if (typeof s == "function")
             w = s.propTypes;
-          else if (typeof s == "object" && (s.$$typeof === b || // Note: Memo only checks outer props here.
+          else if (typeof s == "object" && (s.$$typeof === R || // Note: Memo only checks outer props here.
           // Inner props are checked in the reconciler.
           s.$$typeof === T))
             w = s.propTypes;
@@ -1635,9 +1635,9 @@ Check the top-level render call using <` + w + ">.");
           } else if (s.PropTypes !== void 0 && !Qr) {
             Qr = !0;
             var S = G(s);
-            $("Component %s declared `PropTypes` instead of `propTypes`. Did you misspell the property assignment?", S || "Unknown");
+            V("Component %s declared `PropTypes` instead of `propTypes`. Did you misspell the property assignment?", S || "Unknown");
           }
-          typeof s.getDefaultProps == "function" && !s.getDefaultProps.isReactClassApproved && $("getDefaultProps is only used on classic React.createClass definitions. Use a static property named `defaultProps` instead.");
+          typeof s.getDefaultProps == "function" && !s.getDefaultProps.isReactClassApproved && V("getDefaultProps is only used on classic React.createClass definitions. Use a static property named `defaultProps` instead.");
         }
       }
       function Se(i) {
@@ -1645,23 +1645,23 @@ Check the top-level render call using <` + w + ">.");
           for (var s = Object.keys(i.props), w = 0; w < s.length; w++) {
             var m = s[w];
             if (m !== "children" && m !== "key") {
-              gr(i), $("Invalid prop `%s` supplied to `React.Fragment`. React.Fragment can only have `key` and `children` props.", m), gr(null);
+              gr(i), V("Invalid prop `%s` supplied to `React.Fragment`. React.Fragment can only have `key` and `children` props.", m), gr(null);
               break;
             }
           }
-          i.ref !== null && (gr(i), $("Invalid attribute `ref` supplied to `React.Fragment`."), gr(null));
+          i.ref !== null && (gr(i), V("Invalid attribute `ref` supplied to `React.Fragment`."), gr(null));
         }
       }
       function he(i, s, w, m, S, U) {
         {
           var A = Hr(i);
           if (!A) {
-            var R = "";
-            (i === void 0 || typeof i == "object" && i !== null && Object.keys(i).length === 0) && (R += " You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.");
+            var b = "";
+            (i === void 0 || typeof i == "object" && i !== null && Object.keys(i).length === 0) && (b += " You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.");
             var J = Ce(S);
-            J ? R += J : R += fe();
+            J ? b += J : b += fe();
             var N;
-            i === null ? N = "null" : Array.isArray(i) ? N = "array" : i !== void 0 && i.$$typeof === v ? (N = "<" + (G(i.type) || "Unknown") + " />", R = " Did you accidentally export a JSX literal instead of a component?") : N = typeof i, $("React.jsx: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s", N, R);
+            i === null ? N = "null" : Array.isArray(i) ? N = "array" : i !== void 0 && i.$$typeof === v ? (N = "<" + (G(i.type) || "Unknown") + " />", b = " Did you accidentally export a JSX literal instead of a component?") : N = typeof i, V("React.jsx: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s", N, b);
           }
           var L = Fe(i, s, w, S, U);
           if (L == null)
@@ -1675,7 +1675,7 @@ Check the top-level render call using <` + w + ">.");
                     pe(nr[yr], i);
                   Object.freeze && Object.freeze(nr);
                 } else
-                  $("React.jsx: Static children should always be an array. You are likely explicitly calling React.jsxs or React.jsxDEV. Use the Babel transform instead.");
+                  V("React.jsx: Static children should always be an array. You are likely explicitly calling React.jsxs or React.jsxDEV. Use the Babel transform instead.");
               else
                 pe(nr, i);
           }
@@ -1768,7 +1768,7 @@ const Ze = "_ring_7tcsj_47", rt = "_popupButton__container_7tcsj_5", et = "_popu
   pinging: ot,
   ping: ut
 };
-function Re() {
+function be() {
   try {
     const u = typeof localStorage < "u" && localStorage.getItem("clickedNfts") || "";
     return u ? Array.from(new Set(JSON.parse(u))) : [];
@@ -1778,7 +1778,7 @@ function Re() {
 }
 function ct(u) {
   try {
-    const p = [...Re(), u];
+    const p = [...be(), u];
     typeof localStorage < "u" && localStorage.setItem("clickedNfts", JSON.stringify(p));
   } catch {
     return null;
@@ -1790,10 +1790,10 @@ function ft({
   isOpen: p,
   clickHandler: v
 }) {
-  const y = Re(), d = O.useContext(Jr), h = d == null ? void 0 : d.widgetState, a = h == null ? void 0 : h.foundNft, g = a && JSON.parse(a).itemId, b = !p && (a ? !y.includes(a) && !!g : !1), [x, E] = O.useState(b);
+  const y = be(), d = O.useContext(Jr), h = d == null ? void 0 : d.widgetState, a = h == null ? void 0 : h.foundNft, g = a && JSON.parse(a).itemId, R = !p && (a ? !y.includes(a) && !!g : !1), [x, E] = O.useState(R);
   return O.useEffect(() => {
-    E(b);
-  }, [b]), /* @__PURE__ */ Br(
+    E(R);
+  }, [R]), /* @__PURE__ */ Br(
     "div",
     {
       className: _r(K.popupButton__container, {
@@ -1878,7 +1878,9 @@ const st = "_ring_q714d_1", Ir = {
   "widget-is-closed": "_widget-is-closed_q714d_13",
   "wallet-chat-widget__container": "_wallet-chat-widget__container_q714d_23",
   "wallet-chat-widget__container--open": "_wallet-chat-widget__container--open_q714d_27"
-}, ye = "https://staging.walletchat.fun", Ae = Ir["wallet-chat-widget"];
+};
+let ye = {}.VITE_REACT_APP_APP_URL || "https://staging.walletchat.fun";
+const Ae = Ir["wallet-chat-widget"];
 function Er(u) {
   var p;
   if (typeof document > "u")
@@ -1894,13 +1896,13 @@ function gt({
   requestSignature: f,
   style: p
 }) {
-  const [v, y] = O.useState(ye), d = O.useRef(""), h = O.useRef(null), a = O.useRef(u), g = O.useRef(!1), b = O.useRef(!1), x = O.useContext(Jr), { widgetState: E, setWidgetState: T } = x || {}, { ownerAddress: C } = E || {}, [W, Z] = O.useState(b.current), [sr, ur] = O.useState(0), lr = () => {
-    Z((V) => {
-      const j = !!V;
+  const [v, y] = O.useState(ye), d = O.useRef(""), h = O.useRef(null), a = O.useRef(u), g = O.useRef(!1), R = O.useRef(!1), x = O.useContext(Jr), { widgetState: E, setWidgetState: T } = x || {}, { ownerAddress: C } = E || {}, [W, Z] = O.useState(R.current), [sr, ur] = O.useState(0), lr = () => {
+    Z((q) => {
+      const j = !!q;
       return h.current && !j && Er({
         target: "nft_info",
         data: { ...h.current, redirect: !0 }
-      }), h.current = null, b.current = !j, !j;
+      }), h.current = null, R.current = !j, !j;
     });
   }, I = O.useCallback(() => {
     u && (W || f) && lt({ ...u, requestSignature: f });
@@ -1910,37 +1912,37 @@ function gt({
   }, [I]), O.useEffect(() => {
     if (!(C != null && C.address))
       return;
-    const V = C.address, j = ne(window.location.href);
+    const q = C.address, j = ne(window.location.href);
     j.network && (h.current = {
       ...j,
-      ownerAddress: V
+      ownerAddress: q
     }), h.current ? Er({
       target: "nft_info",
       data: { ...h.current, redirect: !0 }
-    }) : Er({ target: "nft_info", data: { ownerAddress: V } }), Z(!0);
+    }) : Er({ target: "nft_info", data: { ownerAddress: q } }), Z(!0);
   }, [C]), O.useEffect(() => {
-    const V = () => {
+    const q = () => {
       if (window.location.href === d.current)
         return;
       d.current = window.location.href;
       const z = ne(window.location.href);
       T && T("foundNft", JSON.stringify(z)), z.network && (h.current = z), Er({ target: "nft_info", data: z });
-    }, j = new MutationObserver(V), q = { subtree: !0, childList: !0 };
-    return V(), j.observe(document, q), () => j.disconnect();
+    }, j = new MutationObserver(q), $ = { subtree: !0, childList: !0 };
+    return q(), j.observe(document, $), () => j.disconnect();
   }, [T]), O.useEffect(() => {
     a.current = u;
   }, [u]), O.useEffect(() => {
-    const V = (j) => {
-      const q = j.data;
+    const q = (j) => {
+      const $ = j.data;
       g.current || Er({
         target: "origin",
         data: {
           domain: window.location.host,
           origin: window.location.protocol + window.location.host
         }
-      }), q.target === "url_env" && q.data !== ye && y(q.data), q.target === "unread_cnt" && ur(q.data), q.target === "close_widget" && lr(), q.target === "is_signed_in" && !q.data && I();
+      }), $.target === "url_env" && $.data !== ye && !{}.VITE_REACT_APP_APP_URL && (console.log("Widget Setting iFrame URL: ", $.data), y($.data)), $.target === "unread_cnt" && ur($.data), $.target === "close_widget" && lr(), $.target === "is_signed_in" && !$.data && I();
     };
-    return window.addEventListener("message", V), () => window.removeEventListener("message", V);
+    return window.addEventListener("message", q), () => window.removeEventListener("message", q);
   }, [I]), /* @__PURE__ */ Br(
     "div",
     {
@@ -2017,4 +2019,4 @@ export {
   wt as types,
   dt as utils
 };
-(function(){"use strict";try{if(typeof document<"u"){var t=document.createElement("style");t.appendChild(document.createTextNode(".ring{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}._ring_7tcsj_47{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}._popupButton__container_7tcsj_5{position:relative;margin-top:.75rem;height:4rem;--tw-drop-shadow: drop-shadow(0 25px 25px rgb(0 0 0 / .15));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);transition-property:margin-top,transform;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}._popupButton__container--open_7tcsj_9{right:1.5rem;margin-top:-4rem;--tw-translate-y: 100%;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@media (min-width: 640px){._popupButton__container--open_7tcsj_9{right:0px;margin-top:.75rem;--tw-translate-y: 0px;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}}._popupButton_7tcsj_5{position:absolute;top:0px;right:0px;height:4rem;width:4rem;transform-origin:center;cursor:pointer;overflow:hidden;border-radius:9999px;--tw-bg-opacity: 1;background-color:rgb(0 0 0 / var(--tw-bg-opacity))}._icon_7tcsj_23{transition-property:transform,opacity;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s;transition-timing-function:linear;display:flex;height:100%;width:100%;cursor:pointer;align-items:center;justify-content:center}._icon_7tcsj_23 svg{height:2rem;width:1.75rem;fill:#fff}._inactiveIcon_7tcsj_31{position:absolute;--tw-rotate: 30deg;--tw-scale-x: 0;--tw-scale-y: 0;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));opacity:0}._activeIcon_7tcsj_35{--tw-rotate: 0deg;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));opacity:1}._notif_7tcsj_39{pointer-events:none;position:absolute;top:-.5rem;right:-.5rem;height:1.75rem;width:1.75rem;border-radius:9999px;--tw-bg-opacity: 1;background-color:rgb(219 39 119 / var(--tw-bg-opacity));text-align:center;font-size:.875rem;line-height:1.25rem;font-weight:700;line-height:1.5;--tw-text-opacity: 1;color:rgb(255 255 255 / var(--tw-text-opacity))}._pinging_7tcsj_43{animation:_ping_7tcsj_43 1s cubic-bezier(0,0,.2,1) infinite}._ring_7tcsj_47{position:fixed;right:0px;display:inline-flex;height:4rem;width:4rem}@keyframes _ping_7tcsj_43{75%,to{transform:scale(2);opacity:0}}._ring_7tcsj_47{animation:_ping_7tcsj_43 1s cubic-bezier(0,0,.2,1) infinite;border-radius:9999px;--tw-bg-opacity: 1;background-color:rgb(203 213 225 / var(--tw-bg-opacity));opacity:.75}*,:before,:after{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::backdrop{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }._ring_q714d_1{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}#_wallet-chat-widget_q714d_23{transition-property:width,min-width,height,min-height;transition-duration:.25s;transition-timing-function:cubic-bezier(.4,0,.2,1);overflow-x:hidden;overflow-y:hidden;border-radius:1rem;--tw-drop-shadow: drop-shadow(4px 4px 8px rgba(0,0,0,.5));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}._widget-is-open_q714d_9{height:75vh;min-height:440px;width:calc(100vw - 2rem);--tw-translate-x: -1rem;--tw-translate-y: -.5rem;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@media (min-width: 640px){._widget-is-open_q714d_9{height:65vh;width:15vw;min-width:440px;--tw-translate-x: 0px;--tw-translate-y: 0px;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}}._widget-is-closed_q714d_13{height:0px;min-height:0px;width:0px;min-width:0px}._wallet-chat-widget__container_q714d_23{position:fixed;bottom:.5rem;right:1.5rem;z-index:1000;-webkit-user-select:none;-moz-user-select:none;user-select:none}._wallet-chat-widget__container--open_q714d_27{bottom:0px;right:0px}@media (min-width: 640px){._wallet-chat-widget__container--open_q714d_27{bottom:.5rem;right:1.5rem}}")),document.head.appendChild(t)}}catch(r){console.error("vite-plugin-css-injected-by-js",r)}})();
+(function(){"use strict";try{if(typeof document<"u"){var t=document.createElement("style");t.appendChild(document.createTextNode(".ring{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}._ring_7tcsj_47{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}._popupButton__container_7tcsj_5{position:relative;margin-top:.75rem;height:4rem;--tw-drop-shadow: drop-shadow(0 25px 25px rgb(0 0 0 / .15));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);transition-property:margin-top,transform;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}._popupButton__container--open_7tcsj_9{right:1.5rem;margin-top:-4rem;--tw-translate-y: 100%;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@media (min-width: 640px){._popupButton__container--open_7tcsj_9{right:0px;margin-top:.75rem;--tw-translate-y: 0px;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}}._popupButton_7tcsj_5{position:absolute;top:0px;right:0px;height:4rem;width:4rem;transform-origin:center;cursor:pointer;overflow:hidden;border-radius:9999px;--tw-bg-opacity: 1;background-color:rgb(0 0 0 / var(--tw-bg-opacity))}._icon_7tcsj_23{transition-property:transform,opacity;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s;transition-timing-function:linear;display:flex;height:100%;width:100%;cursor:pointer;align-items:center;justify-content:center}._icon_7tcsj_23 svg{height:2rem;width:1.75rem;fill:#fff}._inactiveIcon_7tcsj_31{position:absolute;--tw-rotate: 30deg;--tw-scale-x: 0;--tw-scale-y: 0;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));opacity:0}._activeIcon_7tcsj_35{--tw-rotate: 0deg;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));opacity:1}._notif_7tcsj_39{pointer-events:none;position:absolute;top:-.5rem;right:-.5rem;height:1.75rem;width:1.75rem;border-radius:9999px;--tw-bg-opacity: 1;background-color:rgb(219 39 119 / var(--tw-bg-opacity));text-align:center;font-size:.875rem;line-height:1.25rem;font-weight:700;line-height:1.5;--tw-text-opacity: 1;color:rgb(255 255 255 / var(--tw-text-opacity))}._pinging_7tcsj_43{animation:_ping_7tcsj_43 1s cubic-bezier(0,0,.2,1) infinite}._ring_7tcsj_47{position:fixed;right:0px;display:inline-flex;height:4rem;width:4rem}@keyframes _ping_7tcsj_43{75%,to{transform:scale(2);opacity:0}}._ring_7tcsj_47{animation:_ping_7tcsj_43 1s cubic-bezier(0,0,.2,1) infinite;border-radius:9999px;--tw-bg-opacity: 1;background-color:rgb(203 213 225 / var(--tw-bg-opacity));opacity:.75}*,:before,:after{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::backdrop{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }._ring_q714d_1{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}#_wallet-chat-widget_q714d_23{transition-property:width,min-width,height,min-height;transition-duration:.25s;transition-timing-function:cubic-bezier(.4,0,.2,1);overflow-x:hidden;overflow-y:hidden;border-radius:1rem;--tw-drop-shadow: drop-shadow(4px 4px 8px rgba(0,0,0,.5));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}._widget-is-open_q714d_9{height:75vh;min-height:500px;width:calc(100vw - 2rem);--tw-translate-x: -1rem;--tw-translate-y: -.5rem;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@media (min-width: 640px){._widget-is-open_q714d_9{height:65vh;width:15vw;min-width:440px;--tw-translate-x: 0px;--tw-translate-y: 0px;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}}._widget-is-closed_q714d_13{height:0px;min-height:0px;width:0px;min-width:0px}._wallet-chat-widget__container_q714d_23{position:fixed;bottom:.5rem;right:1.5rem;z-index:1000;-webkit-user-select:none;-moz-user-select:none;user-select:none}._wallet-chat-widget__container--open_q714d_27{bottom:0px;right:0px}@media (min-width: 640px){._wallet-chat-widget__container--open_q714d_27{bottom:.5rem;right:1.5rem}}")),document.head.appendChild(t)}}catch(r){console.error("vite-plugin-css-injected-by-js",r)}})();
