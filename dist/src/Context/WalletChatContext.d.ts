@@ -4,6 +4,10 @@ export type WidgetState = {
         address: string;
         lastRequest: string;
     };
+    signedMessageData?: {
+        signature: string;
+        signedMsg: string;
+    };
     foundNft?: string;
 };
 export type WidgetStateSetter = (key: keyof WidgetState, value: WidgetState[typeof key]) => void;

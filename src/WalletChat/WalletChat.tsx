@@ -4,7 +4,7 @@ import ButtonOverlay from '@/src/ButtonOverlay'
 import { WalletChatContext } from '@/src/Context'
 import { parseNftFromUrl } from '@/src/utils'
 import styles from './WalletChat.module.css'
-import { API, ConnectedWallet, MessagedWallet, AppAPI } from '@/src/types'
+import { API, ConnectedWallet, SignedMessageData, MessagedWallet, AppAPI } from '@/src/types'
 import {config as configDotenv} from 'dotenv'
 
 let URL = import.meta.env.VITE_REACT_APP_APP_URL || 'https://staging.walletchat.fun'
@@ -25,10 +25,12 @@ function trySignIn(wallet?: MessagedWallet) {
 
 export default function WalletChatWidget({
   connectedWallet,
+  signedMessageData,
   requestSignature,
   style,
 }: {
   connectedWallet?: ConnectedWallet
+  signedMessageData?: SignedMessageData
   requestSignature?: boolean
   style?: React.CSSProperties
 }) {
@@ -66,7 +68,7 @@ export default function WalletChatWidget({
       widgetOpen.current = !wasOpen
       return !wasOpen
     })
-  }
+  } 
 
   const doSignIn = React.useCallback(() => {
     if (connectedWallet && (isOpen || requestSignature)) {
@@ -103,6 +105,14 @@ export default function WalletChatWidget({
 
     setIsOpen(true)
   }, [ownerAddress])
+
+  React.useEffect(() => {
+    if (!signedMessageData?.signature) return
+
+    postMessage({ target: 'signed_message', data: signedMessageData })
+
+    setIsOpen(true)
+  }, [signedMessageData])
 
   React.useEffect(() => {
     const sendContractInfo = () => {

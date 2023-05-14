@@ -6,6 +6,10 @@ export type WidgetState = {
     // -- this is used to force a state update for the same address --
     lastRequest: string
   },
+  signedMessageData?: {
+    signature: string,
+    signedMsg: string
+  }
   foundNft?: string
 }
 

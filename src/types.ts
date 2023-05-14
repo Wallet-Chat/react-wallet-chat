@@ -3,7 +3,10 @@ export interface ConnectedWallet {
   account: string | `0x${string}`
   chainId: number
 }
-
+export interface SignedMessageData {
+  signature: null | string
+  signedMsg: string
+}
 export interface MessagedWallet extends ConnectedWallet {
   requestSignature?: boolean
 }
