@@ -109,9 +109,11 @@ export default function WalletChatWidget({
   React.useEffect(() => {
     if (!signedMessageData?.signature) return
 
+    //TODO: we need a way to not send this over and over if same data
     postMessage({ target: 'signed_message', data: signedMessageData })
 
-    setIsOpen(true)
+    //not forcing this to be open until we can prevent the previous line from happening over and over
+    //setIsOpen(true)
   }, [signedMessageData])
 
   React.useEffect(() => {
@@ -159,7 +161,7 @@ export default function WalletChatWidget({
       }
 
       if (data.target === 'url_env' && data.data !== URL && !import.meta.env.VITE_REACT_APP_APP_URL) {
-        console.log("Widget Setting iFrame URL: ", data.data)
+        //console.log("Widget Setting iFrame URL: ", data.data)
         setUrl(data.data)
       }
 
