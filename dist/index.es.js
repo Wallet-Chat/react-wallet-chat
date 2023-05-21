@@ -1922,7 +1922,7 @@ function gt({
       data: { ...a.current, redirect: !0 }
     }) : hr({ target: "nft_info", data: { ownerAddress: q } }), sr(!0);
   }, [$]), I.useEffect(() => {
-    f != null && f.signature && f.signature != k.current && (k.current = f.signature, console.log("---signed_message ---", f), hr({ target: "signed_message", data: f }));
+    f != null && f.signature && f.signature != k.current && (k.current = f.signature, hr({ target: "signed_message", data: f }));
   }, [f]), I.useEffect(() => {
     const q = () => {
       if (window.location.href === h.current)
