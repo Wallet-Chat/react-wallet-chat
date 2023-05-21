@@ -73,7 +73,6 @@ export default function WalletChatWidget({
 
   const doSignIn = React.useCallback(() => {
     if (connectedWallet && (isOpen || requestSignature)) {
-      console.log("---trySignin ---")
       trySignIn({ ...connectedWallet, requestSignature })
     }
   }, [connectedWallet, isOpen, requestSignature])

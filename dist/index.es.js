@@ -1906,7 +1906,7 @@ function gt({
       }), a.current = null, x.current = !P, !P;
     });
   }, z = I.useCallback(() => {
-    u && (V || l) && (console.log("---trySignin ---"), lt({ ...u, requestSignature: l }));
+    u && (V || l) && lt({ ...u, requestSignature: l });
   }, [u, V, l]);
   return I.useEffect(() => {
     z();
