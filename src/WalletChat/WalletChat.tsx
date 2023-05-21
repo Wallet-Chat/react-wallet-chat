@@ -52,6 +52,7 @@ export default function WalletChatWidget({
 
   const [isOpen, setIsOpen] = React.useState(widgetOpen.current)
   const [numUnread, setNumUnread] = React.useState(0)
+  const prevMessageSignature = React.useRef('')
 
   const clickHandler = () => {
     setIsOpen((prev) => {
@@ -72,6 +73,7 @@ export default function WalletChatWidget({
 
   const doSignIn = React.useCallback(() => {
     if (connectedWallet && (isOpen || requestSignature)) {
+      console.log("---trySignin ---")
       trySignIn({ ...connectedWallet, requestSignature })
     }
   }, [connectedWallet, isOpen, requestSignature])
@@ -108,7 +110,11 @@ export default function WalletChatWidget({
 
   React.useEffect(() => {
     if (!signedMessageData?.signature) return
+    if (signedMessageData.signature == prevMessageSignature.current) return
 
+    prevMessageSignature.current = signedMessageData.signature
+
+    //console.log("---signed_message ---", signedMessageData)
     //TODO: we need a way to not send this over and over if same data
     postMessage({ target: 'signed_message', data: signedMessageData })
 
