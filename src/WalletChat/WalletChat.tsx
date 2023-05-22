@@ -41,7 +41,7 @@ export default function WalletChatWidget({
     null | (ReturnType<typeof parseNftFromUrl> & { ownerAddress?: string })
   >(null)
   const connectedWalletRef = React.useRef(connectedWallet)
-  const didSendOrigin = React.useRef(false)
+  const didSendOrigin = React.useRef(0)
 
   // this is used for receive message effect without triggering the effect
   const widgetOpen = React.useRef(false)
@@ -155,7 +155,8 @@ export default function WalletChatWidget({
     const handleMsg = (e: any) => {
       const data = e.data as AppAPI
 
-      if (!didSendOrigin.current) {
+      if (didSendOrigin.current < 10) {
+
         postMessage({
           target: 'origin',
           data: {
@@ -163,6 +164,7 @@ export default function WalletChatWidget({
             origin: window.location.protocol + window.location.host,
           },
         })
+        didSendOrigin.current++
       }
 
       if (data.target === 'url_env' && data.data !== URL && !import.meta.env.VITE_REACT_APP_APP_URL) {

@@ -5,7 +5,7 @@ export interface ConnectedWallet {
 }
 export interface SignedMessageData {
   signature: null | string
-  signedMsg: string
+  msgToSign: string
 }
 export interface MessagedWallet extends ConnectedWallet {
   requestSignature?: boolean
@@ -26,7 +26,7 @@ export type API =
     }
   | {
       target: 'signed_message'
-      data: { signature: null | string; signedMsg: string }
+      data: { signature: null | string; msgToSign: string }
     }
   | { target: 'origin'; data: { domain: string; origin: string } }
 

@@ -6,7 +6,7 @@ export type WidgetState = {
     };
     signedMessageData?: {
         signature: string;
-        signedMsg: string;
+        msgToSign: string;
     };
     foundNft?: string;
 };
