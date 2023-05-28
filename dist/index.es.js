@@ -1937,7 +1937,7 @@ function gt({
   }, [u]), I.useEffect(() => {
     const q = (P) => {
       const B = P.data;
-      R.current < 10 && (hr({
+      R.current < 100 && (hr({
         target: "origin",
         data: {
           domain: window.location.host,

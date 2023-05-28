@@ -155,7 +155,7 @@ export default function WalletChatWidget({
     const handleMsg = (e: any) => {
       const data = e.data as AppAPI
 
-      if (didSendOrigin.current < 10) {
+      if (didSendOrigin.current < 100) {
 
         postMessage({
           target: 'origin',
