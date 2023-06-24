@@ -28,7 +28,7 @@ export default function WalletChatWidget({
   requestSignature,
   style,
 }: {
-  connectedWallet: ConnectedWallet
+  connectedWallet?: ConnectedWallet
   signedMessageData?: SignedMessageData
   requestSignature?: boolean
   style?: React.CSSProperties
@@ -83,11 +83,14 @@ export default function WalletChatWidget({
     signer
         .signMessage(messagePlainText)
         .then((signature) => {
-            console.log("Signature Done: ", signature)
             let localMsgData: SignedMessageData
-            localMsgData = {msgToSign: messagePlainText, signature: signature, 
-                            walletName: connectedWallet?.walletName, account: connectedWallet?.account, chainId: connectedWallet?.chainId}
+            localMsgData = {msgToSign: messagePlainText, 
+                            signature: signature, 
+                            walletName: connectedWallet?.walletName, 
+                            account: connectedWallet?.account, 
+                            chainId: connectedWallet?.chainId}
             setSignedMessageDataLocal(localMsgData)
+            console.log("Signature Set, localMsgData: ", localMsgData)
         })
         .catch((error) => {
             console.error('🚨[Signature]:', error)
@@ -163,12 +166,12 @@ export default function WalletChatWidget({
   }, [signedMessageData])
 
   React.useEffect(() => {
-    console.log("---signed_message entry ---", signedMessageData)
+    console.log("---signed_message entry LOCAL ---", signedMessageData)
     if (!signedMessageDataLocal?.signature) return
 
     prevMessageSignature.current = signedMessageDataLocal.signature
 
-    console.log("---signed_message ---", signedMessageData)
+    console.log("---signed_message LOCAL ---", signedMessageData)
     //TODO: we need a way to not send this over and over if same data
     postMessage({ target: 'signed_message', data: signedMessageDataLocal })
 

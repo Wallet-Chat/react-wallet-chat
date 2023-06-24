@@ -11390,7 +11390,6 @@ function h0({
     console.log("signer: ", nt);
     const Lt = "Hello World";
     nt.signMessage(Lt).then((w) => {
-      console.log("Signature Done: ", w);
       let n;
       n = {
         msgToSign: Lt,
@@ -11398,7 +11397,7 @@ function h0({
         walletName: e == null ? void 0 : e.walletName,
         account: e == null ? void 0 : e.account,
         chainId: e == null ? void 0 : e.chainId
-      }, st(n);
+      }, st(n), console.log("Signature Set, localMsgData: ", n);
     }).catch((w) => {
       console.error("🚨[Signature]:", w);
     });
@@ -11430,7 +11429,7 @@ function h0({
   }, [O]), jt.useEffect(() => {
     console.log("---signed_message entry ---", t), t != null && t.signature && t.signature != tt.current && (tt.current = t.signature, console.log("---signed_message ---", t), ve({ target: "signed_message", data: t }));
   }, [t]), jt.useEffect(() => {
-    console.log("---signed_message entry ---", t), gt != null && gt.signature && (tt.current = gt.signature, console.log("---signed_message ---", t), ve({ target: "signed_message", data: gt }));
+    console.log("---signed_message entry LOCAL ---", t), gt != null && gt.signature && (tt.current = gt.signature, console.log("---signed_message LOCAL ---", t), ve({ target: "signed_message", data: gt }));
   }, [gt]), jt.useEffect(() => {
     const Ht = () => {
       if (window.location.href === u.current)
