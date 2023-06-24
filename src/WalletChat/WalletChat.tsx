@@ -6,6 +6,9 @@ import { parseNftFromUrl } from '@/src/utils'
 import styles from './WalletChat.module.css'
 import { API, ConnectedWallet, SignedMessageData, MessagedWallet, AppAPI } from '@/src/types'
 import {config as configDotenv} from 'dotenv'
+import { ethers } from 'ethers'
+import { SiweMessage } from 'siwe'
+import { sign } from 'crypto'
 
 let URL = import.meta.env.VITE_REACT_APP_APP_URL || 'https://staging.walletchat.fun'
 
@@ -19,17 +22,13 @@ function postMessage(data: API) {
   iframeElement?.contentWindow?.postMessage(data, '*')
 }
 
-function trySignIn(wallet?: MessagedWallet) {
-  postMessage({ target: 'sign_in', data: wallet || null })
-}
-
 export default function WalletChatWidget({
   connectedWallet,
   signedMessageData,
   requestSignature,
   style,
 }: {
-  connectedWallet?: ConnectedWallet
+  connectedWallet: ConnectedWallet
   signedMessageData?: SignedMessageData
   requestSignature?: boolean
   style?: React.CSSProperties
@@ -53,6 +52,47 @@ export default function WalletChatWidget({
   const [isOpen, setIsOpen] = React.useState(widgetOpen.current)
   const [numUnread, setNumUnread] = React.useState(0)
   const prevMessageSignature = React.useRef('')
+  const [signedMessageDataLocal, setSignedMessageDataLocal] = React.useState<SignedMessageData>({signature: '', msgToSign: '', account: '', walletName: '', chainId: 1});
+
+  async function trySignIn(wallet?: MessagedWallet) {
+    postMessage({ target: 'sign_in', data: wallet || null })
+    //console.log("connectedWallet: ", connectedWallet)
+  }
+
+  async function signMessagePrompt() {
+    const ethersProvider = new ethers.providers.Web3Provider(window.ethereum)
+    console.log("ethersProvider: ", ethersProvider)
+    const signer = await ethersProvider.getSigner()
+    console.log("signer: ", signer)
+
+    // const domain = window.location.host
+    // const origin = window.location.protocol + '//' + domain
+    // const statement =
+    //     'You are signing a plain-text message to prove you own this wallet address. No gas fees or transactions will occur.'
+
+    // const siweMessage = new SiweMessage({
+    //     domain,
+    //     address: connectedWallet.account,
+    //     statement,
+    //     uri: origin,
+    //     version: '1',
+    //     chainId: connectedWallet.chainId,
+    // })
+
+    const messagePlainText = "Hello World" //siweMessage.prepareMessage()
+    signer
+        .signMessage(messagePlainText)
+        .then((signature) => {
+            console.log("Signature Done: ", signature)
+            let localMsgData: SignedMessageData
+            localMsgData = {msgToSign: messagePlainText, signature: signature, 
+                            walletName: connectedWallet?.walletName, account: connectedWallet?.account, chainId: connectedWallet?.chainId}
+            setSignedMessageDataLocal(localMsgData)
+        })
+        .catch((error) => {
+            console.error('🚨[Signature]:', error)
+        })
+  }
 
   const clickHandler = () => {
     setIsOpen((prev) => {
@@ -108,18 +148,33 @@ export default function WalletChatWidget({
   }, [ownerAddress])
 
   React.useEffect(() => {
+    console.log("---signed_message entry ---", signedMessageData)
     if (!signedMessageData?.signature) return
     if (signedMessageData.signature == prevMessageSignature.current) return
 
     prevMessageSignature.current = signedMessageData.signature
 
-    //console.log("---signed_message ---", signedMessageData)
+    console.log("---signed_message ---", signedMessageData)
     //TODO: we need a way to not send this over and over if same data
     postMessage({ target: 'signed_message', data: signedMessageData })
 
     //not forcing this to be open until we can prevent the previous line from happening over and over
     //setIsOpen(true)
   }, [signedMessageData])
+
+  React.useEffect(() => {
+    console.log("---signed_message entry ---", signedMessageData)
+    if (!signedMessageDataLocal?.signature) return
+
+    prevMessageSignature.current = signedMessageDataLocal.signature
+
+    console.log("---signed_message ---", signedMessageData)
+    //TODO: we need a way to not send this over and over if same data
+    postMessage({ target: 'signed_message', data: signedMessageDataLocal })
+
+    //not forcing this to be open until we can prevent the previous line from happening over and over
+    //setIsOpen(true)
+  }, [signedMessageDataLocal])
 
   React.useEffect(() => {
     const sendContractInfo = () => {
@@ -178,6 +233,10 @@ export default function WalletChatWidget({
 
       if (data.target === 'close_widget') {
         clickHandler()
+      }
+
+      if (data.target === 'do_parent_sign_in') {
+        signMessagePrompt()
       }
 
       if (data.target === 'is_signed_in' && !data.data) {

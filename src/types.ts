@@ -3,9 +3,9 @@ export interface ConnectedWallet {
   account: string | `0x${string}`
   chainId: number
 }
-export interface SignedMessageData {
-  signature: null | string
-  msgToSign: string
+export interface SignedMessageData extends ConnectedWallet {
+  signature?: null | string
+  msgToSign?: string
 }
 export interface MessagedWallet extends ConnectedWallet {
   requestSignature?: boolean
@@ -26,7 +26,7 @@ export type API =
     }
   | {
       target: 'signed_message'
-      data: { signature: null | string; msgToSign: string }
+      data: null | SignedMessageData
     }
   | { target: 'origin'; data: { domain: string; origin: string } }
 
@@ -36,3 +36,4 @@ export type AppAPI =
   | { target: 'close_widget'; data: null }
   | { target: 'is_signed_in'; data: boolean }
   | { target: 'url_env'; data: string }
+  | { target: 'do_parent_sign_in'; data: string }
