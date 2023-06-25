@@ -2,6 +2,7 @@ export interface ConnectedWallet {
   walletName: string | undefined
   account: string | `0x${string}` | undefined
   chainId: number | undefined
+  provider: any
 }
 export interface SignedMessageData extends ConnectedWallet {
   signature?: null | string

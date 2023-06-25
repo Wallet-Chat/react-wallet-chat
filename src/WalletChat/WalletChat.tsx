@@ -7,6 +7,7 @@ import styles from './WalletChat.module.css'
 import { API, ConnectedWallet, SignedMessageData, MessagedWallet, AppAPI } from '@/src/types'
 import { ethers } from 'ethers'
 import { randomStringForEntropy } from '@stablelib/random'; //we should grab the nonce from WC 
+import { sign } from 'crypto'
 
 let URL = import.meta.env.VITE_REACT_APP_APP_URL || 'https://staging.walletchat.fun'
 
@@ -50,21 +51,23 @@ export default function WalletChatWidget({
   const [isOpen, setIsOpen] = React.useState(widgetOpen.current)
   const [numUnread, setNumUnread] = React.useState(0)
   const prevMessageSignature = React.useRef('')
-  const [signedMessageDataLocal, setSignedMessageDataLocal] = React.useState<SignedMessageData>({signature: '', msgToSign: '', account: '', walletName: '', chainId: 1});
+  const [signedMessageDataLocal, setSignedMessageDataLocal] = React.useState<SignedMessageData>({signature: '', msgToSign: '', account: '', walletName: '', chainId: 1, provider: ''});
 
   async function trySignIn(wallet?: MessagedWallet) {
+    if(wallet) { wallet.provider = "" } //maybe a better way, but don't need this (and can't send this down)
     postMessage({ target: 'sign_in', data: wallet || null })
     //console.log("connectedWallet: ", connectedWallet)
   }
 
   async function signMessagePrompt() {
-    const ethersProvider = new ethers.providers.Web3Provider(window.ethereum)
+    const ethersProvider = new ethers.providers.Web3Provider(connectedWallet?.provider)
     const signer = await ethersProvider.getSigner()
+    console.log("signMessagePrompt: ", connectedWallet, signer)
 
     const domain = window.location.host
     const origin = window.location.protocol + '//' + domain
     const statement =
-        'YOU are signing a plain-text message to prove you own this wallet address. No gas fees or transactions will occur.'
+        'You are signing a plain-text message to prove you own this wallet address. No gas fees or transactions will occur.'
 
     const issuedAt = new Date().toISOString();
     const header = `${domain} wants you to sign in with your Ethereum account:`;
@@ -92,7 +95,8 @@ export default function WalletChatWidget({
                             signature: signature, 
                             walletName: connectedWallet?.walletName, 
                             account: connectedWallet?.account, 
-                            chainId: connectedWallet?.chainId}
+                            chainId: connectedWallet?.chainId,
+                            provider: ""}
             setSignedMessageDataLocal(localMsgData)
             console.log("Signature Set, localMsgData: ", localMsgData)
         })
