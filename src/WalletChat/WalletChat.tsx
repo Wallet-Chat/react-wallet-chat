@@ -5,10 +5,8 @@ import { WalletChatContext } from '@/src/Context'
 import { parseNftFromUrl } from '@/src/utils'
 import styles from './WalletChat.module.css'
 import { API, ConnectedWallet, SignedMessageData, MessagedWallet, AppAPI } from '@/src/types'
-import {config as configDotenv} from 'dotenv'
 import { ethers } from 'ethers'
-import { SiweMessage } from 'siwe'
-import { sign } from 'crypto'
+import { randomStringForEntropy } from '@stablelib/random'; //we should grab the nonce from WC 
 
 let URL = import.meta.env.VITE_REACT_APP_APP_URL || 'https://staging.walletchat.fun'
 
@@ -61,25 +59,31 @@ export default function WalletChatWidget({
 
   async function signMessagePrompt() {
     const ethersProvider = new ethers.providers.Web3Provider(window.ethereum)
-    console.log("ethersProvider: ", ethersProvider)
     const signer = await ethersProvider.getSigner()
-    console.log("signer: ", signer)
 
-    // const domain = window.location.host
-    // const origin = window.location.protocol + '//' + domain
-    // const statement =
-    //     'You are signing a plain-text message to prove you own this wallet address. No gas fees or transactions will occur.'
+    const domain = window.location.host
+    const origin = window.location.protocol + '//' + domain
+    const statement =
+        'YOU are signing a plain-text message to prove you own this wallet address. No gas fees or transactions will occur.'
 
-    // const siweMessage = new SiweMessage({
-    //     domain,
-    //     address: connectedWallet.account,
-    //     statement,
-    //     uri: origin,
-    //     version: '1',
-    //     chainId: connectedWallet.chainId,
-    // })
+    const issuedAt = new Date().toISOString();
+    const header = `${domain} wants you to sign in with your Ethereum account:`;
+    const account = connectedWallet?.account
+    const uriField = `URI: ${origin}`;
+    let prefix = [header, account].join('\n');
+    const versionField = `Version: 1`;
+    const nonce = randomStringForEntropy(96);
+    const chainField = `Chain ID: ` + connectedWallet?.chainId || '1';
+    const nonceField = `Nonce: ${nonce}`;
+    const suffixArray = [uriField, versionField, chainField, nonceField];
+    suffixArray.push(`Issued At: ${issuedAt}`);
+    const suffix = suffixArray.join('\n');
+    prefix = [prefix, statement].join('\n\n');
+    if (statement) {
+      prefix += '\n';
+    }
+    const messagePlainText = [prefix, suffix].join('\n');
 
-    const messagePlainText = "Hello World" //siweMessage.prepareMessage()
     signer
         .signMessage(messagePlainText)
         .then((signature) => {
