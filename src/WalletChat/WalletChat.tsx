@@ -7,7 +7,8 @@ import styles from './WalletChat.module.css'
 import { API, ConnectedWallet, SignedMessageData, MessagedWallet, AppAPI } from '@/src/types'
 import {config as configDotenv} from 'dotenv'
 
-let URL = import.meta.env.VITE_REACT_APP_APP_URL || 'https://staging.walletchat.fun'
+const urlFromLocalEnv = import.meta.env.VITE_REACT_APP_APP_URL
+let URL =  urlFromLocalEnv || 'https://staging.walletchat.fun'
 
 const iframeId = styles['wallet-chat-widget']
 
@@ -27,13 +28,18 @@ export default function WalletChatWidget({
   connectedWallet,
   signedMessageData,
   requestSignature,
+  connectUrl,
   style,
 }: {
   connectedWallet?: ConnectedWallet
   signedMessageData?: SignedMessageData
   requestSignature?: boolean
+  connectUrl?: string
   style?: React.CSSProperties
 }) {
+  if(connectUrl) {
+    URL = connectUrl
+  }
   const [url, setUrl] = React.useState(URL)
 
   const previousUrlSent = React.useRef('')
@@ -167,7 +173,7 @@ export default function WalletChatWidget({
         didSendOrigin.current++
       }
 
-      if (data.target === 'url_env' && data.data !== URL && !import.meta.env.VITE_REACT_APP_APP_URL) {
+      if (data.target === 'url_env' && data.data !== URL && !connectUrl) {
         //console.log("Widget Setting iFrame URL: ", data.data)
         setUrl(data.data)
       }
