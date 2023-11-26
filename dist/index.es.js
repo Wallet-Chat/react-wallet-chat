@@ -12,10 +12,10 @@ const wt = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
 }, Symbol.toStringTag, { value: "Module" })), vt = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null
 }, Symbol.toStringTag, { value: "Module" }));
-var Pe = {}, zr = {};
-zr.byteLength = De;
-zr.toByteArray = Me;
-zr.fromByteArray = Ve;
+var je = {}, Jr = {};
+Jr.byteLength = De;
+Jr.toByteArray = Me;
+Jr.fromByteArray = Ve;
 var tr = [], Q = [], Ne = typeof Uint8Array < "u" ? Uint8Array : Array, re = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 for (var _r = 0, Le = re.length; _r < Le; ++_r)
   tr[_r] = re[_r], Q[re.charCodeAt(_r)] = _r;
@@ -78,12 +78,12 @@ ce.read = function(u, f, l, v, y) {
   return (k ? -1 : 1) * d * Math.pow(2, h - v);
 };
 ce.write = function(u, f, l, v, y, h) {
-  var d, a, g, R = h * 8 - y - 1, x = (1 << R) - 1, E = x >> 1, F = y === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0, k = v ? 0 : h - 1, V = v ? 1 : -1, q = f < 0 || f === 0 && 1 / f < 0 ? 1 : 0;
+  var d, a, g, R = h * 8 - y - 1, x = (1 << R) - 1, E = x >> 1, F = y === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0, k = v ? 0 : h - 1, V = v ? 1 : -1, z = f < 0 || f === 0 && 1 / f < 0 ? 1 : 0;
   for (f = Math.abs(f), isNaN(f) || f === 1 / 0 ? (a = isNaN(f) ? 1 : 0, d = x) : (d = Math.floor(Math.log(f) / Math.LN2), f * (g = Math.pow(2, -d)) < 1 && (d--, g *= 2), d + E >= 1 ? f += F / g : f += F * Math.pow(2, 1 - E), f * g >= 2 && (d++, g /= 2), d + E >= x ? (a = 0, d = x) : d + E >= 1 ? (a = (f * g - 1) * Math.pow(2, y), d = d + E) : (a = f * Math.pow(2, E - 1) * Math.pow(2, y), d = 0)); y >= 8; u[l + k] = a & 255, k += V, a /= 256, y -= 8)
     ;
   for (d = d << y | a, R += y; R > 0; u[l + k] = d & 255, k += V, d /= 256, R -= 8)
     ;
-  u[l + k - V] |= q * 128;
+  u[l + k - V] |= z * 128;
 };
 /*!
  * The buffer module from node.js, for the browser.
@@ -92,7 +92,7 @@ ce.write = function(u, f, l, v, y, h) {
  * @license  MIT
  */
 (function(u) {
-  var f = zr, l = ce, v = typeof Symbol == "function" && typeof Symbol.for == "function" ? Symbol.for("nodejs.util.inspect.custom") : null;
+  var f = Jr, l = ce, v = typeof Symbol == "function" && typeof Symbol.for == "function" ? Symbol.for("nodejs.util.inspect.custom") : null;
   u.Buffer = a, u.SlowBuffer = pr, u.INSPECT_MAX_BYTES = 50;
   var y = 2147483647;
   u.kMaxLength = y, a.TYPED_ARRAY_SUPPORT = h(), !a.TYPED_ARRAY_SUPPORT && typeof console < "u" && typeof console.error == "function" && console.error(
@@ -148,7 +148,7 @@ ce.write = function(u, f, l, v, y, h) {
         "The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof t
       );
     if (G(t, ArrayBuffer) || t && G(t.buffer, ArrayBuffer) || typeof SharedArrayBuffer < "u" && (G(t, SharedArrayBuffer) || t && G(t.buffer, SharedArrayBuffer)))
-      return q(t, r, e);
+      return z(t, r, e);
     if (typeof t == "number")
       throw new TypeError(
         'The "value" argument must not be of type number. Received type number'
@@ -206,11 +206,11 @@ ce.write = function(u, f, l, v, y, h) {
   function V(t) {
     if (G(t, Uint8Array)) {
       var r = new Uint8Array(t);
-      return q(r.buffer, r.byteOffset, r.byteLength);
+      return z(r.buffer, r.byteOffset, r.byteLength);
     }
     return k(t);
   }
-  function q(t, r, e) {
+  function z(t, r, e) {
     if (r < 0 || t.byteLength < r)
       throw new RangeError('"offset" is outside of buffer bounds');
     if (t.byteLength < r + (e || 0))
@@ -341,9 +341,9 @@ ce.write = function(u, f, l, v, y, h) {
           return Lr(this, r, e);
         case "utf8":
         case "utf-8":
-          return z(this, r, e);
+          return J(this, r, e);
         case "ascii":
-          return Pr(this, r, e);
+          return jr(this, r, e);
         case "latin1":
         case "binary":
           return Nr(this, r, e);
@@ -388,7 +388,7 @@ ce.write = function(u, f, l, v, y, h) {
     return this;
   }, a.prototype.toString = function() {
     var r = this.length;
-    return r === 0 ? "" : arguments.length === 0 ? z(this, 0, r) : hr.apply(this, arguments);
+    return r === 0 ? "" : arguments.length === 0 ? J(this, 0, r) : hr.apply(this, arguments);
   }, a.prototype.toLocaleString = a.prototype.toString, a.prototype.equals = function(r) {
     if (!a.isBuffer(r))
       throw new TypeError("Argument must be a Buffer");
@@ -411,9 +411,9 @@ ce.write = function(u, f, l, v, y, h) {
       return 1;
     if (e >>>= 0, n >>>= 0, o >>>= 0, c >>>= 0, this === r)
       return 0;
-    for (var p = c - o, _ = n - e, T = Math.min(p, _), I = this.slice(o, c), M = r.slice(e, n), j = 0; j < T; ++j)
-      if (I[j] !== M[j]) {
-        p = I[j], _ = M[j];
+    for (var p = c - o, _ = n - e, T = Math.min(p, _), I = this.slice(o, c), M = r.slice(e, n), P = 0; P < T; ++P)
+      if (I[P] !== M[P]) {
+        p = I[P], _ = M[P];
         break;
       }
     return p < _ ? -1 : _ < p ? 1 : 0;
@@ -457,12 +457,12 @@ ce.write = function(u, f, l, v, y, h) {
           M !== -1 && (I -= I - M), M = -1;
     } else
       for (e + _ > p && (e = p - _), I = e; I >= 0; I--) {
-        for (var j = !0, xr = 0; xr < _; xr++)
+        for (var P = !0, xr = 0; xr < _; xr++)
           if (T(t, I + xr) !== T(r, xr)) {
-            j = !1;
+            P = !1;
             break;
           }
-        if (j)
+        if (P)
           return I;
       }
     return -1;
@@ -488,7 +488,7 @@ ce.write = function(u, f, l, v, y, h) {
     }
     return p;
   }
-  function J(t, r, e, n) {
+  function q(t, r, e, n) {
     return dr(lr(r, t.length - e), t, e, n);
   }
   function fr(t, r, e, n) {
@@ -521,7 +521,7 @@ ce.write = function(u, f, l, v, y, h) {
           return C(this, r, e, n);
         case "utf8":
         case "utf-8":
-          return J(this, r, e, n);
+          return q(this, r, e, n);
         case "ascii":
         case "latin1":
         case "binary":
@@ -547,32 +547,32 @@ ce.write = function(u, f, l, v, y, h) {
   function kr(t, r, e) {
     return r === 0 && e === t.length ? f.fromByteArray(t) : f.fromByteArray(t.slice(r, e));
   }
-  function z(t, r, e) {
+  function J(t, r, e) {
     e = Math.min(t.length, e);
     for (var n = [], o = r; o < e; ) {
       var c = t[o], p = null, _ = c > 239 ? 4 : c > 223 ? 3 : c > 191 ? 2 : 1;
       if (o + _ <= e) {
-        var T, I, M, j;
+        var T, I, M, P;
         switch (_) {
           case 1:
             c < 128 && (p = c);
             break;
           case 2:
-            T = t[o + 1], (T & 192) === 128 && (j = (c & 31) << 6 | T & 63, j > 127 && (p = j));
+            T = t[o + 1], (T & 192) === 128 && (P = (c & 31) << 6 | T & 63, P > 127 && (p = P));
             break;
           case 3:
-            T = t[o + 1], I = t[o + 2], (T & 192) === 128 && (I & 192) === 128 && (j = (c & 15) << 12 | (T & 63) << 6 | I & 63, j > 2047 && (j < 55296 || j > 57343) && (p = j));
+            T = t[o + 1], I = t[o + 2], (T & 192) === 128 && (I & 192) === 128 && (P = (c & 15) << 12 | (T & 63) << 6 | I & 63, P > 2047 && (P < 55296 || P > 57343) && (p = P));
             break;
           case 4:
-            T = t[o + 1], I = t[o + 2], M = t[o + 3], (T & 192) === 128 && (I & 192) === 128 && (M & 192) === 128 && (j = (c & 15) << 18 | (T & 63) << 12 | (I & 63) << 6 | M & 63, j > 65535 && j < 1114112 && (p = j));
+            T = t[o + 1], I = t[o + 2], M = t[o + 3], (T & 192) === 128 && (I & 192) === 128 && (M & 192) === 128 && (P = (c & 15) << 18 | (T & 63) << 12 | (I & 63) << 6 | M & 63, P > 65535 && P < 1114112 && (p = P));
         }
       }
       p === null ? (p = 65533, _ = 1) : p > 65535 && (p -= 65536, n.push(p >>> 10 & 1023 | 55296), p = 56320 | p & 1023), n.push(p), o += _;
     }
-    return jr(n);
+    return Pr(n);
   }
   var sr = 4096;
-  function jr(t) {
+  function Pr(t) {
     var r = t.length;
     if (r <= sr)
       return String.fromCharCode.apply(String, t);
@@ -583,7 +583,7 @@ ce.write = function(u, f, l, v, y, h) {
       );
     return e;
   }
-  function Pr(t, r, e) {
+  function jr(t, r, e) {
     var n = "";
     e = Math.min(t.length, e);
     for (var o = r; o < e; ++o)
@@ -615,64 +615,64 @@ ce.write = function(u, f, l, v, y, h) {
     var o = this.subarray(r, e);
     return Object.setPrototypeOf(o, a.prototype), o;
   };
-  function P(t, r, e) {
+  function j(t, r, e) {
     if (t % 1 !== 0 || t < 0)
       throw new RangeError("offset is not uint");
     if (t + r > e)
       throw new RangeError("Trying to access beyond buffer length");
   }
   a.prototype.readUintLE = a.prototype.readUIntLE = function(r, e, n) {
-    r = r >>> 0, e = e >>> 0, n || P(r, e, this.length);
+    r = r >>> 0, e = e >>> 0, n || j(r, e, this.length);
     for (var o = this[r], c = 1, p = 0; ++p < e && (c *= 256); )
       o += this[r + p] * c;
     return o;
   }, a.prototype.readUintBE = a.prototype.readUIntBE = function(r, e, n) {
-    r = r >>> 0, e = e >>> 0, n || P(r, e, this.length);
+    r = r >>> 0, e = e >>> 0, n || j(r, e, this.length);
     for (var o = this[r + --e], c = 1; e > 0 && (c *= 256); )
       o += this[r + --e] * c;
     return o;
   }, a.prototype.readUint8 = a.prototype.readUInt8 = function(r, e) {
-    return r = r >>> 0, e || P(r, 1, this.length), this[r];
+    return r = r >>> 0, e || j(r, 1, this.length), this[r];
   }, a.prototype.readUint16LE = a.prototype.readUInt16LE = function(r, e) {
-    return r = r >>> 0, e || P(r, 2, this.length), this[r] | this[r + 1] << 8;
+    return r = r >>> 0, e || j(r, 2, this.length), this[r] | this[r + 1] << 8;
   }, a.prototype.readUint16BE = a.prototype.readUInt16BE = function(r, e) {
-    return r = r >>> 0, e || P(r, 2, this.length), this[r] << 8 | this[r + 1];
+    return r = r >>> 0, e || j(r, 2, this.length), this[r] << 8 | this[r + 1];
   }, a.prototype.readUint32LE = a.prototype.readUInt32LE = function(r, e) {
-    return r = r >>> 0, e || P(r, 4, this.length), (this[r] | this[r + 1] << 8 | this[r + 2] << 16) + this[r + 3] * 16777216;
+    return r = r >>> 0, e || j(r, 4, this.length), (this[r] | this[r + 1] << 8 | this[r + 2] << 16) + this[r + 3] * 16777216;
   }, a.prototype.readUint32BE = a.prototype.readUInt32BE = function(r, e) {
-    return r = r >>> 0, e || P(r, 4, this.length), this[r] * 16777216 + (this[r + 1] << 16 | this[r + 2] << 8 | this[r + 3]);
+    return r = r >>> 0, e || j(r, 4, this.length), this[r] * 16777216 + (this[r + 1] << 16 | this[r + 2] << 8 | this[r + 3]);
   }, a.prototype.readIntLE = function(r, e, n) {
-    r = r >>> 0, e = e >>> 0, n || P(r, e, this.length);
+    r = r >>> 0, e = e >>> 0, n || j(r, e, this.length);
     for (var o = this[r], c = 1, p = 0; ++p < e && (c *= 256); )
       o += this[r + p] * c;
     return c *= 128, o >= c && (o -= Math.pow(2, 8 * e)), o;
   }, a.prototype.readIntBE = function(r, e, n) {
-    r = r >>> 0, e = e >>> 0, n || P(r, e, this.length);
+    r = r >>> 0, e = e >>> 0, n || j(r, e, this.length);
     for (var o = e, c = 1, p = this[r + --o]; o > 0 && (c *= 256); )
       p += this[r + --o] * c;
     return c *= 128, p >= c && (p -= Math.pow(2, 8 * e)), p;
   }, a.prototype.readInt8 = function(r, e) {
-    return r = r >>> 0, e || P(r, 1, this.length), this[r] & 128 ? (255 - this[r] + 1) * -1 : this[r];
+    return r = r >>> 0, e || j(r, 1, this.length), this[r] & 128 ? (255 - this[r] + 1) * -1 : this[r];
   }, a.prototype.readInt16LE = function(r, e) {
-    r = r >>> 0, e || P(r, 2, this.length);
+    r = r >>> 0, e || j(r, 2, this.length);
     var n = this[r] | this[r + 1] << 8;
     return n & 32768 ? n | 4294901760 : n;
   }, a.prototype.readInt16BE = function(r, e) {
-    r = r >>> 0, e || P(r, 2, this.length);
+    r = r >>> 0, e || j(r, 2, this.length);
     var n = this[r + 1] | this[r] << 8;
     return n & 32768 ? n | 4294901760 : n;
   }, a.prototype.readInt32LE = function(r, e) {
-    return r = r >>> 0, e || P(r, 4, this.length), this[r] | this[r + 1] << 8 | this[r + 2] << 16 | this[r + 3] << 24;
+    return r = r >>> 0, e || j(r, 4, this.length), this[r] | this[r + 1] << 8 | this[r + 2] << 16 | this[r + 3] << 24;
   }, a.prototype.readInt32BE = function(r, e) {
-    return r = r >>> 0, e || P(r, 4, this.length), this[r] << 24 | this[r + 1] << 16 | this[r + 2] << 8 | this[r + 3];
+    return r = r >>> 0, e || j(r, 4, this.length), this[r] << 24 | this[r + 1] << 16 | this[r + 2] << 8 | this[r + 3];
   }, a.prototype.readFloatLE = function(r, e) {
-    return r = r >>> 0, e || P(r, 4, this.length), l.read(this, r, !0, 23, 4);
+    return r = r >>> 0, e || j(r, 4, this.length), l.read(this, r, !0, 23, 4);
   }, a.prototype.readFloatBE = function(r, e) {
-    return r = r >>> 0, e || P(r, 4, this.length), l.read(this, r, !1, 23, 4);
+    return r = r >>> 0, e || j(r, 4, this.length), l.read(this, r, !1, 23, 4);
   }, a.prototype.readDoubleLE = function(r, e) {
-    return r = r >>> 0, e || P(r, 8, this.length), l.read(this, r, !0, 52, 8);
+    return r = r >>> 0, e || j(r, 8, this.length), l.read(this, r, !0, 52, 8);
   }, a.prototype.readDoubleBE = function(r, e) {
-    return r = r >>> 0, e || P(r, 8, this.length), l.read(this, r, !1, 52, 8);
+    return r = r >>> 0, e || j(r, 8, this.length), l.read(this, r, !1, 52, 8);
   };
   function Y(t, r, e, n, o, c) {
     if (!a.isBuffer(t))
@@ -901,15 +901,15 @@ ce.write = function(u, f, l, v, y, h) {
         r[n + o] = t[e] + t[o];
     return r;
   }();
-})(Pe);
-var Jr = {}, qe = {
+})(je);
+var qr = {}, ze = {
   get exports() {
-    return Jr;
+    return qr;
   },
   set exports(u) {
-    Jr = u;
+    qr = u;
   }
-}, L = qe.exports = {}, rr, er;
+}, L = ze.exports = {}, rr, er;
 function ae() {
   throw new Error("setTimeout has not been defined");
 }
@@ -943,7 +943,7 @@ function me(u) {
     }
   }
 }
-function Je(u) {
+function qe(u) {
   if (er === clearTimeout)
     return clearTimeout(u);
   if ((er === oe || !er) && clearTimeout)
@@ -958,20 +958,20 @@ function Je(u) {
     }
   }
 }
-var ur = [], Ar = !1, vr, qr = -1;
-function ze() {
-  !Ar || !vr || (Ar = !1, vr.length ? ur = vr.concat(ur) : qr = -1, ur.length && Ee());
+var ur = [], Ar = !1, vr, zr = -1;
+function Je() {
+  !Ar || !vr || (Ar = !1, vr.length ? ur = vr.concat(ur) : zr = -1, ur.length && Ee());
 }
 function Ee() {
   if (!Ar) {
-    var u = me(ze);
+    var u = me(Je);
     Ar = !0;
     for (var f = ur.length; f; ) {
-      for (vr = ur, ur = []; ++qr < f; )
-        vr && vr[qr].run();
-      qr = -1, f = ur.length;
+      for (vr = ur, ur = []; ++zr < f; )
+        vr && vr[zr].run();
+      zr = -1, f = ur.length;
     }
-    vr = null, Ar = !1, Je(u);
+    vr = null, Ar = !1, qe(u);
   }
 }
 L.nextTick = function(u) {
@@ -1129,13 +1129,13 @@ function He() {
 var te = {}, ye;
 function Ke() {
   return ye || (ye = 1, function(u) {
-    Jr.env.NODE_ENV !== "production" && function() {
+    qr.env.NODE_ENV !== "production" && function() {
       var f = B, l = be(), v = 60103, y = 60106;
       u.Fragment = 60107;
-      var h = 60108, d = 60114, a = 60109, g = 60110, R = 60112, x = 60113, E = 60120, F = 60115, k = 60116, V = 60121, q = 60122, Z = 60117, nr = 60129, pr = 60131;
+      var h = 60108, d = 60114, a = 60109, g = 60110, R = 60112, x = 60113, E = 60120, F = 60115, k = 60116, V = 60121, z = 60122, Z = 60117, nr = 60129, pr = 60131;
       if (typeof Symbol == "function" && Symbol.for) {
         var O = Symbol.for;
-        v = O("react.element"), y = O("react.portal"), u.Fragment = O("react.fragment"), h = O("react.strict_mode"), d = O("react.profiler"), a = O("react.provider"), g = O("react.context"), R = O("react.forward_ref"), x = O("react.suspense"), E = O("react.suspense_list"), F = O("react.memo"), k = O("react.lazy"), V = O("react.block"), q = O("react.server.block"), Z = O("react.fundamental"), O("react.scope"), O("react.opaque.id"), nr = O("react.debug_trace_mode"), O("react.offscreen"), pr = O("react.legacy_hidden");
+        v = O("react.element"), y = O("react.portal"), u.Fragment = O("react.fragment"), h = O("react.strict_mode"), d = O("react.profiler"), a = O("react.provider"), g = O("react.context"), R = O("react.forward_ref"), x = O("react.suspense"), E = O("react.suspense_list"), F = O("react.memo"), k = O("react.lazy"), V = O("react.block"), z = O("react.server.block"), Z = O("react.fundamental"), O("react.scope"), O("react.opaque.id"), nr = O("react.debug_trace_mode"), O("react.offscreen"), pr = O("react.legacy_hidden");
       }
       var hr = typeof Symbol == "function" && Symbol.iterator, X = "@@iterator";
       function ir(i) {
@@ -1149,10 +1149,10 @@ function Ke() {
         {
           for (var s = arguments.length, w = new Array(s > 1 ? s - 1 : 0), m = 1; m < s; m++)
             w[m - 1] = arguments[m];
-          J("error", i, w);
+          q("error", i, w);
         }
       }
-      function J(i, s, w) {
+      function q(i, s, w) {
         {
           var m = D.ReactDebugCurrentFrame, S = m.getStackAddendum();
           S !== "" && (s += "%s", w = w.concat([S]));
@@ -1164,7 +1164,7 @@ function Ke() {
       }
       var fr = !1;
       function Hr(i) {
-        return !!(typeof i == "string" || typeof i == "function" || i === u.Fragment || i === d || i === nr || i === h || i === x || i === E || i === pr || fr || typeof i == "object" && i !== null && (i.$$typeof === k || i.$$typeof === F || i.$$typeof === a || i.$$typeof === g || i.$$typeof === R || i.$$typeof === Z || i.$$typeof === V || i[0] === q));
+        return !!(typeof i == "string" || typeof i == "function" || i === u.Fragment || i === d || i === nr || i === h || i === x || i === E || i === pr || fr || typeof i == "object" && i !== null && (i.$$typeof === k || i.$$typeof === F || i.$$typeof === a || i.$$typeof === g || i.$$typeof === R || i.$$typeof === Z || i.$$typeof === V || i[0] === z));
       }
       function Kr(i, s, w) {
         var m = s.displayName || s.name || "";
@@ -1173,7 +1173,7 @@ function Ke() {
       function kr(i) {
         return i.displayName || "Context";
       }
-      function z(i) {
+      function J(i) {
         if (i == null)
           return null;
         if (typeof i.tag == "number" && C("Received an unexpected object in getComponentName(). This is likely a bug in React. Please file an issue."), typeof i == "function")
@@ -1205,13 +1205,13 @@ function Ke() {
             case R:
               return Kr(i, i.render, "ForwardRef");
             case F:
-              return z(i.type);
+              return J(i.type);
             case V:
-              return z(i._render);
+              return J(i._render);
             case k: {
               var m = i, S = m._payload, U = m._init;
               try {
-                return z(U(S));
+                return J(U(S));
               } catch {
                 return null;
               }
@@ -1219,14 +1219,14 @@ function Ke() {
           }
         return null;
       }
-      var sr = 0, jr, Pr, Nr, Lr, Dr, P, Y;
+      var sr = 0, Pr, jr, Nr, Lr, Dr, j, Y;
       function Tr() {
       }
       Tr.__reactDisabledLog = !0;
       function Wr() {
         {
           if (sr === 0) {
-            jr = console.log, Pr = console.info, Nr = console.warn, Lr = console.error, Dr = console.group, P = console.groupCollapsed, Y = console.groupEnd;
+            Pr = console.log, jr = console.info, Nr = console.warn, Lr = console.error, Dr = console.group, j = console.groupCollapsed, Y = console.groupEnd;
             var i = {
               configurable: !0,
               enumerable: !0,
@@ -1256,10 +1256,10 @@ function Ke() {
             };
             Object.defineProperties(console, {
               log: l({}, i, {
-                value: jr
+                value: Pr
               }),
               info: l({}, i, {
-                value: Pr
+                value: jr
               }),
               warn: l({}, i, {
                 value: Nr
@@ -1271,7 +1271,7 @@ function Ke() {
                 value: Dr
               }),
               groupCollapsed: l({}, i, {
-                value: P
+                value: j
               }),
               groupEnd: l({}, i, {
                 value: Y
@@ -1451,7 +1451,7 @@ function Ke() {
         }
         return i.ref !== void 0;
       }
-      function j(i) {
+      function P(i) {
         if (c.call(i, "key")) {
           var s = Object.getOwnPropertyDescriptor(i, "key").get;
           if (s && s.isReactWarning)
@@ -1461,8 +1461,8 @@ function Ke() {
       }
       function xr(i, s) {
         if (typeof i.ref == "string" && o.current && s && o.current.stateNode !== s) {
-          var w = z(o.current.type);
-          I[w] || (C('Component "%s" contains the string ref "%s". Support for string refs will be removed in a future major release. This case cannot be automatically converted to an arrow function. We ask you to manually fix this case by using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref', z(o.current.type), i.ref), I[w] = !0);
+          var w = J(o.current.type);
+          I[w] || (C('Component "%s" contains the string ref "%s". Support for string refs will be removed in a future major release. This case cannot be automatically converted to an arrow function. We ask you to manually fix this case by using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref', J(o.current.type), i.ref), I[w] = !0);
         }
       }
       function $r(i, s) {
@@ -1519,7 +1519,7 @@ function Ke() {
       function Fe(i, s, w, m, S) {
         {
           var U, A = {}, b = null, $ = null;
-          w !== void 0 && (b = "" + w), j(s) && (b = "" + s.key), M(s) && ($ = s.ref, xr(s, S));
+          w !== void 0 && (b = "" + w), P(s) && (b = "" + s.key), M(s) && ($ = s.ref, xr(s, S));
           for (U in s)
             c.call(s, U) && !p.hasOwnProperty(U) && (A[U] = s[U]);
           if (i && i.defaultProps) {
@@ -1550,7 +1550,7 @@ function Ke() {
       function se() {
         {
           if (Xr.current) {
-            var i = z(Xr.current.type);
+            var i = J(Xr.current.type);
             if (i)
               return `
 
@@ -1593,7 +1593,7 @@ Check the top-level render call using <` + w + ">.");
             return;
           le[w] = !0;
           var m = "";
-          i && i._owner && i._owner !== Xr.current && (m = " It was passed a child from " + z(i._owner.type) + "."), mr(i), C('Each child in a list should have a unique "key" prop.%s%s See https://reactjs.org/link/warning-keys for more information.', w, m), mr(null);
+          i && i._owner && i._owner !== Xr.current && (m = " It was passed a child from " + J(i._owner.type) + "."), mr(i), C('Each child in a list should have a unique "key" prop.%s%s See https://reactjs.org/link/warning-keys for more information.', w, m), mr(null);
         }
       }
       function he(i, s) {
@@ -1630,11 +1630,11 @@ Check the top-level render call using <` + w + ">.");
           else
             return;
           if (w) {
-            var m = z(s);
+            var m = J(s);
             n(w, i.props, "prop", m, i);
           } else if (s.PropTypes !== void 0 && !Qr) {
             Qr = !0;
-            var S = z(s);
+            var S = J(s);
             C("Component %s declared `PropTypes` instead of `propTypes`. Did you misspell the property assignment?", S || "Unknown");
           }
           typeof s.getDefaultProps == "function" && !s.getDefaultProps.isReactClassApproved && C("getDefaultProps is only used on classic React.createClass definitions. Use a static property named `defaultProps` instead.");
@@ -1661,7 +1661,7 @@ Check the top-level render call using <` + w + ">.");
             var $ = Ce(S);
             $ ? b += $ : b += se();
             var N;
-            i === null ? N = "null" : Array.isArray(i) ? N = "array" : i !== void 0 && i.$$typeof === v ? (N = "<" + (z(i.type) || "Unknown") + " />", b = " Did you accidentally export a JSX literal instead of a component?") : N = typeof i, C("React.jsx: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s", N, b);
+            i === null ? N = "null" : Array.isArray(i) ? N = "array" : i !== void 0 && i.$$typeof === v ? (N = "<" + (J(i.type) || "Unknown") + " />", b = " Did you accidentally export a JSX literal instead of a component?") : N = typeof i, C("React.jsx: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s", N, b);
           }
           var W = Fe(i, s, w, S, U);
           if (W == null)
@@ -1688,13 +1688,13 @@ Check the top-level render call using <` + w + ">.");
       function Oe(i, s, w) {
         return de(i, s, w, !1);
       }
-      var ke = Oe, je = Ue;
-      u.jsx = ke, u.jsxs = je;
+      var ke = Oe, Pe = Ue;
+      u.jsx = ke, u.jsxs = Pe;
     }();
   }(te)), te;
 }
 (function(u) {
-  Jr.env.NODE_ENV === "production" ? u.exports = He() : u.exports = Ke();
+  qr.env.NODE_ENV === "production" ? u.exports = He() : u.exports = Ke();
 })(Ge);
 const Xe = Or.Fragment, K = Or.jsx, Ur = Or.jsxs;
 var ue = {}, Qe = {
@@ -1756,10 +1756,10 @@ function gt({
   );
   return /* @__PURE__ */ K(Gr.Provider, { value: y, children: u });
 }
-const Ze = "_ring_7tcsj_47", rt = "_popupButton__container_7tcsj_5", et = "_popupButton_7tcsj_5", tt = "_icon_7tcsj_23", nt = "_inactiveIcon_7tcsj_31", it = "_activeIcon_7tcsj_35", at = "_notif_7tcsj_39", ot = "_pinging_7tcsj_43", ut = "_ping_7tcsj_43", H = {
+const Ze = "_ring_pzwee_47", rt = "_popupButton__container_pzwee_5", et = "_popupButton_pzwee_5", tt = "_icon_pzwee_23", nt = "_inactiveIcon_pzwee_31", it = "_activeIcon_pzwee_35", at = "_notif_pzwee_39", ot = "_pinging_pzwee_43", ut = "_ping_pzwee_43", H = {
   ring: Ze,
   popupButton__container: rt,
-  "popupButton__container--open": "_popupButton__container--open_7tcsj_9",
+  "popupButton__container--open": "_popupButton__container--open_pzwee_9",
   popupButton: et,
   icon: tt,
   inactiveIcon: nt,
@@ -1899,7 +1899,7 @@ function yt({
   style: y
 }) {
   v && (ne = v);
-  const [h, d] = B.useState(ne), a = B.useRef(""), g = B.useRef(null), R = B.useRef(u), x = B.useRef(0), E = B.useRef(!1), F = B.useContext(Gr), { widgetState: k, setWidgetState: V } = F || {}, { ownerAddress: q } = k || {}, [Z, nr] = B.useState(E.current), [pr, O] = B.useState(0), hr = B.useRef(""), X = () => {
+  const [h, d] = B.useState(ne), a = B.useRef(""), g = B.useRef(null), R = B.useRef(u), x = B.useRef(0), E = B.useRef(!1), F = B.useContext(Gr), { widgetState: k, setWidgetState: V } = F || {}, { ownerAddress: z } = k || {}, [Z, nr] = B.useState(E.current), [pr, O] = B.useState(0), hr = B.useRef(""), X = () => {
     nr((D) => {
       const C = !!D;
       return g.current && !C && wr({
@@ -1913,9 +1913,9 @@ function yt({
   return B.useEffect(() => {
     ir();
   }, [ir]), B.useEffect(() => {
-    if (!(q != null && q.address))
+    if (!(z != null && z.address))
       return;
-    const D = q.address, C = ie(window.location.href);
+    const D = z.address, C = ie(window.location.href);
     C.network && (g.current = {
       ...C,
       ownerAddress: D
@@ -1923,7 +1923,7 @@ function yt({
       target: "nft_info",
       data: { ...g.current, redirect: !0 }
     }) : wr({ target: "nft_info", data: { ownerAddress: D } }), nr(!0);
-  }, [q]), B.useEffect(() => {
+  }, [z]), B.useEffect(() => {
     f != null && f.signature && f.signature != hr.current && (hr.current = f.signature, wr({ target: "signed_message", data: f }));
   }, [f]), B.useEffect(() => {
     const D = () => {
@@ -1932,20 +1932,20 @@ function yt({
       a.current = window.location.href;
       const fr = ie(window.location.href);
       V && V("foundNft", JSON.stringify(fr)), fr.network && (g.current = fr), wr({ target: "nft_info", data: fr });
-    }, C = new MutationObserver(D), J = { subtree: !0, childList: !0 };
-    return D(), C.observe(document, J), () => C.disconnect();
+    }, C = new MutationObserver(D), q = { subtree: !0, childList: !0 };
+    return D(), C.observe(document, q), () => C.disconnect();
   }, [V]), B.useEffect(() => {
     R.current = u;
   }, [u]), B.useEffect(() => {
     const D = (C) => {
-      const J = C.data;
+      const q = C.data;
       x.current < 100 && (wr({
         target: "origin",
         data: {
           domain: window.location.host,
           origin: window.location.protocol + window.location.host
         }
-      }), x.current++), J.target === "url_env" && J.data !== ne && !v && d(J.data), J.target === "unread_cnt" && O(J.data), J.target === "close_widget" && X(), J.target === "is_signed_in" && !J.data && ir();
+      }), x.current++), q.target === "url_env" && q.data !== ne && !v && d(q.data), q.target === "unread_cnt" && O(q.data), q.target === "close_widget" && X(), q.target === "is_signed_in" && !q.data && ir();
     };
     return window.addEventListener("message", D), () => window.removeEventListener("message", D);
   }, [ir]), /* @__PURE__ */ Ur(
@@ -2024,4 +2024,4 @@ export {
   vt as types,
   wt as utils
 };
-(function(){"use strict";try{if(typeof document<"u"){var t=document.createElement("style");t.appendChild(document.createTextNode(".ring{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}._ring_7tcsj_47{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}._popupButton__container_7tcsj_5{position:relative;margin-top:.75rem;height:4rem;--tw-drop-shadow: drop-shadow(0 25px 25px rgb(0 0 0 / .15));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);transition-property:margin-top,transform;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}._popupButton__container--open_7tcsj_9{right:1.5rem;margin-top:-4rem;--tw-translate-y: 100%;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@media (min-width: 640px){._popupButton__container--open_7tcsj_9{right:0px;margin-top:.75rem;--tw-translate-y: 0px;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}}._popupButton_7tcsj_5{position:absolute;top:0px;right:0px;height:4rem;width:4rem;transform-origin:center;cursor:pointer;overflow:hidden;border-radius:9999px;--tw-bg-opacity: 1;background-color:rgb(0 0 0 / var(--tw-bg-opacity))}._icon_7tcsj_23{transition-property:transform,opacity;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s;transition-timing-function:linear;display:flex;height:100%;width:100%;cursor:pointer;align-items:center;justify-content:center}._icon_7tcsj_23 svg{height:2rem;width:1.75rem;fill:#fff}._inactiveIcon_7tcsj_31{position:absolute;--tw-rotate: 30deg;--tw-scale-x: 0;--tw-scale-y: 0;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));opacity:0}._activeIcon_7tcsj_35{--tw-rotate: 0deg;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));opacity:1}._notif_7tcsj_39{pointer-events:none;position:absolute;top:-.5rem;right:-.5rem;height:1.75rem;width:1.75rem;border-radius:9999px;--tw-bg-opacity: 1;background-color:rgb(219 39 119 / var(--tw-bg-opacity));text-align:center;font-size:.875rem;line-height:1.25rem;font-weight:700;line-height:1.5;--tw-text-opacity: 1;color:rgb(255 255 255 / var(--tw-text-opacity))}._pinging_7tcsj_43{animation:_ping_7tcsj_43 1s cubic-bezier(0,0,.2,1) infinite}._ring_7tcsj_47{position:fixed;right:0px;display:inline-flex;height:4rem;width:4rem}@keyframes _ping_7tcsj_43{75%,to{transform:scale(2);opacity:0}}._ring_7tcsj_47{animation:_ping_7tcsj_43 1s cubic-bezier(0,0,.2,1) infinite;border-radius:9999px;--tw-bg-opacity: 1;background-color:rgb(203 213 225 / var(--tw-bg-opacity));opacity:.75}*,:before,:after{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::backdrop{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }._ring_q714d_1{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}#_wallet-chat-widget_q714d_23{transition-property:width,min-width,height,min-height;transition-duration:.25s;transition-timing-function:cubic-bezier(.4,0,.2,1);overflow-x:hidden;overflow-y:hidden;border-radius:1rem;--tw-drop-shadow: drop-shadow(4px 4px 8px rgba(0,0,0,.5));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}._widget-is-open_q714d_9{height:75vh;min-height:500px;width:calc(100vw - 2rem);--tw-translate-x: -1rem;--tw-translate-y: -.5rem;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@media (min-width: 640px){._widget-is-open_q714d_9{height:65vh;width:15vw;min-width:440px;--tw-translate-x: 0px;--tw-translate-y: 0px;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}}._widget-is-closed_q714d_13{height:0px;min-height:0px;width:0px;min-width:0px}._wallet-chat-widget__container_q714d_23{position:fixed;bottom:.5rem;right:1.5rem;z-index:1000;-webkit-user-select:none;-moz-user-select:none;user-select:none}._wallet-chat-widget__container--open_q714d_27{bottom:0px;right:0px}@media (min-width: 640px){._wallet-chat-widget__container--open_q714d_27{bottom:.5rem;right:1.5rem}}")),document.head.appendChild(t)}}catch(r){console.error("vite-plugin-css-injected-by-js",r)}})();
+(function(){"use strict";try{if(typeof document<"u"){var t=document.createElement("style");t.appendChild(document.createTextNode(".ring{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}._ring_pzwee_47{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}._popupButton__container_pzwee_5{position:relative;margin-top:.75rem;height:4rem;--tw-drop-shadow: drop-shadow(0 25px 25px rgb(0 0 0 / .15));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);transition-property:margin-top,transform;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}._popupButton__container--open_pzwee_9{right:1.5rem;margin-top:-4rem;--tw-translate-y: 100%;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@media (min-width: 640px){._popupButton__container--open_pzwee_9{right:0px;margin-top:.75rem;--tw-translate-y: 0px;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}}._popupButton_pzwee_5{position:absolute;top:0px;right:0px;height:4rem;width:4rem;transform-origin:center;cursor:pointer;overflow:hidden;border-radius:9999px;--tw-bg-opacity: 1;background-color:rgb(0 0 0 / var(--tw-bg-opacity))}._icon_pzwee_23{transition-property:transform,opacity;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s;transition-timing-function:linear;display:flex;height:100%;width:100%;cursor:pointer;align-items:center;justify-content:center}._icon_pzwee_23 svg{height:2rem;width:1.75rem;fill:#fff}._inactiveIcon_pzwee_31{position:absolute;--tw-rotate: 30deg;--tw-scale-x: 0;--tw-scale-y: 0;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));opacity:0}._activeIcon_pzwee_35{--tw-rotate: 0deg;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));opacity:1}._notif_pzwee_39{pointer-events:none;position:absolute;top:-.5rem;right:-.5rem;height:1.75rem;width:1.75rem;border-radius:9999px;--tw-bg-opacity: 1;background-color:rgb(220 38 38 / var(--tw-bg-opacity));text-align:center;font-size:.875rem;line-height:1.25rem;font-weight:700;line-height:1.5;--tw-text-opacity: 1;color:rgb(255 255 255 / var(--tw-text-opacity))}._pinging_pzwee_43{animation:_ping_pzwee_43 1s cubic-bezier(0,0,.2,1) infinite}._ring_pzwee_47{position:fixed;right:0px;display:inline-flex;height:4rem;width:4rem}@keyframes _ping_pzwee_43{75%,to{transform:scale(2);opacity:0}}._ring_pzwee_47{animation:_ping_pzwee_43 1s cubic-bezier(0,0,.2,1) infinite;border-radius:9999px;--tw-bg-opacity: 1;background-color:rgb(203 213 225 / var(--tw-bg-opacity));opacity:.75}*,:before,:after{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::backdrop{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }._ring_q714d_1{--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow, 0 0 #0000)}#_wallet-chat-widget_q714d_23{transition-property:width,min-width,height,min-height;transition-duration:.25s;transition-timing-function:cubic-bezier(.4,0,.2,1);overflow-x:hidden;overflow-y:hidden;border-radius:1rem;--tw-drop-shadow: drop-shadow(4px 4px 8px rgba(0,0,0,.5));filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}._widget-is-open_q714d_9{height:75vh;min-height:500px;width:calc(100vw - 2rem);--tw-translate-x: -1rem;--tw-translate-y: -.5rem;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@media (min-width: 640px){._widget-is-open_q714d_9{height:65vh;width:15vw;min-width:440px;--tw-translate-x: 0px;--tw-translate-y: 0px;transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}}._widget-is-closed_q714d_13{height:0px;min-height:0px;width:0px;min-width:0px}._wallet-chat-widget__container_q714d_23{position:fixed;bottom:.5rem;right:1.5rem;z-index:1000;-webkit-user-select:none;-moz-user-select:none;user-select:none}._wallet-chat-widget__container--open_q714d_27{bottom:0px;right:0px}@media (min-width: 640px){._wallet-chat-widget__container--open_q714d_27{bottom:.5rem;right:1.5rem}}")),document.head.appendChild(t)}}catch(r){console.error("vite-plugin-css-injected-by-js",r)}})();
