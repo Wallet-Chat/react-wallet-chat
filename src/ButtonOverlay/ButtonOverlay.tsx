@@ -115,7 +115,7 @@ export default function ButtonOverlay({
       {showNoti && (
         <>
           <span className={classnames(styles.notif, styles.pinging)} />
-          <span className={classnames(styles.notif, styles.notiVal)}>{notiVal}</span>
+          <span className={styles.notif}>{notiVal}</span>
         </>
       )}
     </div>

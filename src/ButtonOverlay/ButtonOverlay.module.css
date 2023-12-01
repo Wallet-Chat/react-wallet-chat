@@ -37,11 +37,7 @@
 }
 
 .notif {
-  @apply absolute -top-2 -right-2 text-white bg-red-600 w-7 h-7 rounded-full text-sm font-bold text-center leading-normal pointer-events-none;
-}
-
-.notiVal {
-  @apply top-5
+  @apply absolute -top-2 pt-1 -right-2 text-white bg-red-600 w-7 h-7 rounded-full text-sm font-bold text-center leading-normal pointer-events-none;
 }
 
 .pinging {
